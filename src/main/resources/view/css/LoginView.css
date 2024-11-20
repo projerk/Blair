@@ -1,0 +1,39 @@
+.container {
+    -fx-background-color: white;
+}
+
+.title-container {
+    -fx-background-color: #fbfbfc;
+}
+
+.h1 {
+    -fx-font-family: Verdana;
+    -fx-text-fill: #6465e5;
+}
+
+.h2 {
+    -fx-font-family: Verdana;
+    -fx-text-fill: #6465e5;
+}
+
+.title-container {
+    -fx-background-color: white;
+}
+
+.form-container {
+    -fx-background-color: #fbfbfc;
+    -fx-background-radius: 10px;
+    /* -fx-border-color: black; */
+    /* -fx-border-width: 1px; */
+    /* -fx-min-height: 300px;
+    -fx-min-width: 200px;
+    */
+    -fx-pref-height: 300px;
+    -fx-pref-width: 200px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 1);
+}
+
+/* .main-form-container {
+    -fx-background-color: red;
+} */
+
