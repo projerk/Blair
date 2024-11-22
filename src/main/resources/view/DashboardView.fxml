@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.ComboBox?>
+
+<VBox styleClass = "scroll-pane-container" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" HBox.hgrow = "ALWAYS" VBox.vgrow = "ALWAYS" alignment = "CENTER" spacing = "20" 
+        stylesheets="@css/DashboardView.css"
+      fx:controller="controller.DashboardController">
+    <StackPane fx:id = "mainPane">
+
+        <ScrollPane styleClass = "scroller" fitToWidth = "true">
+            <VBox HBox.hgrow = "ALWAYS" VBox.vgrow = "ALWAYS" alignment = "CENTER" spacing = "20">
+
+                <padding>
+                    <Insets top="5" right="5" bottom="5" left="5"/>
+                </padding>
+
+            <VBox styleClass = "search-bar-container" HBox.hgrow = "ALWAYS" spacing = "20" alignment = "CENTER">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <Label styleClass = "title" text = "The knowledge of humankind">
+
+                </Label>
+                <HBox styleClass = "search-textfield-container" alignment = "CENTER" spacing = "10">
+                    <TextField promptText = "Write something..." styleClass = "search-textfield" alignment = "CENTER">
+                
+                    </TextField>
+
+                    <ComboBox styleClass = "search-option">
+                    
+                    </ComboBox>
+
+                    <Button styleClass = "search-submit" text = "Search">
+                    
+                    </Button>
+
+                    <Button fx:id = "test" text = "Test" onAction = "#testButton">
+                    
+                    </Button>
+                </HBox>
+            </VBox>
+
+            
+
+
+
+
+
+
+            </VBox>
+        </ScrollPane>
+
+
+    </StackPane>
+</VBox>
