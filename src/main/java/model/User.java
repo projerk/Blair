@@ -3,6 +3,13 @@ package model;
 public class User extends Person {
     private String username;
 
+    /**
+     * Constructor of user.
+     * 
+     * @param username username
+     * @param firstName first name
+     * @param lastName lastname
+     */
     public User(String username, String firstName, String lastName) {
         super(firstName, lastName);
         this.username = username;
