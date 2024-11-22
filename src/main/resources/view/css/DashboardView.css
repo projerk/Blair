@@ -1,0 +1,46 @@
+.main-container {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 1);
+    -fx-background-radius: 10;
+    -fx-background-color: #58cc02;
+}
+
+.search-textfield {
+    -fx-background-radius: 20;
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent;
+    -fx-prompt-text-fill: #bebec2;
+    -fx-font-family: "Verdana";
+    -fx-text-fill: black;
+    -fx-control-inner-background: transparent;
+    -fx-font-size: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 100, 0, 0, 1);
+}
+
+.title {
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "SansSerif";
+    -fx-font-size: 40px;
+    -fx-font-weight: 500;
+}
+
+.search-option {
+    -fx-background-radius: 20;
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 1);
+}
+
+.search-submit {
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 1);
+    -fx-background-color: #1cb0f6;
+    -fx-font-family: "Verdana";
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: 500;
+    -fx-font-size: 20;
+}
+
+.popular-book-container {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 1);
+    -fx-background-radius: 10;
+    -fx-background-color: #fbfbfc;
+}
