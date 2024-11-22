@@ -40,6 +40,47 @@
                             <RowConstraints percentHeight="30" vgrow="ALWAYS" />
                         </rowConstraints>
 
+                        <!-- Logo Container -->
+                        <HBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <padding>
+                                <Insets top="8" right="8" bottom="8" left="8"/>
+                            </padding>
+
+                            <VBox fx:id="logoContainer" styleClass = "logo-container" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" alignment = "CENTER">
+                                <padding>
+                                    <Insets top="15" right="15" bottom="15" left="15"/>
+                                </padding>
+                            </VBox>
+                        </HBox>
+
+                        <VBox fx:id = "sectionContainer" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment = "CENTER">
+                            <padding>
+                                <Insets top="0" right="0" bottom="0" left="0"/>
+                            </padding>
+                            <VBox styleClass = "section-item" fx:id = "compass" VBox.vgrow = "ALWAYS" alignment = "CENTER">
+                                <padding>
+                                    <Insets top="25" right="25" bottom="25" left="25"/>
+                                </padding>
+                            </VBox>
+                            <VBox styleClass = "section-item" fx:id = "book" VBox.vgrow = "ALWAYS" alignment = "CENTER">
+                                <padding>
+                                    <Insets top="25" right="25" bottom="25" left="25"/>
+                                </padding>
+                            </VBox>
+
+                            <VBox styleClass = "section-item" fx:id = "profile" VBox.vgrow = "ALWAYS" alignment = "CENTER">
+                                <padding>
+                                    <Insets top="25" right="25" bottom="25" left="25"/>
+                                </padding>
+                            </VBox>
+
+                            <VBox styleClass = "section-item" fx:id = "setting" VBox.vgrow = "ALWAYS" alignment = "CENTER">
+                                <padding>
+                                    <Insets top="25" right="25" bottom="25" left="25"/>
+                                </padding>
+                            </VBox>
+                        </VBox>
+
                         
                     </GridPane>
                 </VBox>
