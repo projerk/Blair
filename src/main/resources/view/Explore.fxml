@@ -1,0 +1,49 @@
+<StackPane fx:id="container" stylesheets="@css/ExploreView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ExploreController">
+    <VBox styleClass="content-display-container" fx:id="contentDisplayContainer">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="0"/>
+        </padding>
+
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="100" />
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints percentHeight="6" vgrow="ALWAYS" />
+            </rowConstraints>
+            
+            <HBox styleClass="content-search-bar" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <VBox HBox.hgrow="ALWAYS">
+                    <GridPane>
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="30" />
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="40" />
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="30" />
+                        </columnConstraints>
+
+                        <rowConstraints>
+                            <RowConstraints vgrow="ALWAYS"/>
+                        </rowConstraints>
+
+                        <HBox GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <padding>
+                                <Insets top="5" right="5" bottom="5" left="5"/>
+                            </padding>
+                            <HBox styleClass="search-bar" fx:id="searchBar" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" alignment="CENTER_LEFT">
+                                <HBox fx:id="searchLogo" styleClass="search-logo" HBox.hgrow="NEVER">
+                                    <padding>
+                                        <Insets top="10" right="10" bottom="10" left="10"/>
+                                    </padding>
+                                </HBox>
+                                <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+                                    <TextField fx:id="search" styleClass="text-field" promptText="Search something..."/>
+                                </HBox>
+                            </HBox>
+                        </HBox>
+                    </GridPane>
+                </VBox>
+            </HBox>
+        </GridPane>
+    </VBox>
+</StackPane>
