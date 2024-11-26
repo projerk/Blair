@@ -4,6 +4,13 @@ public class Authorization {
     private String username;
     private String password;
 
+
+    /**
+     * Authorization constructor.
+     * 
+     * @param username username 
+     * @param password password
+     */
     public Authorization(String username, String password){
         this.username = username;
         this.password = password;
@@ -33,6 +40,12 @@ public class Authorization {
     public boolean isPasswordValid(){
         if(password == "") return false;
         if(password.length() < 6) return false;
+
+        return true;
+    }
+
+    public boolean test() {
+        System.out.println("HELLLO");
 
         return true;
     }
