@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+
+<StackPane stylesheets="@css/MainView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+    <GridPane>
+        <!-- Column Constraints -->
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="5" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="95" />
+        </columnConstraints>
+
+        <!-- Row Constraints -->
+        <rowConstraints>
+            <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+        </rowConstraints>
+
+        <!-- Left Sidebar (VBox) -->
+        <VBox styleClass = "sidebar" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <!-- <padding>
+                <Insets top="8" right="8" bottom="8" left="7"/>
+            </padding> -->
+
+            <HBox VBox.vgrow="ALWAYS">
+                <VBox HBox.hgrow = "ALWAYS">
+                    <GridPane>
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints percentHeight="30" vgrow="ALWAYS" />
+                            <RowConstraints percentHeight="40" vgrow="ALWAYS" />
+                            <RowConstraints percentHeight="30" vgrow="ALWAYS" />
+                        </rowConstraints>
+
+                        <!-- Logo Container -->
+                        <HBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <padding>
+                                <Insets top="8" right="8" bottom="8" left="8"/>
+                            </padding>
+
+                            <VBox fx:id="logoContainer" styleClass = "logo-container" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" alignment = "CENTER">
+                                <padding>
+                                    <Insets top="15" right="15" bottom="15" left="15"/>
+                                </padding>
+                            </VBox>
+                        </HBox>
+
+                        <VBox fx:id = "sectionContainer" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment = "CENTER">
+                            <padding>
+                                <Insets top="0" right="0" bottom="0" left="0"/>
+                            </padding>
+                            <VBox styleClass = "section-item" fx:id = "compass" VBox.vgrow = "ALWAYS" alignment = "CENTER">
+                                <padding>
+                                    <Insets top="25" right="25" bottom="25" left="25"/>
+                                </padding>
+                            </VBox>
+                            <VBox styleClass = "section-item" fx:id = "book" VBox.vgrow = "ALWAYS" alignment = "CENTER">
+                                <padding>
+                                    <Insets top="25" right="25" bottom="25" left="25"/>
+                                </padding>
+                            </VBox>
+
+                            <VBox styleClass = "section-item" fx:id = "profile" VBox.vgrow = "ALWAYS" alignment = "CENTER">
+                                <padding>
+                                    <Insets top="25" right="25" bottom="25" left="25"/>
+                                </padding>
+                            </VBox>
+
+                            <VBox styleClass = "section-item" fx:id = "setting" VBox.vgrow = "ALWAYS" alignment = "CENTER">
+                                <padding>
+                                    <Insets top="25" right="25" bottom="25" left="25"/>
+                                </padding>
+                            </VBox>
+                        </VBox>
+
+                        
+                    </GridPane>
+                </VBox>
+
+                <VBox styleClass="vertical-border" VBox.vgrow="ALWAYS">
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <VBox fx:id = "mainPane" styleClass = "main-pane" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <!-- <HBox>
+                <Label styleClass = "test" text = "Happy Reading, Harvey"></Label>
+                <Label text = "Happy Reading, Harvey"></Label>
+            </HBox> -->
+        </VBox>
+    </GridPane>
+</StackPane>

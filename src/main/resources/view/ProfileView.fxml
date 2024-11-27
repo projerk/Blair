@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ScrollPane?>
+
+<StackPane fx:id = "container" stylesheets="@css/ProfileView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileController" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+    <VBox>
+        <padding>
+            <Insets top="10" right="10" bottom="20" left="10"/>
+        </padding>
+        <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="45" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="55" />
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+            </rowConstraints>
+
+            <VBox styleClass = "information-tab" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS" vgap = "20">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="100" />
+                    </columnConstraints>
+
+                    <rowConstraints>
+                        <RowConstraints percentHeight="40" vgrow="ALWAYS" />
+                        <RowConstraints percentHeight="30" vgrow="ALWAYS" />
+                        <RowConstraints percentHeight="30" vgrow="ALWAYS" />
+
+                    </rowConstraints>
+
+                    <VBox styleClass = "tab" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS" hgap = "10">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="45" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="55" />
+                            </columnConstraints>
+
+                            <rowConstraints>
+                                <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                            </rowConstraints>
+
+                            <VBox fx:id = "avatarContainer" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment = "CENTER">
+                                <padding>
+                                    <Insets top="30" right="30" bottom="30" left="30"/>
+                                </padding>
+                            </VBox>
+
+                            <VBox fx:id = "informationContainer" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment = "CENTER_LEFT">
+                                <padding>
+                                    <Insets top="40" right="30" bottom="30" left="10"/>
+                                </padding>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+
+                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS" hgap = "20">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                            </columnConstraints>
+
+                            <rowConstraints>
+                                <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                            </rowConstraints>
+
+                            <VBox styleClass = "tab" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <!-- <VBox alignment = "CENTER">
+                                    <padding>
+                                        <Insets top="10" right="10" bottom="10" left="10"/>
+                                    </padding>
+                                    <Label styleClass = "text" text = "Grand Master"> </Label>
+                                </VBox> -->
+
+                                <!-- <VBox styleClass = "horizontal-border"></VBox> -->
+
+                                <VBox fx:id = "bookRead">
+                                    <!-- <padding>
+                                        <Insets top="10" right="10" bottom="10" left="10"/>
+                                    </padding> -->
+                                    
+                                </VBox>
+                            </VBox>
+
+                            <VBox styleClass = "tab" GridPane.columnIndex="1" GridPane.rowIndex="0">
+
+                                <VBox fx:id = "recent">
+                                    <!-- <padding>
+                                        <Insets top="10" right="10" bottom="10" left="10"/>
+                                    </padding> -->
+                                    
+                                </VBox>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+
+                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS" hgap = "20">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                            </columnConstraints>
+
+                            <rowConstraints>
+                                <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                            </rowConstraints>
+
+                            <VBox styleClass = "tab" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <VBox alignment = "CENTER">
+                                    <padding>
+                                        <Insets top="10" right="10" bottom="10" left="10"/>
+                                    </padding>
+                                    <Label styleClass = "text" text = "Last"> </Label>
+                                </VBox>
+
+                                <!-- <VBox styleClass = "horizontal-border"></VBox> -->
+
+                                <VBox fx:id = "last" alignment = "CENTER" VBox.vgrow = "ALWAYS">
+                                    <padding>
+                                        <Insets top="0" right="0" bottom="10" left="0"/>
+                                    </padding>
+
+                                    
+                                </VBox>
+                            </VBox>
+
+                            <VBox styleClass = "tab" GridPane.columnIndex="1" GridPane.rowIndex="0">
+
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+                </GridPane>
+            </VBox>
+
+            <VBox styleClass = "information-field" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                
+            </VBox>
+        </GridPane>
+    </VBox>
+</StackPane>
