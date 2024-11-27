@@ -1,6 +1,8 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
@@ -24,34 +26,34 @@ public class LoginController {
     public void initialize() {
         fronttrace = new VBox();
         midtrace = new VBox();
-        Insets insets = new Insets(50, 50, 50, 50);
+        Insets insets = new Insets(50,50, 50, 50);
         midtrace.setPadding(insets);
-        fronttrace.setAlignment(javafx.geometry.Pos.CENTER);
+        fronttrace.setAlignment(Pos.CENTER);
         fronttrace.setStyle("-fx-background-color: black;");
         content = new VBox();
         form = new VBox();
         VBox.setVgrow(form, Priority.ALWAYS);
+        HBox.setHgrow(form, Priority.ALWAYS);
         VBox.setVgrow(content, Priority.ALWAYS);
+        HBox.setHgrow(content, Priority.ALWAYS);
         fronttrace.getChildren().add(content);
         midtrace.getChildren().add(form);
         backtrace.widthProperty().addListener((obs, oldWidth, newWidth) -> {
             width = newWidth.doubleValue();
-        });
-
-        backtrace.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            width = newWidth.doubleValue();
-
             if (!pane.getChildren().contains(fronttrace) && !pane.getChildren().contains(midtrace)) {
                 pane.getChildren().add(midtrace);
                 pane.getChildren().add(fronttrace);
             }
 
             VBox.setVgrow(midtrace, Priority.ALWAYS);
+            HBox.setHgrow(midtrace, Priority.NEVER);
+            // midtrace.setStyle("-fx-background-color: red");
             midtrace.setMaxWidth(width / 2);
             midtrace.setPrefWidth(width / 2);
             midtrace.setTranslateX(width / 4);
 
             VBox.setVgrow(fronttrace, Priority.ALWAYS);
+            HBox.setHgrow(fronttrace, Priority.NEVER);
             fronttrace.setMaxWidth(width / 2);
             fronttrace.setPrefWidth(width / 2);
             fronttrace.setTranslateX(-width / 4);
