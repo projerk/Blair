@@ -37,5 +37,24 @@ public class LoginController {
         backtrace.widthProperty().addListener((obs, oldWidth, newWidth) -> {
             width = newWidth.doubleValue();
         });
+
+        backtrace.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            width = newWidth.doubleValue();
+
+            if (!pane.getChildren().contains(fronttrace) && !pane.getChildren().contains(midtrace)) {
+                pane.getChildren().add(midtrace);
+                pane.getChildren().add(fronttrace);
+            }
+
+            VBox.setVgrow(midtrace, Priority.ALWAYS);
+            midtrace.setMaxWidth(width / 2);
+            midtrace.setPrefWidth(width / 2);
+            midtrace.setTranslateX(width / 4);
+
+            VBox.setVgrow(fronttrace, Priority.ALWAYS);
+            fronttrace.setMaxWidth(width / 2);
+            fronttrace.setPrefWidth(width / 2);
+            fronttrace.setTranslateX(-width / 4);
+        });
     }
 }
