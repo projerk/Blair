@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import utils.FileHelper;
+import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
 
 public class LoginController {
 
@@ -21,11 +23,16 @@ public class LoginController {
     private VBox midtrace;
     private VBox form;
 
+
     @FXML
     private VBox backtrace;
 
     @FXML
     private StackPane pane;
+
+    private Label signinNotification;
+
+    private Label signupNotification;
 
     @FXML
     public void initialize() {
@@ -65,6 +72,7 @@ public class LoginController {
 
             // Update content initially
             content.getChildren().setAll(createRightContent());
+            form.getChildren().setAll(createSignupPage());
         });
     }
 
@@ -97,5 +105,86 @@ public class LoginController {
         container.getChildren().addAll(contentContainer, buttonContainer);
 
         return container;
+    }
+
+    private VBox createSignupPage() {
+        VBox form = new VBox();
+        signinNotification = new Label();
+        signinNotification.setStyle("-fx-text-fill: black; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
+        form.setSpacing(width / 20);
+        VBox.setVgrow(form, Priority.ALWAYS);
+
+        VBox dataContainer = new VBox();
+        VBox buttonContainer = new VBox();
+        buttonContainer.setAlignment(Pos.CENTER);
+        dataContainer.setAlignment(Pos.CENTER);
+        dataContainer.setSpacing(width / 40);
+
+        signupNotification = new Label();
+        signupNotification.setStyle("-fx-text-fill: black; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
+
+        form.setStyle("-fx-background-color: white; -fx-background-radius: 20px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 1);");
+        Insets insets = new Insets(20, 20, 20, 20);
+        form.setPadding(insets);
+
+        VBox titleContainer = new VBox();
+        titleContainer.setAlignment(Pos.CENTER);
+        Label title = new Label("Sign up");
+        title.setStyle("-fx-text-fill: black; -fx-font-size: 30px; -fx-font-family: 'Accent Graphic W00 Medium';");
+        titleContainer.getChildren().add(title);
+
+        HBox nameForm = new HBox();
+        VBox dataForm = new VBox();
+        dataForm.setAlignment(Pos.CENTER);
+        dataForm.setSpacing(width / 50);
+
+        HBox.setHgrow(nameForm, Priority.ALWAYS);
+        nameForm.setAlignment(Pos.CENTER);
+        nameForm.setSpacing(30);
+
+        TextField firstname = new TextField();
+        TextField lastname = new TextField();
+        TextField username = new TextField();
+        PasswordField password = new PasswordField();
+        PasswordField confirmPassword = new PasswordField();
+
+        firstname.setMaxWidth(Double.MAX_VALUE);
+        lastname.setMaxWidth(Double.MAX_VALUE);
+
+        firstname.setPromptText("First Name");
+        lastname.setPromptText("Last name");
+        username.setPromptText("Username");
+        password.setPromptText("Password");
+        confirmPassword.setPromptText("Confirm Password");
+
+        firstname.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        lastname.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        username.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        password.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        confirmPassword.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+
+        firstname.setPrefWidth(width / 4);
+        lastname.setPrefWidth(width / 4);
+
+        Button signupButton = new Button();
+        signupButton.setText("Sign Up");
+        signupButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium'; -fx-background-radius: 20px;");
+
+        nameForm.getChildren().add(firstname);
+        nameForm.getChildren().add(lastname);
+        dataForm.getChildren().add(username);
+        dataForm.getChildren().add(password);
+        dataForm.getChildren().add(confirmPassword);
+        dataForm.getChildren().add(signupNotification);
+        buttonContainer.getChildren().add(signupButton);
+
+        dataContainer.getChildren().add(nameForm);
+        dataContainer.getChildren().add(dataForm);
+
+        form.getChildren().add(titleContainer);
+        form.getChildren().add(dataContainer);
+        form.getChildren().add(buttonContainer);
+
+        return form;
     }
 }
