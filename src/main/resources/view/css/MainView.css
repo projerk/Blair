@@ -1,0 +1,59 @@
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-background-insets: 0;
+}
+
+.scroll-pane:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.scroll-pane .scroll-bar:vertical,
+.scroll-pane .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-padding: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+.vertical-border {
+    -fx-background-color: #a6a49d;
+    -fx-background-radius: 10px;
+    -fx-opacity: 80%;
+    -fx-pref-width: 1px;
+}
+
+.sidebar {
+    -fx-background-color: #fafafa;
+}
+
+.test {
+    -fx-font-family: "Accent Graphic W00 Medium";
+}
+
+/* .section-item {
+    -fx-opacity: 40%;
+}
+
+.section-item:hover {
+    -fx-opacity: 100%;
+    -fx-background-radius: 100px;
+} */
+
+.test1 {
+    -fx-background-color: transparent;
+}
+
+.main-pane {
+    -fx-background-color: #fafafa;
+}
