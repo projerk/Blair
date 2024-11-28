@@ -106,6 +106,9 @@ public class LoginController {
         Button button = new Button("Sign In");
         button.setStyle("-fx-background-color: transparent; -fx-border-width: 1; -fx-border-color: white; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
 
+        button.setOnMouseEntered(event -> ScaleEffect.scaleTo(button, 0.2, 1.2, 1.2));
+        button.setOnMouseExited(event -> ScaleEffect.scaleTo(button, 0.2, 1.0, 1.0));
+
         button.setOnMouseClicked(event -> {
             if (trace) {
                 TranslateEffect.translateTo(fronttrace, 1, width / 4, 0);
@@ -151,6 +154,9 @@ public class LoginController {
 
         Button button = new Button("Sign up");
         button.setStyle("-fx-background-color: transparent; -fx-border-width: 1; -fx-border-color: white; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
+
+        button.setOnMouseEntered(event -> ScaleEffect.scaleTo(button, 0.2, 1.2, 1.2));
+        button.setOnMouseExited(event -> ScaleEffect.scaleTo(button, 0.2, 1.0, 1.0));
 
         button.setOnMouseClicked(event -> {
             if (trace) {
