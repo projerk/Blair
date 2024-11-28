@@ -39,6 +39,8 @@ public class LoginController {
 
     private boolean trace = true;
 
+    private Button signinButton;
+
     @FXML
     public void initialize() {
         fronttrace = new VBox();
@@ -107,6 +109,7 @@ public class LoginController {
             if (trace) {
                 TranslateEffect.translateTo(fronttrace, 1, width / 4, 0);
                 TranslateEffect.translateTo(midtrace, 1, midtrace.getLayoutX() - width / 2, 0);
+                FadeEffect.fadeOutInAndChangeContent(form, 1, createSigninPage());
                 trace = false;
             } else {
                 TranslateEffect.translateTo(fronttrace, 1, fronttrace.getLayoutX() - width / 2, 0);
@@ -206,4 +209,58 @@ public class LoginController {
 
         return form;
     }
+
+    private VBox createSigninPage() {
+        VBox form = new VBox();
+        form.setSpacing(width / 20);
+        VBox.setVgrow(form, Priority.ALWAYS);
+
+        VBox dataContainer = new VBox();
+        VBox buttonContainer = new VBox();
+        buttonContainer.setAlignment(Pos.CENTER);
+        dataContainer.setAlignment(Pos.CENTER);
+        dataContainer.setSpacing(width / 40);
+
+        signinNotification = new Label();
+        signinNotification.setStyle("-fx-text-fill: black; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
+
+        form.setStyle("-fx-background-color: white; -fx-background-radius: 20px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 1);");
+        Insets insets = new Insets(20, 20, 20, 20);
+        form.setPadding(insets);
+
+        VBox titleContainer = new VBox();
+        titleContainer.setAlignment(Pos.CENTER);
+        Label title = new Label("Sign in");
+        title.setStyle("-fx-text-fill: black; -fx-font-size: 30px; -fx-font-family: 'Accent Graphic W00 Medium';");
+        titleContainer.getChildren().add(title);
+
+        VBox dataForm = new VBox();
+        dataForm.setAlignment(Pos.CENTER);
+        dataForm.setSpacing(width / 50);
+
+        TextField username = new TextField();
+        PasswordField password = new PasswordField();
+
+        username.setPromptText("Username");
+        password.setPromptText("Password");
+
+        username.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        password.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+
+        signinButton = new Button("Sign In");
+        signinButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium'; -fx-background-radius: 20px;");
+
+        dataForm.getChildren().add(username);
+        dataForm.getChildren().add(password);
+        buttonContainer.getChildren().add(signinButton);
+        dataContainer.getChildren().add(dataForm);
+        dataContainer.getChildren().add(signinNotification);
+
+        form.getChildren().add(titleContainer);
+        form.getChildren().add(dataContainer);
+        form.getChildren().add(buttonContainer);
+
+        return form;
+    }
+
 }
