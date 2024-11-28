@@ -1,6 +1,10 @@
 package controller;
 
 import animation.ScaleEffect;
+import app.AppState;
+import app.Projerk;
+import io.socket.emitter.Emitter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
@@ -12,6 +16,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Paint;
+import model.User;
+import org.json.JSONObject;
+import socket.SocketService;
 import utils.FileHelper;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
@@ -41,6 +49,11 @@ public class LoginController {
     private boolean trace = true;
 
     private Button signinButton;
+    private Button signupButton;
+
+    private SocketService client = SocketService.getInstance();
+
+    private Projerk app = Projerk.getInstance();
 
     @FXML
     public void initialize() {
@@ -262,6 +275,18 @@ public class LoginController {
         form.getChildren().add(dataContainer);
         form.getChildren().add(buttonContainer);
 
+        signupButton.setOnMouseClicked(event -> {
+            signupButton.setText("Requesting...");
+            signupButton.setDisable(true);
+            String un = username.getText();
+            String pw = password.getText();
+            String cpw = confirmPassword.getText();
+            String fn = firstname.getText();
+            String ln = lastname.getText();
+
+            handleRegisterAuthentication(fn, ln, un, pw, cpw);
+        });
+
         return form;
     }
 
@@ -315,7 +340,95 @@ public class LoginController {
         form.getChildren().add(dataContainer);
         form.getChildren().add(buttonContainer);
 
+        signinButton.setOnMouseClicked(event -> {
+            signinButton.setText("Requesting...");
+            signinButton.setDisable(true);
+            String un = username.getText();
+            String pw = password.getText();
+
+            handleLoginAuthentication(un, pw);
+        });
+
         return form;
     }
 
+    private void handleRegisterAuthentication(String fn, String ln, String un, String pw, String cpw) {
+        if (!pw.equals(cpw)) {
+            return;
+        }
+
+        client.onMessage("register_response", (Emitter.Listener) args -> {
+            JSONObject response = (JSONObject) args[0];
+            String message = response.getString("status");
+            System.out.println(message);
+            if (message.equals("success")) {
+                Platform.runLater(() -> {
+                    signupNotification.setText(response.getString("message"));
+                    signupNotification.setTextFill(Paint.valueOf("green"));
+
+                    signupButton.setDisable(false);
+                    signupButton.setText("Sign up");
+                });
+            }
+            else {
+                Platform.runLater(() -> {
+                    signupNotification.setText(response.getString("message"));
+                    signupNotification.setTextFill(Paint.valueOf("red"));
+
+                    signupButton.setDisable(false);
+                    signupButton.setText("Sign up");
+                });
+            }
+        });
+
+        JSONObject registerData = new JSONObject();
+        registerData.put("username", un);
+        registerData.put("password", pw);
+        registerData.put("firstname", fn);
+        registerData.put("lastname", ln);
+        client.sendMessage("register", registerData);
+    }
+
+    private void handleLoginAuthentication(String username, String password) {
+        client.onMessage("login_response", (Emitter.Listener) args -> {
+            JSONObject response = (JSONObject) args[0];
+            String message = response.getString("status");
+            if (message.equals("success")) {
+                initialAppState(response.getInt("id"), response.getString("username"), response.getString("firstname"), response.getString("lastname"));
+                Platform.runLater(() -> {
+                    if (response.getString("role").equals("admin")) {
+                        app.changeRoot("AdminView.fxml");
+                    }
+                    else {
+                        app.changeRoot("MainView.fxml");
+                    }
+                    // app.changeRoot("MainView.fxml");
+                });
+                // app.changeRoot("MainView.fxml");
+            }
+            else {
+                Platform.runLater(() -> {
+                    signinNotification.setText(response.getString("message"));
+                    signinNotification.setTextFill(Paint.valueOf("red"));
+                    signinButton.setDisable(false);
+                    signinButton.setText("Sign in");
+                });
+            }
+        });
+
+        JSONObject loginData = new JSONObject();
+        loginData.put("username", username);
+        loginData.put("password", password);
+        client.sendMessage("login", loginData);
+    }
+
+    private void initialAppState(int id, String username, String firstname, String lastname) {
+        AppState appState = AppState.getInstance();
+        User user = new User();
+        user.setID(id);
+        user.setUsername(username);
+        user.setFirstName(firstname);
+        user.setLastName(lastname);
+        appState.setUser(user);
+    }
 }
