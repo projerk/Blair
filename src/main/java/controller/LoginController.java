@@ -26,6 +26,9 @@ import javafx.scene.control.PasswordField;
 import animation.FadeEffect;
 import animation.TranslateEffect;
 
+import animation.FadeEffect;
+import animation.TranslateEffect;
+
 
 public class LoginController {
 
@@ -47,13 +50,6 @@ public class LoginController {
     private Label signupNotification;
 
     private boolean trace = true;
-
-    private Button signinButton;
-    private Button signupButton;
-
-    private SocketService client = SocketService.getInstance();
-
-    private Projerk app = Projerk.getInstance();
 
     @FXML
     public void initialize() {
@@ -119,15 +115,10 @@ public class LoginController {
         Button button = new Button("Sign In");
         button.setStyle("-fx-background-color: transparent; -fx-border-width: 1; -fx-border-color: white; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
 
-        button.setOnMouseEntered(event -> ScaleEffect.scaleTo(button, 0.2, 1.2, 1.2));
-        button.setOnMouseExited(event -> ScaleEffect.scaleTo(button, 0.2, 1.0, 1.0));
-
         button.setOnMouseClicked(event -> {
             if (trace) {
                 TranslateEffect.translateTo(fronttrace, 1, width / 4, 0);
                 TranslateEffect.translateTo(midtrace, 1, midtrace.getLayoutX() - width / 2, 0);
-                FadeEffect.fadeOutInAndChangeContent(form, 1, createSigninPage());
-                FadeEffect.fadeOutInAndChangeContent(content, 1, createLeftContent());
                 trace = false;
             } else {
                 TranslateEffect.translateTo(fronttrace, 1, fronttrace.getLayoutX() - width / 2, 0);
