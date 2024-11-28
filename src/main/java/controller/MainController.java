@@ -144,9 +144,12 @@ public class MainController {
         });
 
         profile.setOnMouseClicked(event -> {
-            currentSelectedItem.setOpacity(0.4);
-            profile.setOpacity(1);
-            currentSelectedItem = profile;
+            if (currentSelectedItem != profile) {
+                loadView("ProfileView.fxml");
+                currentSelectedItem.setOpacity(0.4);
+                profile.setOpacity(1);
+                currentSelectedItem = profile;
+            }
         });
 
         setting.setOnMouseEntered(event -> {
