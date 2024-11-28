@@ -1,10 +1,6 @@
 package controller;
 
 import animation.ScaleEffect;
-import app.AppState;
-import app.Projerk;
-import io.socket.emitter.Emitter;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
@@ -122,6 +118,7 @@ public class LoginController {
                 TranslateEffect.translateTo(fronttrace, 1, width / 4, 0);
                 TranslateEffect.translateTo(midtrace, 1, midtrace.getLayoutX() - width / 2, 0);
                 FadeEffect.fadeOutInAndChangeContent(form, 1, createSigninPage());
+                FadeEffect.fadeOutInAndChangeContent(content, 1, createLeftContent());
                 trace = false;
             } else {
                 TranslateEffect.translateTo(fronttrace, 1, fronttrace.getLayoutX() - width / 2, 0);
@@ -161,9 +158,6 @@ public class LoginController {
 
         Button button = new Button("Sign up");
         button.setStyle("-fx-background-color: transparent; -fx-border-width: 1; -fx-border-color: white; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
-
-        button.setOnMouseEntered(event -> ScaleEffect.scaleTo(button, 0.2, 1.2, 1.2));
-        button.setOnMouseExited(event -> ScaleEffect.scaleTo(button, 0.2, 1.0, 1.0));
 
         button.setOnMouseClicked(event -> {
             if (trace) {
