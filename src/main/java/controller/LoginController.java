@@ -1,5 +1,6 @@
 package controller;
 
+import animation.ScaleEffect;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
@@ -110,6 +111,7 @@ public class LoginController {
                 TranslateEffect.translateTo(fronttrace, 1, width / 4, 0);
                 TranslateEffect.translateTo(midtrace, 1, midtrace.getLayoutX() - width / 2, 0);
                 FadeEffect.fadeOutInAndChangeContent(form, 1, createSigninPage());
+                FadeEffect.fadeOutInAndChangeContent(content, 1, createLeftContent());
                 trace = false;
             } else {
                 TranslateEffect.translateTo(fronttrace, 1, fronttrace.getLayoutX() - width / 2, 0);
@@ -126,6 +128,53 @@ public class LoginController {
         contentContainer.getChildren().addAll(text, imageView);
         container.getChildren().addAll(contentContainer, buttonContainer);
 
+        return container;
+    }
+
+    private VBox createLeftContent() {
+        VBox container = new VBox();
+        container.setSpacing(50);
+        VBox contentContainer = new VBox();
+        contentContainer.setAlignment(Pos.CENTER);
+        contentContainer.setSpacing(30);
+        VBox buttonContainer = new VBox();
+        buttonContainer.setAlignment(Pos.CENTER);
+        VBox.setVgrow(buttonContainer, Priority.ALWAYS);
+        VBox.setVgrow(contentContainer, Priority.ALWAYS);
+        Label text = new Label("Explore thousands of books and comics");
+        text.setStyle("-fx-text-fill: white; -fx-font-size: 30px; -fx-font-family: 'Accent Graphic W00 Medium';");
+
+        Image image = FileHelper.getImage("a1.jpg");
+        ImageView imageView = new ImageView(image);
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(width / 2 - width / 15);
+
+        Button button = new Button("Sign up");
+        button.setStyle("-fx-background-color: transparent; -fx-border-width: 1; -fx-border-color: white; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
+
+        button.setOnMouseClicked(event -> {
+            if (trace) {
+                TranslateEffect.translateTo(fronttrace, 1, width / 4, 0);
+                TranslateEffect.translateTo(midtrace, 1, midtrace.getLayoutX() - width / 2, 0);
+                FadeEffect.fadeOutInAndChangeContent(form, 1, createSigninPage());
+                FadeEffect.fadeOutInAndChangeContent(content, 1, createLeftContent());
+                trace = false;
+            } else {
+                TranslateEffect.translateTo(fronttrace, 1, fronttrace.getLayoutX() - width / 2, 0);
+                TranslateEffect.translateTo(midtrace, 1, width / 4, 0);
+                FadeEffect.fadeOutInAndChangeContent(content, 1, createRightContent());
+                FadeEffect.fadeOutInAndChangeContent(form, 1, createSignupPage());
+                trace = true;
+            }
+        });
+
+        Insets insets = new Insets(20, 0, 20, 0);
+        contentContainer.setPadding(insets);
+        buttonContainer.getChildren().add(button);
+        contentContainer.getChildren().add(text);
+        contentContainer.getChildren().add(imageView);
+        container.getChildren().add(contentContainer);
+        container.getChildren().add(buttonContainer);
         return container;
     }
 
