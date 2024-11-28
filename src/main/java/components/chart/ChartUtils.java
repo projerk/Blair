@@ -2,14 +2,6 @@ package components.chart;
 
 import javafx.scene.chart.*;
 
-
-/**
- * Easy to create and modify beautiful chart.
- * 
- * @author
- * @version
- * @since
- */
 public class ChartUtils {
 
     /**
