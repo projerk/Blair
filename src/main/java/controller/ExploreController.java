@@ -34,7 +34,9 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import io.socket.emitter.Emitter;
+import animation.FadeEffect;
 import animation.ScaleEffect;
+import animation.TranslateEffect;
 import model.Book;
 import components.interfaces.Listener;
 
@@ -44,7 +46,7 @@ public class ExploreController implements Listener {
     private HBox searchLogo;
 
     @FXML
-    private VBox jumbotron; // Displays greeting and introduction text
+    private VBox jumbotron;
 
     @FXML
     private StackPane container;
@@ -77,7 +79,6 @@ public class ExploreController implements Listener {
     }
 
     private void initAttribute() {
-        // Retrieve the currently logged-in user
         user = AppState.getInstance().getUser();
     }
 
@@ -103,7 +104,6 @@ public class ExploreController implements Listener {
     }
 
     private void jumbotronPreload() {
-        // Create greeting and introduction labels and style them
         Label greeting = new Label();
         greeting.setText("Happy Reading " + user.getFirstName());
         greeting.setStyle("-fx-font-family: 'Accent Graphic W00 Medium'; -fx-font-size: 50; -fx-text-fill: black;");
@@ -115,7 +115,8 @@ public class ExploreController implements Listener {
         jumbotron.getChildren().add(greeting);
         jumbotron.getChildren().add(introduction);
 
-       
+        FadeEffect.fadeIn(greeting, 3);
+        FadeEffect.fadeIn(introduction, 3);
     }
 
     private void loadFeatureBook() {
@@ -133,7 +134,6 @@ public class ExploreController implements Listener {
                 book.setDescription(response.getString("description"));
                 book.setAuthor(response.getString("author"));
 
-                // Update the UI on the JavaFX application thread
                 Platform.runLater(() -> {
                     bookDisplayPreload(book);
                 });
@@ -154,7 +154,6 @@ public class ExploreController implements Listener {
             ScaleEffect.scaleTo(imageView, 0.2, 1.1, 1.1);
         });
 
-        // Set mouse hover effects for the book cover
         imageView.setOnMouseExited(event -> {
             ScaleEffect.scaleTo(imageView, 0.2, 1.0, 1.0);
         });
@@ -162,10 +161,8 @@ public class ExploreController implements Listener {
         imageView.setOnMouseClicked(event -> {
             openCanvas(book.getId());
         });
-
-        // Add the image view to the book display area
         bookDisplay.getChildren().add(imageView);
-        loadBookContent(book); // Load book content below the image
+        loadBookContent(book);
     }
 
     private void loadBookContent(Book book) {
@@ -181,6 +178,7 @@ public class ExploreController implements Listener {
         content.getChildren().add(title);
         content.getChildren().add(author);
         content.getChildren().add(description);
+        FadeEffect.fadeIn(content, 2);
         bookDisplay.getChildren().add(content);
     }
 
@@ -203,7 +201,7 @@ public class ExploreController implements Listener {
                 System.out.println("Error");
             }
         });
-        // Request popular books from the server
+
         client.sendMessage("get_popular_book", null);
     }
 
@@ -232,7 +230,7 @@ public class ExploreController implements Listener {
                 System.out.println("Error");
             }
         });
-        // Request new arrival books from the server
+
         client.sendMessage("get_new_arrival_book", null);
     }
 
@@ -242,10 +240,7 @@ public class ExploreController implements Listener {
             AppState.getInstance().setCurrentViewBookID(id);
             FXMLLoader loader = FileHelper.getLoader(Constants.CANVAS_VIEW_FILE);
             detailBook = loader.load();
-            // Add the detail view to the container
             container.getChildren().add(detailBook);
-
-            
             // AppState.getInstance().setCurrentViewBookID(id);
             // detailBook.setTranslateY(Projerk.getInstance().getScreenHeight());
             // TranslateEffect.translateTo(detailBook, 0.5, 0, 0);
@@ -257,7 +252,6 @@ public class ExploreController implements Listener {
 
     @Override
     public void closeCanvas() {
-        // Remove the last child from the container to close the detail view
         container.getChildren().remove(container.getChildren().size() - 1);
     }
 
