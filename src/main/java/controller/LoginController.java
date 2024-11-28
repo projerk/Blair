@@ -51,6 +51,8 @@ public class LoginController {
 
     private boolean trace = true;
 
+    private Button signinButton;
+
     @FXML
     public void initialize() {
         fronttrace = new VBox();
@@ -119,6 +121,7 @@ public class LoginController {
             if (trace) {
                 TranslateEffect.translateTo(fronttrace, 1, width / 4, 0);
                 TranslateEffect.translateTo(midtrace, 1, midtrace.getLayoutX() - width / 2, 0);
+                FadeEffect.fadeOutInAndChangeContent(form, 1, createSigninPage());
                 trace = false;
             } else {
                 TranslateEffect.translateTo(fronttrace, 1, fronttrace.getLayoutX() - width / 2, 0);
@@ -343,83 +346,57 @@ public class LoginController {
         return form;
     }
 
-    private void handleRegisterAuthentication(String fn, String ln, String un, String pw, String cpw) {
-        if (!pw.equals(cpw)) {
-            return;
-        }
+    private VBox createSigninPage() {
+        VBox form = new VBox();
+        form.setSpacing(width / 20);
+        VBox.setVgrow(form, Priority.ALWAYS);
 
-        client.onMessage("register_response", (Emitter.Listener) args -> {
-            JSONObject response = (JSONObject) args[0];
-            String message = response.getString("status");
-            System.out.println(message);
-            if (message.equals("success")) {
-                Platform.runLater(() -> {
-                    signupNotification.setText(response.getString("message"));
-                    signupNotification.setTextFill(Paint.valueOf("green"));
+        VBox dataContainer = new VBox();
+        VBox buttonContainer = new VBox();
+        buttonContainer.setAlignment(Pos.CENTER);
+        dataContainer.setAlignment(Pos.CENTER);
+        dataContainer.setSpacing(width / 40);
 
-                    signupButton.setDisable(false);
-                    signupButton.setText("Sign up");
-                });
-            }
-            else {
-                Platform.runLater(() -> {
-                    signupNotification.setText(response.getString("message"));
-                    signupNotification.setTextFill(Paint.valueOf("red"));
+        signinNotification = new Label();
+        signinNotification.setStyle("-fx-text-fill: black; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
 
-                    signupButton.setDisable(false);
-                    signupButton.setText("Sign up");
-                });
-            }
-        });
+        form.setStyle("-fx-background-color: white; -fx-background-radius: 20px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 1);");
+        Insets insets = new Insets(20, 20, 20, 20);
+        form.setPadding(insets);
 
-        JSONObject registerData = new JSONObject();
-        registerData.put("username", un);
-        registerData.put("password", pw);
-        registerData.put("firstname", fn);
-        registerData.put("lastname", ln);
-        client.sendMessage("register", registerData);
+        VBox titleContainer = new VBox();
+        titleContainer.setAlignment(Pos.CENTER);
+        Label title = new Label("Sign in");
+        title.setStyle("-fx-text-fill: black; -fx-font-size: 30px; -fx-font-family: 'Accent Graphic W00 Medium';");
+        titleContainer.getChildren().add(title);
+
+        VBox dataForm = new VBox();
+        dataForm.setAlignment(Pos.CENTER);
+        dataForm.setSpacing(width / 50);
+
+        TextField username = new TextField();
+        PasswordField password = new PasswordField();
+
+        username.setPromptText("Username");
+        password.setPromptText("Password");
+
+        username.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        password.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+
+        signinButton = new Button("Sign In");
+        signinButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium'; -fx-background-radius: 20px;");
+
+        dataForm.getChildren().add(username);
+        dataForm.getChildren().add(password);
+        buttonContainer.getChildren().add(signinButton);
+        dataContainer.getChildren().add(dataForm);
+        dataContainer.getChildren().add(signinNotification);
+
+        form.getChildren().add(titleContainer);
+        form.getChildren().add(dataContainer);
+        form.getChildren().add(buttonContainer);
+
+        return form;
     }
 
-    private void handleLoginAuthentication(String username, String password) {
-        client.onMessage("login_response", (Emitter.Listener) args -> {
-            JSONObject response = (JSONObject) args[0];
-            String message = response.getString("status");
-            if (message.equals("success")) {
-                initialAppState(response.getInt("id"), response.getString("username"), response.getString("firstname"), response.getString("lastname"));
-                Platform.runLater(() -> {
-                    if (response.getString("role").equals("admin")) {
-                        app.changeRoot("AdminView.fxml");
-                    }
-                    else {
-                        app.changeRoot("MainView.fxml");
-                    }
-                    // app.changeRoot("MainView.fxml");
-                });
-                // app.changeRoot("MainView.fxml");
-            }
-            else {
-                Platform.runLater(() -> {
-                    signinNotification.setText(response.getString("message"));
-                    signinNotification.setTextFill(Paint.valueOf("red"));
-                    signinButton.setDisable(false);
-                    signinButton.setText("Sign in");
-                });
-            }
-        });
-
-        JSONObject loginData = new JSONObject();
-        loginData.put("username", username);
-        loginData.put("password", password);
-        client.sendMessage("login", loginData);
-    }
-
-    private void initialAppState(int id, String username, String firstname, String lastname) {
-        AppState appState = AppState.getInstance();
-        User user = new User();
-        user.setID(id);
-        user.setUsername(username);
-        user.setFirstName(firstname);
-        user.setLastName(lastname);
-        appState.setUser(user);
-    }
 }
