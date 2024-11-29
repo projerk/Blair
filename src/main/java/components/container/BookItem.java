@@ -5,6 +5,7 @@ import components.media.WrappedImageView;
 import components.text.BookTitle;
 import controller.ExploreController;
 import components.interfaces.Listener;
+import animation.FadeEffect;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
