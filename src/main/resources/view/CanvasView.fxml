@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ScrollPane?>
+
+
+<VBox styleClass = "container" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" HBox.hgrow = "ALWAYS" VBox.vgrow = "ALWAYS" alignment = "CENTER"
+      stylesheets="@css/CanvasView.css"
+      fx:controller="controller.CanvasController">
+    <padding>
+        <Insets top="35" right="35" bottom="35" left="35"/>
+    </padding>
+    <VBox fx:id = "canvas" styleClass = "book-detail" HBox.hgrow = "ALWAYS" VBox.vgrow = "ALWAYS">
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="100" />
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS" percentHeight = "5"/>
+                <RowConstraints vgrow="ALWAYS" percentHeight = "95"/>
+            </rowConstraints>
+
+            <HBox styleClass = "control-bar" fx:id = "controlBar" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment = "CENTER_RIGHT">
+                <padding>
+                    <Insets top="10" right="20" bottom="10" left="0"/>
+                </padding>
+                <!-- <Label fx:id = "closeButton" text = "Close"></Label> -->
+            </HBox>
+
+            <HBox HBox.hgrow = "ALWAYS" VBox.vgrow = "ALWAYS" styleClass = "canvas-box" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <GridPane HBox.hgrow = "ALWAYS" VBox.vgrow = "ALWAYS">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="70" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="30" />
+                    </columnConstraints>
+
+                    <rowConstraints>
+                        <RowConstraints vgrow="ALWAYS" percentHeight = "100"/>
+                    </rowConstraints>
+
+                    <VBox fx:id = "bookContainer" HBox.hgrow = "ALWAYS" VBox.vgrow = "ALWAYS" styleClass = "book-detail-container" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <GridPane HBox.hgrow = "ALWAYS" hgap = "10">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="28" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="72" />
+                            </columnConstraints>
+
+                            <rowConstraints>
+                                <RowConstraints vgrow="ALWAYS" percentHeight = "100"/>
+                            </rowConstraints>
+
+                            <VBox alignment = "CENTER" styleClass = "book-cover" fx:id = "bookCover" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <padding>
+                                    <Insets top="10" right="10" bottom="10" left="30"/>
+                                </padding>
+                            </VBox>
+
+                            <VBox styleClass = "book-information" fx:id = "bookInformation" GridPane.columnIndex="1" GridPane.rowIndex="0">
+
+                            </VBox>
+                        </GridPane>
+                        <VBox spacing = "10">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20"/>
+                            </padding>
+                            <Label text = "Description"></Label>
+                            <Label wrapText = "true" fx:id = "description"></Label>
+                        </VBox>
+                    </VBox>
+
+                    <VBox fx:id = "commentContainer" HBox.hgrow = "ALWAYS" VBox.vgrow = "ALWAYS" styleClass = "comment-container" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <GridPane HBox.hgrow = "ALWAYS" VBox.vgrow = "ALWAYS">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="100" />
+                            </columnConstraints>
+
+                            <rowConstraints>
+                                <RowConstraints vgrow="ALWAYS" percentHeight = "90"/>
+                                <RowConstraints vgrow="ALWAYS" percentHeight = "10"/>
+                            </rowConstraints>
+
+                            <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <ScrollPane fx:id = "scrollpane" fitToWidth = "true" hbarPolicy="NEVER">
+                                    <VBox fx:id = "commentBox" HBox.hgrow = "NEVER">
+
+                                    </VBox>
+                                </ScrollPane>
+                            </VBox>
+
+                            <VBox fx:id = "commentFieldContainer" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <padding>
+                                    <Insets top="15" right="15" bottom="15" left="15"/>
+                                </padding>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+
+                </GridPane>
+
+            </HBox>
+        </GridPane>
+    </VBox>
+</VBox>
