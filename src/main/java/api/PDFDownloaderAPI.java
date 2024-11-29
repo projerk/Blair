@@ -18,4 +18,42 @@ public class PDFDownloaderAPI {
         this.pdfUrl = pdfUrl;
         this.saveDir = saveDir;
     }
+
+    public Task<Void> createDownloadTask() {
+        return new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(pdfUrl))
+                        .build();
+
+                try {
+                    HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
+                    
+                    if (response.statusCode() == 200) {
+                        try (InputStream in = response.body();
+                             OutputStream out = new FileOutputStream(Paths.get(saveDir).toFile())) {
+
+                            byte[] buffer = new byte[1024];
+                            int bytesRead;
+                            long totalBytesRead = 0;
+
+                            while ((bytesRead = in.read(buffer)) != -1) {
+                                out.write(buffer, 0, bytesRead);
+                                totalBytesRead += bytesRead;
+
+                                System.out.println("Tải xuống: " + totalBytesRead + " bytes");
+                            }
+                        }
+                    } else {
+                        System.out.println("Lỗi: Mã phản hồi HTTP " + response.statusCode());
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+                return null;
+            }
+        };
+    }
 }
