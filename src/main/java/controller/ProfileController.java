@@ -11,6 +11,14 @@ import app.AppState;
 import components.media.Avatar;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
+import javafx.util.Pair;
+import javafx.scene.layout.HBox;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
+import components.chart.ChartUtils;
+import javafx.geometry.Pos;
+import utils.SocketUtils;
+import java.util.List;
 
 public class ProfileController implements Listener{
     @FXML
@@ -18,6 +26,17 @@ public class ProfileController implements Listener{
 
     @FXML
     private VBox informationContainer;
+
+    @FXML
+    private VBox recent;
+
+    @FXML
+    private VBox last;
+
+    @FXML
+    private VBox bookRead;
+
+
 
     @FXML
     private void initialize() {
@@ -65,6 +84,53 @@ public class ProfileController implements Listener{
         informationContainer.getChildren().add(container);
 
     }
+
+    public void bookReadPreload(int readBook, int totalBook) {
+        PieChart chart = ChartUtils.createPieChart("Read Book");
+        chart.setStyle("-fx-background-color: transparent;");
+        ChartUtils.addPieData(chart, "read" + "(" + readBook + ")", readBook);
+        ChartUtils.addPieData(chart, "total" + "(" + totalBook + ")", totalBook);
+        bookRead.getChildren().add(chart);
+    }
+
+
+    public void recentPreload(JSONArray arr) {
+        BarChart chart = ChartUtils.createBarChart("Streak", "Day", "Book");
+        List<Pair<String, Integer>> data = SocketUtils.parseRecentBookFinish(arr);
+
+        for (Pair<String, Integer> point : data) {
+            ChartUtils.addBarData(chart, null, point.getKey(), point.getValue());
+        }
+        recent.getChildren().add(chart);
+    }
+
+    public void lastPreload(int day) {
+        String text;
+        if (day > 1) {
+            text = "days";
+        }
+        else {
+            text = "day";
+        }
+
+        HBox container = new HBox();
+        container.setSpacing(4);
+        container.setAlignment(Pos.CENTER);
+        HBox box = new HBox();
+        box.setAlignment(Pos.CENTER);
+        Label dayNumber = new Label(Integer.toString(day));
+        dayNumber.setStyle("-fx-font-family: 'Accent Graphic W00 Medium';\r\n" + //
+                        "    -fx-font-size: 50;\r\n" + //
+                        "    -fx-text-fill: black;");
+        Label dayText = new Label(text);
+
+        box.getChildren().add(dayText);
+        container.getChildren().add(dayNumber);
+        container.getChildren().add(box);
+
+        last.getChildren().add(container);
+    }
+
 
 
     @Override

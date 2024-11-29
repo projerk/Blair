@@ -1,10 +1,10 @@
 package utils;
 
 import java.util.ArrayList;
-
+import javafx.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+import java.util.List;
 import model.Book;
 import model.GuestComment;
 
@@ -73,5 +73,22 @@ public class SocketUtils {
         GuestComment guestComment = new GuestComment(book_id, user_id, content, guestname, avatar, "today");
 
         return guestComment;
+    }
+
+    public static List<Pair<String, Integer>> parseRecentBookFinish(JSONArray arr) {
+        List<Pair<String, Integer>> result = new ArrayList<>();
+
+        if (arr != null) {
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject obj = arr.getJSONObject(i);
+
+                String day = obj.getString("day"); 
+                int bookFinish = obj.getInt("bookfinish"); 
+
+                result.add(new Pair<String, Integer>(day, bookFinish));
+            }
+        }
+
+        return result;
     }
 }
