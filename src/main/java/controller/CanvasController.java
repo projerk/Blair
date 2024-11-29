@@ -7,11 +7,14 @@ import io.socket.emitter.Emitter;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.Book;
 import org.json.JSONObject;
 import socket.SocketService;
+import utils.FileHelper;
 import utils.PoolingToolkit;
+import javafx.scene.image.Image;
 
 public class CanvasController {
     private SocketService client = SocketService.getInstance();
@@ -22,14 +25,19 @@ public class CanvasController {
     @FXML
     private VBox bookInformation;
 
+    @FXML
+    private HBox controlBar;
 
     @FXML
     public void initialize() {
         loadContent();
+        loadCloseButton();
     }
 
     @FXML
     private VBox bookCover;
+
+    private WrappedImageView closeButton;
 
     private void loadContent() {
         client.onMessage("book_detail_response", (Emitter.Listener) args -> {
@@ -59,5 +67,14 @@ public class CanvasController {
 
         bookInformation.getChildren().add(bookInfo);
         bookCover.getChildren().add(imageView);
+    }
+
+    private void loadCloseButton() {
+        Image newImage = FileHelper.getImage("close.png");
+        closeButton = new WrappedImageView();
+        closeButton.setImage(newImage);
+        closeButton.setOpacity(0.8);
+
+        controlBar.getChildren().add(closeButton);
     }
 }
