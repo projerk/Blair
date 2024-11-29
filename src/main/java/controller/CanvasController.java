@@ -14,9 +14,14 @@ import org.json.JSONObject;
 import socket.SocketService;
 import utils.FileHelper;
 import utils.PoolingToolkit;
+import components.interfaces.Listener;
+import animation.ScaleEffect;
 import javafx.scene.image.Image;
+import model.GuestComment;
 
 public class CanvasController {
+     private Listener listener = AppState.getInstance().getListener();
+
     private SocketService client = SocketService.getInstance();
 
     @FXML
@@ -31,6 +36,7 @@ public class CanvasController {
     @FXML
     public void initialize() {
         loadContent();
+        loadCommentBox();
         loadCloseButton();
     }
 
@@ -69,11 +75,52 @@ public class CanvasController {
         bookCover.getChildren().add(imageView);
     }
 
+    private void loadCommentBox() {
+        client.onMessage("get_comment_response", (Emitter.Listener) args -> {
+            JSONObject response = (JSONObject) args[0];
+            String message = response.getString("message");
+            if (message.equals("comment")) {
+                GuestComment guestComment = utils.SocketUtils.parseComment(response);
+                Platform.runLater(() -> {
+                    CommentView commentView = new CommentView(guestComment);
+                    commentBox.widthProperty().addListener((observable, oldWidth, newWidth) -> {
+                        if (newWidth.doubleValue() >= 0) {
+                            commentView.setMaxWidth(newWidth.doubleValue());
+                            commentView.setPrefWidth(newWidth.doubleValue());
+                            commentView.setMinWidth(newWidth.doubleValue());
+                        }
+                    });
+                    commentBox.getChildren().add(commentView);
+                });
+            }
+            else {
+                System.out.println(message);
+                System.out.println(response.getString("error"));
+            }
+        });
+
+        JSONObject object = new JSONObject();
+        object.put("book_id", AppState.getInstance().getCurrentViewBookID());
+        client.sendMessage("get_all_comment", object);
+    }
+
     private void loadCloseButton() {
         Image newImage = FileHelper.getImage("close.png");
         closeButton = new WrappedImageView();
         closeButton.setImage(newImage);
         closeButton.setOpacity(0.8);
+        
+        closeButton.setOnMouseClicked(event -> {
+            listener.closeCanvas();
+        });
+
+        closeButton.setOnMouseEntered(event -> {
+            ScaleEffect.scaleTo(closeButton, 0.1, 1.2, 1.2);
+        });
+
+        closeButton.setOnMouseExited(event -> {
+            ScaleEffect.scaleTo(closeButton, 0.1, 1.0, 1.0);
+        });
 
         controlBar.getChildren().add(closeButton);
     }
