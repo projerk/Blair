@@ -11,5 +11,11 @@ import java.net.http.HttpResponse;
 import java.nio.file.Paths;
 
 public class PDFDownloaderAPI {
-    
+    private final String pdfUrl;
+    private final String saveDir;
+
+    public PDFDownloader(String pdfUrl, String saveDir) {
+        this.pdfUrl = pdfUrl;
+        this.saveDir = saveDir;
+    }
 }
