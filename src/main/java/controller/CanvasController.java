@@ -18,6 +18,7 @@ import components.interfaces.Listener;
 import animation.ScaleEffect;
 import javafx.scene.image.Image;
 import model.GuestComment;
+import components.container.CommentView;
 
 public class CanvasController {
      private Listener listener = AppState.getInstance().getListener();
@@ -29,6 +30,9 @@ public class CanvasController {
 
     @FXML
     private VBox bookInformation;
+
+    @FXML
+    private VBox commentBox;
 
     @FXML
     private HBox controlBar;
