@@ -1,0 +1,37 @@
+.book-detail {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);
+}
+
+.container {
+    -fx-background-color: rgba(0, 0, 0, 0.1);    
+}
+
+/* .control-bar {
+    -fx-background-color: red;
+}
+
+.canvas-box {
+    -fx-background-color: blue;
+} */
+
+
+/* .comment-container {
+    -fx-background-color: red;
+} */
+
+/* .book-detail-container {
+    -fx-background-color: blue;
+} */
+
+.commentFieldContainer {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);
+}
+
+.book-cover {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);
+}
