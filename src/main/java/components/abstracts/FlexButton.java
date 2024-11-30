@@ -2,6 +2,14 @@ package components.abstracts;
 
 import javafx.scene.control.Button;
 import socket.SocketService;
+
+/**
+ * This class allow dev to create responsive button.
+ * 
+ * @author
+ * @version
+ * @since
+ */
 public abstract class FlexButton extends Button {
     protected SocketService client = SocketService.getInstance();
 
