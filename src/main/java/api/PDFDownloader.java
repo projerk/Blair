@@ -10,7 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Paths;
 
-public class PDFDownloaderAPI {
+public class PDFDownloader {
     private final String pdfUrl;
     private final String saveDir;
 
