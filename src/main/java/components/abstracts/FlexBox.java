@@ -7,6 +7,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 
+/**
+ * This class used to create FlexBox which
+ * is used to create responsive UI.
+ * 
+ * @author
+ * @since
+ * @version
+ */
 public abstract class FlexBox extends GridPane implements IFlexContainer {
     // private GridPane container;
 
@@ -29,9 +37,14 @@ public abstract class FlexBox extends GridPane implements IFlexContainer {
         }
     }
 
+    /**
+     * Create column with similar width.
+     * 
+     * @param columnCount number of column.
+     */
     public void setBalanceColumnPercentage(int columnCount) {
         double each = (100 * 1.0) / columnCount;
-        this.getColumnConstraints().clear();
+        this.getColumnConstraints().clear(); // clear old config.
         for (int i = 0; i < columnCount; i++) {
             ColumnConstraints column = new ColumnConstraints();
             column.setPercentWidth(each);
@@ -39,6 +52,11 @@ public abstract class FlexBox extends GridPane implements IFlexContainer {
         }
     }
 
+    /**
+     * Create row with similar height.
+     * 
+     * @param rowCount
+     */
     public void setBalanceRowPercentage(int rowCount) {
         double each = (100 * 1.0) / rowCount;
         this.getRowConstraints().clear();
