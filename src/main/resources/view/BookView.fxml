@@ -2,15 +2,24 @@
 
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Priority?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<StackPane fx:id="container" stylesheets="@css/BookView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookController" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
-    <VBox VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
-        <GridPane VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+<StackPane fx:id = "container" stylesheets="@css/BookView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookController" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+    <VBox VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+        <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
             <columnConstraints>
                 <ColumnConstraints hgrow="ALWAYS" percentWidth="75" />
                 <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
@@ -20,37 +29,36 @@
                 <RowConstraints percentHeight="100" vgrow="ALWAYS" />
             </rowConstraints>
 
-            <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" >
                 <padding>
                     <Insets top="20" right="20" bottom="20" left="20"/>
                 </padding>
-                <ScrollPane fitToWidth="true">
-                    <VBox spacing="20">
-                        <!-- Bookmark section -->
-                        <VBox styleClass="book-frame">
+                <ScrollPane fitToWidth = "true">
+                    <VBox spacing = "20">
+                        <VBox styleClass = "book-frame">
                             <VBox>
                                 <padding>
                                     <Insets top="10" right="10" bottom="10" left="10"/>
                                 </padding>
-                                <Label styleClass="text" text="Bookmark"> </Label>
+                                <Label styleClass = "text" text = "Bookmark"> </Label>
                             </VBox>
-                            <VBox styleClass="horizontal-border"></VBox>
-                            <VBox fx:id="bookmark" VBox.vgrow="NEVER">
+                            <VBox styleClass = "horizontal-border"></VBox>
+                            <VBox fx:id = "bookmark" VBox.vgrow = "NEVER">
                                 <padding>
                                     <Insets top="10" right="10" bottom="10" left="10"/>
                                 </padding>
                             </VBox>
                         </VBox>
 
-                        <VBox styleClass="book-frame">
+                        <VBox styleClass = "book-frame">
                             <VBox>
                                 <padding>
                                     <Insets top="10" right="10" bottom="10" left="10"/>
                                 </padding>
-                                <Label styleClass="text" text="Borrow"> </Label>
+                                <Label styleClass = "text" text = "Borrow"> </Label>
                             </VBox>
-                            <VBox styleClass="horizontal-border"></VBox>
-                            <VBox fx:id="borrow" VBox.vgrow="NEVER">
+                            <VBox styleClass = "horizontal-border"></VBox>
+                            <VBox fx:id = "borrow" VBox.vgrow = "NEVER">
                                 <padding>
                                     <Insets top="10" right="10" bottom="10" left="10"/>
                                 </padding>
@@ -58,6 +66,30 @@
                         </VBox>
                     </VBox>
                 </ScrollPane>
+            </VBox>
+
+            <VBox GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass = "section2" alignment = "TOP_CENTER">
+                <padding>
+                    <Insets top="10" right="10" bottom="0" left="0"/>
+                </padding>
+                <VBox styleClass = "calendar" HBox.hgrow = "ALWAYS" alignment = "TOP_CENTER">
+                    <padding>
+                        <Insets top="0" right="0" bottom="0" left="0"/>
+                    </padding>
+                    <HBox spacing="20" alignment = "CENTER">
+                        <!-- <Button fx:id="prevButton" text="back" /> -->
+                        <Label fx:id="monthYearLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+                        <!-- <Button fx:id="nextButton" text="next" /> -->
+                    </HBox>
+                    <VBox styleClass = "horizontal-border"></VBox>
+                    <VBox HBox.hgrow = "ALWAYS">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+                        <GridPane styleClass = "hello" fx:id="calendarGrid" hgap="5" vgap="10" />
+                    </VBox>
+                    <!-- <GridPane styleClass = "calendar" fx:id="calendarGrid" hgap="5" vgap="10" /> -->
+                </VBox>
             </VBox>
         </GridPane>
     </VBox>
