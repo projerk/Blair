@@ -19,6 +19,9 @@ import animation.ScaleEffect;
 import javafx.scene.image.Image;
 import model.GuestComment;
 import components.container.CommentView;
+import components.field.CommentField;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 
 public class CanvasController {
      private Listener listener = AppState.getInstance().getListener();
@@ -38,16 +41,35 @@ public class CanvasController {
     private HBox controlBar;
 
     @FXML
+    private VBox bookCover;
+
+    @FXML
+    private VBox commentFieldContainer;
+
+    @FXML
+    private ScrollPane scrollpane;
+    
+    @FXML
+    private VBox commentContainer;
+
+    private WrappedImageView closeButton;
+
+    @FXML
     public void initialize() {
         loadContent();
         loadCommentBox();
         loadCloseButton();
+        loadCommentField();
+        scrollpane.setHbarPolicy(ScrollBarPolicy.NEVER);
+        commentBox.setSpacing(7);
+        commentContainer.widthProperty().addListener((observable, oldWidth, newWidth) -> {
+            if (newWidth.doubleValue() >= 0) {
+                commentBox.setMaxWidth(newWidth.doubleValue() - 10);
+                commentBox.setPrefWidth(newWidth.doubleValue() - 10);
+                commentBox.setMinWidth(newWidth.doubleValue() - 10);
+            }
+        });
     }
-
-    @FXML
-    private VBox bookCover;
-
-    private WrappedImageView closeButton;
 
     private void loadContent() {
         client.onMessage("book_detail_response", (Emitter.Listener) args -> {
@@ -127,5 +149,10 @@ public class CanvasController {
         });
 
         controlBar.getChildren().add(closeButton);
+    }
+
+    private void loadCommentField() {
+        CommentField commentfield = new CommentField();
+        commentFieldContainer.getChildren().add(commentfield);
     }
 }
