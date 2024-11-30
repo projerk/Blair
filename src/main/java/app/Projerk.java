@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import javafx.stage.Screen;
 import java.util.concurrent.ExecutorService;
 import javafx.geometry.Rectangle2D;
-import model.TrieLoader;
+//import model.TrieLoader;
 import socket.SocketService;
 import utils.Constants;
 import javafx.scene.text.Font;
