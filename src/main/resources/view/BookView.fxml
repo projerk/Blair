@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+
+<StackPane fx:id="container" stylesheets="@css/BookView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookController" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+    <VBox VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+        <GridPane VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="75" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+            </rowConstraints>
+
+            <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                <ScrollPane fitToWidth="true">
+                    <VBox spacing="20">
+                        <!-- Bookmark section -->
+                        <VBox styleClass="book-frame">
+                            <VBox>
+                                <padding>
+                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                </padding>
+                                <Label styleClass="text" text="Bookmark"> </Label>
+                            </VBox>
+                            <VBox styleClass="horizontal-border"></VBox>
+                            <VBox fx:id="bookmark" VBox.vgrow="NEVER">
+                                <padding>
+                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                </padding>
+                            </VBox>
+                        </VBox>
+
+                        <VBox styleClass="book-frame">
+                            <VBox>
+                                <padding>
+                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                </padding>
+                                <Label styleClass="text" text="Borrow"> </Label>
+                            </VBox>
+                            <VBox styleClass="horizontal-border"></VBox>
+                            <VBox fx:id="borrow" VBox.vgrow="NEVER">
+                                <padding>
+                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                </padding>
+                            </VBox>
+                        </VBox>
+                    </VBox>
+                </ScrollPane>
+            </VBox>
+        </GridPane>
+    </VBox>
+</StackPane>
