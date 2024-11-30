@@ -38,19 +38,6 @@ public class BookController implements Listener {
         calendarGrid.setPadding(new Insets(10,10 ,10,10));
         setupGridPane();
         currentYearMonth = YearMonth.now();
-
-        // Set up button actions
-        // prevButton.setOnAction(e -> {
-        //     currentYearMonth = currentYearMonth.minusMonths(1);
-        //     refreshCalendar();
-        // });
-
-        // nextButton.setOnAction(e -> {
-        //     currentYearMonth = currentYearMonth.plusMonths(1);
-        //     refreshCalendar();
-        // });
-
-
         refreshCalendar();
     }
 
@@ -103,9 +90,6 @@ public class BookController implements Listener {
             dayButton.setPadding(new Insets(10, 0, 10, 0));
             Label dayText = new Label(String.valueOf(day));
             dayButton.getChildren().add(dayText);
-            // dayButton.setOnAction(e -> {
-            //     System.out.println("Selected day: " + currentDay);
-            // });
 
             calendarGrid.add(dayButton, col, row);
 
