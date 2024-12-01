@@ -17,48 +17,59 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane fx:id = "container" stylesheets="@css/BookView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookController" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
-    <VBox VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
-        <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+<!-- Root container for the application -->
+<StackPane fx:id="container" stylesheets="@css/BookView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookController" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+    <!-- Vertical box to hold the main layout -->
+    <VBox VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+        <!-- GridPane for organizing layout in a grid structure -->
+        <GridPane VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
             <columnConstraints>
+                <!-- Column settings for the first column -->
                 <ColumnConstraints hgrow="ALWAYS" percentWidth="75" />
+                <!-- Column settings for the second column -->
                 <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
             </columnConstraints>
 
             <rowConstraints>
+                <!-- Row settings for the grid -->
                 <RowConstraints percentHeight="100" vgrow="ALWAYS" />
             </rowConstraints>
 
-            <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" >
+            <!-- First column for bookmarks -->
+            <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
                 <padding>
+                    <!-- Padding for the VBox -->
                     <Insets top="20" right="20" bottom="20" left="20"/>
                 </padding>
-                <ScrollPane fitToWidth = "true">
-                    <VBox spacing = "20">
-                        <VBox styleClass = "book-frame">
+                <ScrollPane fitToWidth="true">
+                    <!-- Vertical box to hold the bookmark section -->
+                    <VBox spacing="20">
+                        <!-- Bookmark frame -->
+                        <VBox styleClass="book-frame">
                             <VBox>
                                 <padding>
                                     <Insets top="10" right="10" bottom="10" left="10"/>
                                 </padding>
-                                <Label styleClass = "text" text = "Bookmark"> </Label>
+                                <Label styleClass="text" text="Bookmark"/> <!-- Label for bookmarks -->
                             </VBox>
-                            <VBox styleClass = "horizontal-border"></VBox>
-                            <VBox fx:id = "bookmark" VBox.vgrow = "NEVER">
+                            <VBox styleClass="horizontal-border"></VBox> <!-- Horizontal separator -->
+                            <VBox fx:id="bookmark" VBox.vgrow="NEVER">
                                 <padding>
                                     <Insets top="10" right="10" bottom="10" left="10"/>
                                 </padding>
                             </VBox>
                         </VBox>
 
-                        <VBox styleClass = "book-frame">
+                        <!-- Borrow section frame -->
+                        <VBox styleClass="book-frame">
                             <VBox>
                                 <padding>
                                     <Insets top="10" right="10" bottom="10" left="10"/>
                                 </padding>
-                                <Label styleClass = "text" text = "Borrow"> </Label>
+                                <Label styleClass="text" text="Borrow"/> <!-- Label for borrow section -->
                             </VBox>
-                            <VBox styleClass = "horizontal-border"></VBox>
-                            <VBox fx:id = "borrow" VBox.vgrow = "NEVER">
+                            <VBox styleClass="horizontal-border"></VBox> <!-- Horizontal separator -->
+                            <VBox fx:id="borrow" VBox.vgrow="NEVER">
                                 <padding>
                                     <Insets top="10" right="10" bottom="10" left="10"/>
                                 </padding>
@@ -68,27 +79,29 @@
                 </ScrollPane>
             </VBox>
 
-            <VBox GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass = "section2" alignment = "TOP_CENTER">
+            <!-- Second column for calendar -->
+            <VBox GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="section2" alignment="TOP_CENTER">
                 <padding>
                     <Insets top="10" right="10" bottom="0" left="0"/>
                 </padding>
-                <VBox styleClass = "calendar" HBox.hgrow = "ALWAYS" alignment = "TOP_CENTER">
+                <VBox styleClass="calendar" HBox.hgrow="ALWAYS" alignment="TOP_CENTER">
                     <padding>
                         <Insets top="0" right="0" bottom="0" left="0"/>
                     </padding>
-                    <HBox spacing="20" alignment = "CENTER">
+                    <HBox spacing="20" alignment="CENTER">
+                        <!-- Placeholder for navigation buttons (commented out) -->
                         <!-- <Button fx:id="prevButton" text="back" /> -->
-                        <Label fx:id="monthYearLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+                        <Label fx:id="monthYearLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;"/> <!-- Label for displaying month/year -->
                         <!-- <Button fx:id="nextButton" text="next" /> -->
                     </HBox>
-                    <VBox styleClass = "horizontal-border"></VBox>
-                    <VBox HBox.hgrow = "ALWAYS">
+                    <VBox styleClass="horizontal-border"></VBox> <!-- Horizontal separator -->
+                    <VBox HBox.hgrow="ALWAYS">
                         <padding>
                             <Insets top="10" right="10" bottom="10" left="10"/>
                         </padding>
-                        <GridPane styleClass = "hello" fx:id="calendarGrid" hgap="5" vgap="10" />
+                        <GridPane styleClass="hello" fx:id="calendarGrid" hgap="5" vgap="10"/> <!-- Grid for calendar layout -->
                     </VBox>
-                    <!-- <GridPane styleClass = "calendar" fx:id="calendarGrid" hgap="5" vgap="10" /> -->
+                    <!-- <GridPane styleClass="calendar" fx:id="calendarGrid" hgap="5" vgap="10" /> -->
                 </VBox>
             </VBox>
         </GridPane>
