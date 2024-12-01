@@ -8,93 +8,86 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
 
-
 <StackPane stylesheets="@css/MainView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
     <GridPane>
-        <!-- Column Constraints -->
+        <!-- Column Constraints for the GridPane -->
         <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" percentWidth="5" />
-            <ColumnConstraints hgrow="ALWAYS" percentWidth="95" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="5" />  <!-- Sidebar column -->
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="95" /> <!-- Main content column -->
         </columnConstraints>
 
-        <!-- Row Constraints -->
+        <!-- Row Constraints for the GridPane -->
         <rowConstraints>
-            <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+            <RowConstraints percentHeight="100" vgrow="ALWAYS" /> <!-- Single row that grows to fill space -->
         </rowConstraints>
 
         <!-- Left Sidebar (VBox) -->
-        <VBox styleClass = "sidebar" GridPane.columnIndex="0" GridPane.rowIndex="0">
-            <!-- <padding>
-                <Insets top="8" right="8" bottom="8" left="7"/>
-            </padding> -->
-
+        <VBox styleClass="sidebar" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            
             <HBox VBox.vgrow="ALWAYS">
-                <VBox HBox.hgrow = "ALWAYS">
+                <VBox HBox.hgrow="ALWAYS">
                     <GridPane>
                         <columnConstraints>
-                            <ColumnConstraints hgrow="ALWAYS" />
+                            <ColumnConstraints hgrow="ALWAYS" /> <!-- Single column for content -->
                         </columnConstraints>
                         <rowConstraints>
-                            <RowConstraints percentHeight="30" vgrow="ALWAYS" />
-                            <RowConstraints percentHeight="40" vgrow="ALWAYS" />
-                            <RowConstraints percentHeight="30" vgrow="ALWAYS" />
+                            <RowConstraints percentHeight="30" vgrow="ALWAYS" /> <!-- Logo row -->
+                            <RowConstraints percentHeight="40" vgrow="ALWAYS" /> <!-- Section container row -->
+                            <RowConstraints percentHeight="30" vgrow="ALWAYS" /> <!-- Bottom space row -->
                         </rowConstraints>
 
                         <!-- Logo Container -->
                         <HBox GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <padding>
-                                <Insets top="8" right="8" bottom="8" left="8"/>
+                                <Insets top="8" right="8" bottom="8" left="8"/> <!-- Padding around the logo -->
                             </padding>
 
-                            <VBox fx:id="logoContainer" styleClass = "logo-container" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" alignment = "CENTER">
+                            <VBox fx:id="logoContainer" styleClass="logo-container" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" alignment="CENTER">
                                 <padding>
-                                    <Insets top="15" right="15" bottom="15" left="15"/>
+                                    <Insets top="15" right="15" bottom="15" left="15"/> <!-- Padding for the logo container -->
                                 </padding>
                             </VBox>
                         </HBox>
 
-                        <VBox fx:id = "sectionContainer" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment = "CENTER">
+                        <!-- Section Container for navigation items -->
+                        <VBox fx:id="sectionContainer" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="CENTER">
                             <padding>
-                                <Insets top="0" right="0" bottom="0" left="0"/>
+                                <Insets top="0" right="0" bottom="0" left="0"/> <!-- No padding for the section container -->
                             </padding>
-                            <VBox styleClass = "section-item" fx:id = "compass" VBox.vgrow = "ALWAYS" alignment = "CENTER">
+                            <VBox styleClass="section-item" fx:id="compass" VBox.vgrow="ALWAYS" alignment="CENTER">
                                 <padding>
-                                    <Insets top="25" right="25" bottom="25" left="25"/>
+                                    <Insets top="25" right="25" bottom="25" left="25"/> <!-- Padding for the compass section -->
                                 </padding>
                             </VBox>
-                            <VBox styleClass = "section-item" fx:id = "book" VBox.vgrow = "ALWAYS" alignment = "CENTER">
+                            <VBox styleClass="section-item" fx:id="book" VBox.vgrow="ALWAYS" alignment="CENTER">
                                 <padding>
-                                    <Insets top="25" right="25" bottom="25" left="25"/>
-                                </padding>
-                            </VBox>
-
-                            <VBox styleClass = "section-item" fx:id = "profile" VBox.vgrow = "ALWAYS" alignment = "CENTER">
-                                <padding>
-                                    <Insets top="25" right="25" bottom="25" left="25"/>
+                                    <Insets top="25" right="25" bottom="25" left="25"/> <!-- Padding for the book section -->
                                 </padding>
                             </VBox>
 
-                            <VBox styleClass = "section-item" fx:id = "setting" VBox.vgrow = "ALWAYS" alignment = "CENTER">
+                            <VBox styleClass="section-item" fx:id="profile" VBox.vgrow="ALWAYS" alignment="CENTER">
                                 <padding>
-                                    <Insets top="25" right="25" bottom="25" left="25"/>
+                                    <Insets top="25" right="25" bottom="25" left="25"/> <!-- Padding for the profile section -->
+                                </padding>
+                            </VBox>
+
+                            <VBox styleClass="section-item" fx:id="setting" VBox.vgrow="ALWAYS" alignment="CENTER">
+                                <padding>
+                                    <Insets top="25" right="25" bottom="25" left="25"/> <!-- Padding for the settings section -->
                                 </padding>
                             </VBox>
                         </VBox>
-
-                        
                     </GridPane>
                 </VBox>
 
                 <VBox styleClass="vertical-border" VBox.vgrow="ALWAYS">
+                    <!-- Vertical border for separating elements -->
                 </VBox>
             </HBox>
         </VBox>
 
-        <VBox fx:id = "mainPane" styleClass = "main-pane" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">
-            <!-- <HBox>
-                <Label styleClass = "test" text = "Happy Reading, Harvey"></Label>
-                <Label text = "Happy Reading, Harvey"></Label>
-            </HBox> -->
+        <!-- Main content area -->
+        <VBox fx:id="mainPane" styleClass="main-pane" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">
         </VBox>
     </GridPane>
 </StackPane>
