@@ -15,24 +15,28 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ScrollPane?>
 
-<StackPane fx:id = "container" stylesheets="@css/ExploreView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ExploreController" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
-    <VBox styleClass = "content-display-container" fx:id = "contentDisplayContainer" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+<!-- Root container for the Explore view -->
+<StackPane fx:id="container" stylesheets="@css/ExploreView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ExploreController" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+    <!-- Main vertical container for the content -->
+    <VBox styleClass="content-display-container" fx:id="contentDisplayContainer" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
         <padding>
-            <Insets top="10" right="10" bottom="10" left="0"/>
+            <Insets top="10" right="10" bottom="10" left="0"/> <!-- Padding for the VBox -->
         </padding>
 
+        <!-- GridPane to organize the layout -->
         <GridPane>
             <columnConstraints>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="100" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="100" /> <!-- Single column that grows to fill available width -->
             </columnConstraints>
 
             <rowConstraints>
-                <RowConstraints percentHeight="6" vgrow="ALWAYS" />
-                <RowConstraints percentHeight="94" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="6" vgrow="ALWAYS" />  <!-- Search bar row -->
+                <RowConstraints percentHeight="94" vgrow="ALWAYS" /> <!-- Main content row -->
             </rowConstraints>
             
-            <HBox styleClass = "content-search-bar" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                <VBox HBox.hgrow = "ALWAYS">
+            <!-- Search bar container -->
+            <HBox styleClass="content-search-bar" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <VBox HBox.hgrow="ALWAYS">
                     <GridPane>
                         <columnConstraints>
                             <ColumnConstraints hgrow="ALWAYS" percentWidth="30" />
@@ -41,23 +45,21 @@
                         </columnConstraints>
 
                         <rowConstraints>
-                            <RowConstraints vgrow="ALWAYS"/>
+                            <RowConstraints vgrow="ALWAYS"/> <!-- Row that can grow -->
                         </rowConstraints>
 
                         <HBox GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <padding>
-                                <Insets top="5" right="5" bottom="5" left="5"/>
+                                <Insets top="5" right="5" bottom="5" left="5"/> <!-- Padding for the search bar -->
                             </padding>
-                            <HBox styleClass = "search-bar" fx:id = "searchBar" HBox.hgrow = "ALWAYS" VBox.vgrow = "ALWAYS" alignment = "CENTER_LEFT">
-                                <HBox fx:id = "searchLogo" styleClass = "search-logo" HBox.hgrow = "NEVER">
+                            <HBox styleClass="search-bar" fx:id="searchBar" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" alignment="CENTER_LEFT">
+                                <HBox fx:id="searchLogo" styleClass="search-logo" HBox.hgrow="NEVER"> <!-- Placeholder for search logo -->
                                     <padding>
-                                        <Insets top="10" right="10" bottom="10" left="10"/>
+                                        <Insets top="10" right="10" bottom="10" left="10"/> <!-- Padding for the logo -->
                                     </padding>
                                 </HBox>
-                                <HBox HBox.hgrow = "ALWAYS" alignment = "CENTER">
-                                    <TextField fx:id = "search" styleClass = "text-field" promptText = "Search something...">
-
-                                    </TextField>
+                                <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+                                    <TextField fx:id="search" styleClass="text-field" promptText="Search something..."/> <!-- Search input field -->
                                 </HBox>
                             </HBox>
                         </HBox>
@@ -65,21 +67,15 @@
                 </VBox>
             </HBox>
 
-            <VBox styleClass = "book-gallery" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                <VBox VBox.vgrow = "ALWAYS">
-                    <!-- <Button text = "forever young"></Button> -->
-                    <ScrollPane fitToWidth = "true" hbarPolicy="NEVER">
-                        <VBox HBox.hgrow = "ALWAYS" spacing = "15">
+            <!-- Book gallery section -->
+            <VBox styleClass="book-gallery" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <VBox VBox.vgrow="ALWAYS">
+                    <ScrollPane fitToWidth="true" hbarPolicy="NEVER"> <!-- ScrollPane for scrolling content -->
+                        <VBox HBox.hgrow="ALWAYS" spacing="15">
                             <padding>
-                                <Insets top="30" right="10" bottom="30" left="10"/>
+                                <Insets top="30" right="10" bottom="30" left="10"/> <!-- Padding for the VBox -->
                             </padding>
                             <HBox>
-                                <!-- <VBox fx:id = "jumbotron" HBox.hgrow = "ALWAYS">
-                                
-                                </VBox>
-                                <HBox fx:id = "bookDisplay" HBox.hgrow = "ALWAYS">
-
-                                </HBox> -->
                                 <GridPane>
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="ALWAYS" percentWidth="45" />
@@ -87,60 +83,58 @@
                                     </columnConstraints>
 
                                     <rowConstraints>
-                                        <RowConstraints vgrow="NEVER"/>
+                                        <RowConstraints vgrow="NEVER"/> <!-- Row that does not grow -->
                                     </rowConstraints>
 
-                                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" fx:id = "jumbotron">
-                                
+                                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" fx:id="jumbotron"> <!-- Placeholder for jumbotron content -->
                                     </VBox>
-                                    <HBox GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id = "bookDisplay">
-
+                                    <HBox GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="bookDisplay"> <!-- Placeholder for book display -->
                                     </HBox>
-
                                 </GridPane>
                             </HBox>
-                            <HBox HBox.hgrow = "ALWAYS" spacing = "15">
-                                <VBox styleClass = "cover-book" HBox.hgrow = "ALWAYS">
+                            <HBox HBox.hgrow="ALWAYS" spacing="15">
+                                <!-- Popular books section -->
+                                <VBox styleClass="cover-book" HBox.hgrow="ALWAYS">
                                     <VBox>
                                         <padding>
-                                            <Insets top="10" right="10" bottom="10" left="10"/>
+                                            <Insets top="10" right="10" bottom="10" left="10"/> <!-- Padding for the section -->
                                         </padding>
-                                        <Label styleClass = "text" text = "Popular"> </Label>
+                                        <Label styleClass="text" text="Popular"/> <!-- Label for popular books -->
                                     </VBox>
-                                    <VBox styleClass = "horizontal-border"></VBox>
-                                    <VBox fx:id = "popularBook" VBox.vgrow = "NEVER">
+                                    <VBox styleClass="horizontal-border"></VBox> <!-- Horizontal separator -->
+                                    <VBox fx:id="popularBook" VBox.vgrow="NEVER"> <!-- Placeholder for popular books -->
                                         <padding>
                                             <Insets top="10" right="10" bottom="10" left="10"/>
                                         </padding>
-                                        
                                     </VBox>
                                 </VBox>
 
-                                <VBox styleClass = "cover-book" HBox.hgrow = "ALWAYS">
+                                <!-- New arrivals section -->
+                                <VBox styleClass="cover-book" HBox.hgrow="ALWAYS">
                                     <VBox>
                                         <padding>
-                                            <Insets top="10" right="10" bottom="10" left="10"/>
+                                            <Insets top="10" right="10" bottom="10" left="10"/> <!-- Padding for the section -->
                                         </padding>
-                                        <Label styleClass = "text" text = "New Arrival"> </Label>
+                                        <Label styleClass="text" text="New Arrival"/> <!-- Label for new arrivals -->
                                     </VBox>
-                                    <VBox styleClass = "horizontal-border"></VBox>
-                                    <VBox fx:id = "newArrivalBook" VBox.vgrow = "NEVER">
+                                    <VBox styleClass="horizontal-border"></VBox> <!-- Horizontal separator -->
+                                    <VBox fx:id="newArrivalBook" VBox.vgrow="NEVER"> <!-- Placeholder for new arrivals -->
                                         <padding>
                                             <Insets top="10" right="10" bottom="10" left="10"/>
                                         </padding>
-
                                     </VBox>
                                 </VBox>
                             </HBox>
-                            <VBox styleClass = "cover-book" HBox.hgrow = "ALWAYS">
+                            <!-- Explore section -->
+                            <VBox styleClass="cover-book" HBox.hgrow="ALWAYS">
                                 <VBox>
                                     <padding>
-                                        <Insets top="10" right="10" bottom="10" left="10"/>
+                                        <Insets top="10" right="10" bottom="10" left="10"/> <!-- Padding for the section -->
                                     </padding>
-                                    <Label styleClass = "text" text = "Explore"> </Label>
+                                    <Label styleClass="text" text="Explore"/> <!-- Label for explore section -->
                                 </VBox>
-                                <VBox styleClass = "horizontal-border"></VBox>
-                                <VBox fx:id = "exploreBook" spacing = "10" alignment = "CENTER">
+                                <VBox styleClass="horizontal-border"></VBox> <!-- Horizontal separator -->
+                                <VBox fx:id="exploreBook" spacing="10" alignment="CENTER"> <!-- Placeholder for explore books -->
                                     <padding>
                                         <Insets top="10" right="10" bottom="10" left="10"/>
                                     </padding>
