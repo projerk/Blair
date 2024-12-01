@@ -1,5 +1,6 @@
 package controller;
 
+import app.Projerk;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -171,6 +172,8 @@ public class MainController {
             currentSelectedItem.setOpacity(0.4);
             setting.setOpacity(1);
             currentSelectedItem = setting;
+
+            Projerk.getInstance().changeRoot("LoginView.fxml");
         });
 
         homeImageView.setImage(homeImage);
