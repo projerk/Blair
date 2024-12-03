@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Label?>
+
+
+<StackPane stylesheets="@css/AdminBookManagerView.css" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminBookManagerController">
+    <VBox HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS"> 
+        <GridPane HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="100" />
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="90" vgrow="ALWAYS" />
+            </rowConstraints>
+
+            <VBox styleClass="test1" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <children>
+               <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
+                  <children>
+                     <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                        <children>
+                           <HBox alignment="CENTER" style="-fx-background-color: transparent; -fx-background-radius: 10;">
+                              <children>
+                                 <TextField style="-fx-background-color: white; -fx-background-radius: 0;" />
+                              </children>
+                           </HBox>
+                           <ComboBox style="-fx-background-color: white; -fx-background-radius: 0;" />
+                        </children>
+                     </HBox>
+                     <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                        <children>
+                           <Button fx:id = "refreshPage" mnemonicParsing="false" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 10; -fx-border-color: #e4e4e4; -fx-border-width: 1; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);" text="Refresh">
+                              <font>
+                                 <Font name="System Bold" size="13.0" />
+                              </font>
+                           </Button>
+
+                           <Button fx:id = "previousPage" mnemonicParsing="false" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 10; -fx-border-color: #e4e4e4; -fx-border-width: 1; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);" text="Previous">
+                              <font>
+                                 <Font name="System Bold" size="13.0" />
+                              </font>
+                           </Button>
+
+                           <Button fx:id = "nextPage" mnemonicParsing="false" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 10; -fx-border-color: #e4e4e4; -fx-border-width: 1; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);" text="Next">
+                              <font>
+                                 <Font name="System Bold" size="13.0" />
+                              </font>
+                           </Button>
+
+                           <Button fx:id = "newBook" mnemonicParsing="false" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 10; -fx-border-color: #e4e4e4; -fx-border-width: 1; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);" text="New">
+                              <font>
+                                 <Font name="System Bold" size="13.0" />
+                              </font>
+                           </Button>
+                        </children>
+                     </HBox>
+                  </children>
+                  <padding>
+                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                  </padding>
+               </HBox>
+            </children>
+            </VBox>
+
+            <VBox styleClass="test2" GridPane.columnIndex="0" GridPane.rowIndex="1">
+               <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+               </padding>
+               
+               <VBox styleClass = "table-view" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                  <GridPane HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="100" />
+                     </columnConstraints>
+
+                     <rowConstraints>
+                        <RowConstraints percentHeight="6" vgrow="ALWAYS" />
+                        <RowConstraints percentHeight="94" vgrow="ALWAYS" />
+                     </rowConstraints>
+
+                     <HBox style = "-fx-background-color: transparent;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <GridPane HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="ALWAYS" percentWidth="15" />
+                              <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                              <ColumnConstraints hgrow="ALWAYS" percentWidth="23" />
+                              <ColumnConstraints hgrow="ALWAYS" percentWidth="12" />
+                              <ColumnConstraints hgrow="ALWAYS" percentWidth="12" />
+                              <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                              <ColumnConstraints hgrow="ALWAYS" percentWidth="5" />
+                              <ColumnConstraints hgrow="ALWAYS" percentWidth="13" />
+                           </columnConstraints>
+
+                           <rowConstraints>
+                              <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                           </rowConstraints>
+
+                           <VBox styleClass = "test6" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment = "CENTER">
+                              <Label styleClass = "text" text = "ISBN"></Label>
+                           </VBox>
+
+                           <VBox styleClass = "test6" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment = "CENTER">
+                              <Label styleClass = "text" text = "COVER"></Label>
+                           </VBox>
+
+                           <VBox styleClass = "test6" GridPane.columnIndex="2" GridPane.rowIndex="0" alignment = "CENTER">
+                              <Label styleClass = "text" text = "TITLE"></Label>
+                           </VBox>
+
+                           <VBox styleClass = "test6" GridPane.columnIndex="3" GridPane.rowIndex="0" alignment = "CENTER">
+                              <Label styleClass = "text" text = "GENRE"></Label>
+                           </VBox>
+
+                           <VBox styleClass = "test6" GridPane.columnIndex="4" GridPane.rowIndex="0" alignment = "CENTER">
+                              <Label styleClass = "text" text = "AUTHOR"></Label>
+                           </VBox>
+
+                           <VBox styleClass = "test6" GridPane.columnIndex="5" GridPane.rowIndex="0" alignment = "CENTER">
+                              <Label styleClass = "text" text = "PUBLISHER"></Label>
+                           </VBox>
+
+                           <VBox styleClass = "test6" GridPane.columnIndex="6" GridPane.rowIndex="0" alignment = "CENTER">
+                              <Label styleClass = "text" text = "RELEASE"></Label>
+                           </VBox>
+
+                           <VBox styleClass = "test6" GridPane.columnIndex="7" GridPane.rowIndex="0" alignment = "CENTER">
+                              <Label styleClass = "text" text = "ACTION"></Label>
+                           </VBox>
+                        </GridPane>
+                     </HBox>
+
+                     <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <ScrollPane fitToWidth = "true">
+                           <VBox fx:id = "bookContainer" HBox.hgrow = "ALWAYS">
+                              
+                           </VBox>
+                        </ScrollPane>
+                     </VBox>
+                  </GridPane>
+               </VBox>
+
+            </VBox>
+        </GridPane>
+    </VBox> 
+</StackPane>
