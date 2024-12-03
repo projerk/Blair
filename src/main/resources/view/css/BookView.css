@@ -1,0 +1,67 @@
+/* .section2 {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-border-color: black;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);
+} */
+
+.calendar {
+    -fx-border-radius: 15px;
+    -fx-border-color: #d9d9d9;
+    -fx-background-color: #fafafa;
+    -fx-background-radius: 15px;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);
+}
+
+.horizontal-border {
+    -fx-pref-height: 1px;
+    -fx-background-color: #d9d9d9;
+}
+/* .hello {
+    -fx-background-color: blue;
+} */
+
+.scroll-pane {
+    -fx-background-color: transparent; 
+    -fx-background: transparent;
+    -fx-padding: 0; 
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;  
+    -fx-background: transparent;
+    -fx-background-insets: 0;
+}
+
+.scroll-pane:focused {
+    -fx-focus-color: transparent; 
+    -fx-faint-focus-color: transparent;  
+}
+
+.scroll-pane .scroll-bar:vertical, 
+.scroll-pane .scroll-bar:horizontal {
+    -fx-opacity: 0; 
+    -fx-padding: 0;
+    -fx-pref-width: 0; 
+    -fx-pref-height: 0; 
+}
+
+.text {
+    -fx-font-family: 'Accent Graphic W00 Medium';
+    -fx-font-size: 15;
+    -fx-text-fill: black;
+}
+
+.book-frame {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #d9d9d9;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);
+    -fx-border-width: 1px;
+}

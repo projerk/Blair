@@ -15,6 +15,7 @@ import javafx.geometry.Rectangle2D;
 //import model.TrieLoader;
 import socket.SocketService;
 import utils.Constants;
+import utils.FileHelper;
 import javafx.scene.text.Font;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -39,61 +40,68 @@ public class Projerk extends Application {
 
     @Override
     public void start(Stage primaryStage) throws URISyntaxException {
-        // TrieLoader.loadTrie();
-        // primaryStage.setTitle("Liberro Client");
-        // primaryStage.setHeight(800);
-        // primaryStage.setWidth(600);
-        // System.out.println(System.getProperty("java.class.path"));
-        SocketService socketService = SocketService.getInstance("http://127.0.0.1:5000");
-        socketService.connect();
-        fontPreload();
         instance = this;
-        screenWidth = bounds.getWidth();
-        screenHeight = bounds.getHeight();
-        System.out.println(screenWidth);
-        System.out.println(screenHeight);
-        this.primaryStage = primaryStage;
-        // loadScene("LoginView.fxml", screenWidth, screenHeight);
-        loadScene("LoginView.fxml", screenWidth, screenHeight);
+        SocketService socketService = SocketService.getInstance("http://127.0.0.1:5000"); // Connect to the server
+        socketService.connect(); // Connect execute
+        fontPreload(); // load font.
+        screenWidth = bounds.getWidth(); // get screen width
+        screenHeight = bounds.getHeight(); // get screen height
+        this.primaryStage = primaryStage; 
+        loadScene("LoginView.fxml", screenWidth, screenHeight); // load the login scene.
         primaryStage.show();
-        String cssPath = Paths.get("src", "main", "resources", "view", "css", "AutoCompleteSearch.css").toAbsolutePath().toString();
-        scene.getStylesheets().add("file:" + cssPath);
+        // String cssPath = Paths.get("src", "main", "resources", "view", "css", "AutoCompleteSearch.css").toAbsolutePath().toString();
+        // scene.getStylesheets().add("file:" + cssPath);
         
         // setMaximized(true);
     }
 
+
+    /**
+     * This function change the current scene, but now deprecated.
+     * 
+     * 
+     * @param fxmlFile url of fxml file.
+     * @param width width of scene.
+     * @param height height of scene.
+     */
     public void changeScene(String fxmlFile, double width, double height) {
         
         try {
-            String fxmlPath = Paths.get("src", "main", "resources", "view", fxmlFile).toAbsolutePath().toString();
-            FXMLLoader loader = new FXMLLoader(Paths.get(fxmlPath).toUri().toURL());
+            FXMLLoader loader = FileHelper.getLoader(fxmlFile);
             Parent root = loader.load();
             this.scene = new Scene(root, width, height);
             primaryStage.setScene(this.scene);
-            // setMaximized(true);
-            // primaryStage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error loading FXML: " + e.getMessage());
         }
     }
 
+    /**
+     * This function change the content of root node, rather than change the whole scene.
+     * 
+     * @param fxmlFile url of fxml file
+     */
     public void changeRoot(String fxmlFile) {
         try {
-            String fxmlPath = Paths.get("src", "main", "resources", "view", fxmlFile).toAbsolutePath().toString();
-            FXMLLoader loader = new FXMLLoader(Paths.get(fxmlPath).toUri().toURL());
+            FXMLLoader loader = FileHelper.getLoader(fxmlFile);
             Parent root = loader.load();
             this.scene.setRoot(root);
-            this.scene.getWindow().setOnShown(event -> {
-                System.out.println(scene.widthProperty().get());
-                System.out.println(scene.heightProperty().get());
-            });
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error loading FXML: " + e.getMessage());
         }
     }
 
+
+    /**
+     * Initialize scene of app.
+     * 
+     * @param fxmlFile url of fxml file.
+     * @param width screen width.
+     * @param height screen height.
+     */
     private void loadScene(String fxmlFile, double width, double height) {
         changeScene(fxmlFile, width, height);
     }
@@ -102,29 +110,6 @@ public class Projerk extends Application {
         primaryStage.setMaximized(state);
     }
 
-    @Override
-    public void stop() {
-        shutdownExecutor();
-    }
-
-    private void shutdownExecutor() {
-        if (executor != null && !executor.isShutdown()) {
-            executor.shutdownNow(); 
-            try {
-                if (!executor.awaitTermination(60, java.util.concurrent.TimeUnit.SECONDS)) {
-                    System.out.println("Executor chưa dừng. Thực hiện shutdownNow...");
-                    executor.shutdownNow();
-                    if (!executor.awaitTermination(60, java.util.concurrent.TimeUnit.SECONDS)) {
-                        System.err.println("Executor không thể dừng đúng cách");
-                    }
-                }
-            } catch (InterruptedException ex) {
-                System.err.println("Ngắt quãng khi chờ Executor dừng");
-                executor.shutdownNow();
-                Thread.currentThread().interrupt(); 
-            }
-        }
-    }
 
     public Scene getScene() {
         return this.scene;

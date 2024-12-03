@@ -7,13 +7,16 @@ import java.util.Map;
 import javafx.scene.image.Image;
 
 public class AppState {
-    private static AppState instance = new AppState();
-    private User currentUser;
-    private Listener listener;
-    private int currentViewBookID;
+    private static AppState instance = new AppState(); // Singleton instance
+    private User currentUser; // current user, save after login success.
+    private Listener listener; // Listener, this is used to communicate between Controller.
+    private int currentViewBookID; // current book id at CanvasView
     private Map<String, Image> pooling = new ConcurrentHashMap<>();
+    // image cache, store java.scene.image Object to accelerate and reduce memory use.
 
-    private AppState() { }
+    private AppState() { 
+        // private constructor prevent initialize.
+    }
 
     public static AppState getInstance() {
         return instance;
