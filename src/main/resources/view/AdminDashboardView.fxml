@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<StackPane stylesheets="@css/AdminDashboardView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminDashboardController" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+    <VBox VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+        <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="100" />
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints percentHeight="25" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="75" vgrow="ALWAYS" />
+            </rowConstraints>
+
+            <VBox styleClass = "test" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS" hgap = "10">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+                    </columnConstraints>
+
+                    <rowConstraints>
+                        <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                    </rowConstraints>
+
+                    <VBox styleClass = "test3" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <!-- /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ -->
+                        <VBox styleClass = "test4" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                            <padding>
+                                <Insets top="10" right="10" bottom="10" left="10"/>
+                            </padding>
+                            <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="100" />
+                                </columnConstraints>
+
+                                <rowConstraints>
+                                    <RowConstraints percentHeight="50" vgrow="ALWAYS" />
+                                    <RowConstraints percentHeight="50" vgrow="ALWAYS" />
+                                </rowConstraints>
+
+                                <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <VBox styleClass = "border-box" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                        <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="30" />
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="70" />
+                                            </columnConstraints>
+
+                                            <rowConstraints>
+                                                <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                                            </rowConstraints>
+
+                                            <VBox fx:id = "totalBookIcon" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment = "CENTER">
+                                                <padding>
+                                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                                </padding>
+                                            </VBox>
+
+                                            <VBox HBox.hgrow = "ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment = "CENTER">
+                                                <padding>
+                                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                                </padding>
+
+                                                <HBox alignment = "CENTER">
+                                                    <VBox>
+                                                        <Label styleClass = "label1" text = "270"></Label>
+                                                    </VBox>
+                                                    <VBox alignment = "CENTER">
+                                                        <padding>
+                                                            <Insets top="0" right="0" bottom="0" left="5"/>
+                                                        </padding>
+                                                        <Label styleClass = "label2" text = "books"></Label>
+                                                    </VBox>
+                                                </HBox>
+                                            </VBox>
+                                        </GridPane>
+                                    </VBox>
+                                </VBox>
+
+                                <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets top="10" right="0" bottom="0" left="0"/>
+                                    </padding>
+                                    <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                        <columnConstraints>
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                        </columnConstraints>
+
+                                        <rowConstraints>
+                                            <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                                        </rowConstraints>
+
+                                        <VBox alignment = "CENTER" styleClass = "border-box2" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                            <Label styleClass = "text-progress" text = "+5%"></Label>
+                                            <Label styleClass = "text-time" text = "this month"></Label>
+                                        </VBox>
+
+                                        <VBox alignment = "CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                            <Label styleClass = "text-progress" text = "+20%"></Label>
+                                            <Label styleClass = "text-time" text = "this year"></Label>
+                                        </VBox>
+
+                                    </GridPane>
+                                </VBox>
+                            </GridPane>
+                        </VBox>
+                    <!-- /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\ -->
+                    </VBox>
+
+                    <VBox styleClass = "test3" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <VBox styleClass = "test4" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                            <padding>
+                                <Insets top="10" right="10" bottom="10" left="10"/>
+                            </padding>
+                            <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="100" />
+                                </columnConstraints>
+
+                                <rowConstraints>
+                                    <RowConstraints percentHeight="50" vgrow="ALWAYS" />
+                                    <RowConstraints percentHeight="50" vgrow="ALWAYS" />
+                                </rowConstraints>
+
+                                <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <VBox styleClass = "border-box" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                        <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="30" />
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="70" />
+                                            </columnConstraints>
+
+                                            <rowConstraints>
+                                                <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                                            </rowConstraints>
+
+                                            <VBox fx:id = "totalUserIcon" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment = "CENTER">
+                                                <padding>
+                                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                                </padding>
+                                            </VBox>
+
+                                            <VBox HBox.hgrow = "ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment = "CENTER">
+                                                <padding>
+                                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                                </padding>
+
+                                                <HBox alignment = "CENTER">
+                                                    <VBox>
+                                                        <Label styleClass = "label1" text = "100004"></Label>
+                                                    </VBox>
+                                                    <VBox alignment = "CENTER">
+                                                        <padding>
+                                                            <Insets top="0" right="0" bottom="0" left="5"/>
+                                                        </padding>
+                                                        <Label styleClass = "label2" text = "users"></Label>
+                                                    </VBox>
+                                                </HBox>
+                                            </VBox>
+                                        </GridPane>
+                                    </VBox>
+                                </VBox>
+
+                                <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets top="10" right="0" bottom="0" left="0"/>
+                                    </padding>
+                                    <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                        <columnConstraints>
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                        </columnConstraints>
+
+                                        <rowConstraints>
+                                            <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                                        </rowConstraints>
+
+                                        <VBox alignment = "CENTER" styleClass = "border-box2" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                            <Label styleClass = "text-progress" text = "+5%"></Label>
+                                            <Label styleClass = "text-time" text = "this month"></Label>
+                                        </VBox>
+
+                                        <VBox alignment = "CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                            <Label styleClass = "text-progress" text = "+25%"></Label>
+                                            <Label styleClass = "text-time" text = "this year"></Label>
+                                        </VBox>
+
+                                    </GridPane>
+                                </VBox>
+                            </GridPane>
+                        </VBox>
+                    </VBox>
+
+                    <VBox styleClass = "test3" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS" GridPane.columnIndex="2" GridPane.rowIndex="0">
+
+                        <VBox styleClass = "test4" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                            <padding>
+                                <Insets top="10" right="10" bottom="10" left="10"/>
+                            </padding>
+                            <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="100" />
+                                </columnConstraints>
+
+                                <rowConstraints>
+                                    <RowConstraints percentHeight="50" vgrow="ALWAYS" />
+                                    <RowConstraints percentHeight="50" vgrow="ALWAYS" />
+                                </rowConstraints>
+
+                                <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <VBox styleClass = "border-box" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                        <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="30" />
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="70" />
+                                            </columnConstraints>
+
+                                            <rowConstraints>
+                                                <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                                            </rowConstraints>
+
+                                            <VBox fx:id = "totalBorrowIcon" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment = "CENTER">
+                                                <padding>
+                                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                                </padding>
+                                            </VBox>
+
+                                            <VBox HBox.hgrow = "ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment = "CENTER">
+                                                <padding>
+                                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                                </padding>
+
+                                                <HBox alignment = "CENTER">
+                                                    <VBox>
+                                                        <Label styleClass = "label1" text = "122"></Label>
+                                                    </VBox>
+                                                    <VBox alignment = "CENTER">
+                                                        <padding>
+                                                            <Insets top="0" right="0" bottom="0" left="5"/>
+                                                        </padding>
+                                                        <Label styleClass = "label2" text = "times"></Label>
+                                                    </VBox>
+                                                </HBox>
+                                            </VBox>
+                                        </GridPane>
+                                    </VBox>
+                                </VBox>
+
+                                <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets top="10" right="0" bottom="0" left="0"/>
+                                    </padding>
+                                    <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                        <columnConstraints>
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                        </columnConstraints>
+
+                                        <rowConstraints>
+                                            <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                                        </rowConstraints>
+
+                                        <VBox alignment = "CENTER" styleClass = "border-box2" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                            <Label styleClass = "text-progress" text = "+51%"></Label>
+                                            <Label styleClass = "text-time" text = "this month"></Label>
+                                        </VBox>
+
+                                        <VBox alignment = "CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                            <Label styleClass = "text-progress" text = "+23%"></Label>
+                                            <Label styleClass = "text-time" text = "this year"></Label>
+                                        </VBox>
+
+                                    </GridPane>
+                                </VBox>
+                            </GridPane>
+                        </VBox>
+                    </VBox>
+
+                    <VBox styleClass = "test3" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS" GridPane.columnIndex="3" GridPane.rowIndex="0">
+
+                        <VBox styleClass = "test4" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                            <padding>
+                                <Insets top="10" right="10" bottom="10" left="10"/>
+                            </padding>
+                            <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="100" />
+                                </columnConstraints>
+
+                                <rowConstraints>
+                                    <RowConstraints percentHeight="50" vgrow="ALWAYS" />
+                                    <RowConstraints percentHeight="50" vgrow="ALWAYS" />
+                                </rowConstraints>
+
+                                <VBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <VBox styleClass = "border-box" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                        <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="30" />
+                                                <ColumnConstraints hgrow="ALWAYS" percentWidth="70" />
+                                            </columnConstraints>
+
+                                            <rowConstraints>
+                                                <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                                            </rowConstraints>
+
+                                            <VBox fx:id = "totalStaffIcon" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment = "CENTER">
+                                                <padding>
+                                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                                </padding>
+                                            </VBox>
+
+                                            <VBox HBox.hgrow = "ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment = "CENTER">
+                                                <padding>
+                                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                                </padding>
+
+                                                <HBox alignment = "CENTER">
+                                                    <VBox>
+                                                        <Label styleClass = "label1" text = "20"></Label>
+                                                    </VBox>
+                                                    <VBox alignment = "CENTER">
+                                                        <padding>
+                                                            <Insets top="0" right="0" bottom="0" left="5"/>
+                                                        </padding>
+                                                        <Label styleClass = "label2" text = "staffs"></Label>
+                                                    </VBox>
+                                                </HBox>
+                                            </VBox>
+                                        </GridPane>
+                                    </VBox>
+                                </VBox>
+
+                                <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets top="10" right="0" bottom="0" left="0"/>
+                                    </padding>
+                                    <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                                        <columnConstraints>
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                                        </columnConstraints>
+
+                                        <rowConstraints>
+                                            <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                                        </rowConstraints>
+
+                                        <VBox alignment = "CENTER" styleClass = "border-box2" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                            <Label styleClass = "text-progress" text = "+13%"></Label>
+                                            <Label styleClass = "text-time" text = "this month"></Label>
+                                        </VBox>
+
+                                        <VBox alignment = "CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                            <Label styleClass = "text-progress" text = "+25%"></Label>
+                                            <Label styleClass = "text-time" text = "this year"></Label>
+                                        </VBox>
+
+                                    </GridPane>
+                                </VBox>
+                            </GridPane>
+                        </VBox>
+                    </VBox>
+                </GridPane>
+            </VBox>
+
+            <VBox styleClass = "i" VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <GridPane VBox.vgrow = "ALWAYS" HBox.hgrow = "ALWAYS">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                    </columnConstraints>
+
+                    <rowConstraints>
+                        <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+                    </rowConstraints>
+
+                    <VBox fx:id = "piechart" styleClass = "test5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    
+                    </VBox>
+
+                    <VBox fx:id = "areachart" styleClass = "test5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    
+                    </VBox>
+                </GridPane>
+            </VBox>
+        </GridPane>
+    </VBox>
+</StackPane>

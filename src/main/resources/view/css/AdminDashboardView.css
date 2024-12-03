@@ -1,0 +1,71 @@
+.test {
+    /* -fx-background-color: red; */
+    -fx-background-color: transparent;
+
+}
+
+.test2 {
+    /* -fx-background-color: blue; */
+    -fx-background-color: transparent;
+
+}
+
+.test3 {
+    /* -fx-background-color: green; */
+    -fx-background-color: transparent;
+
+}
+
+.test4 {
+    /* -fx-background-color: yellow; */
+    -fx-background-color: black;
+    -fx-background-radius: 10px;
+
+}
+
+.horizontal-border {
+    -fx-background-color: white;
+    -fx-pref-height: 1px;
+}
+
+.border-box {
+    -fx-border-color: transparent transparent white transparent; 
+    -fx-border-width: 0 0 1px 0; 
+}
+
+.border-box2 {
+    -fx-border-color: transparent white transparent transparent; 
+    -fx-border-width: 0 1px 0 0;
+}
+
+.test5 {
+    /* -fx-background-color: purple; */
+    -fx-background-color: transparent;
+
+}
+
+.label1 {
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 37px;
+}
+
+.label2 {
+    -fx-font-weight: bold;
+    -fx-opacity: 0.6;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+}
+
+.text-progress {
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 25px;
+}
+
+.text-time {
+    -fx-font-weight: bold;
+    -fx-opacity: 0.6;
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+}

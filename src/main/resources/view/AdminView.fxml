@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<StackPane stylesheets="@css/AdminView.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminController">
+    <GridPane>
+        <!-- Define column constraints for the grid layout -->
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="5" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="95" />
+        </columnConstraints>
+
+        <!-- Define row constraints for the grid layout -->
+        <rowConstraints>
+            <RowConstraints percentHeight="100" vgrow="ALWAYS" />
+        </rowConstraints>
+
+        <!-- Sidebar section -->
+        <VBox styleClass="sidebar" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <HBox VBox.vgrow="ALWAYS">
+                <VBox HBox.hgrow="ALWAYS">
+                    <GridPane>
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints percentHeight="30" vgrow="ALWAYS" />
+                            <RowConstraints percentHeight="40" vgrow="ALWAYS" />
+                            <RowConstraints percentHeight="30" vgrow="ALWAYS" />
+                        </rowConstraints>
+
+                        <!-- Logo container -->
+                        <HBox GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <padding>
+                                <Insets top="8" right="8" bottom="8" left="8"/>
+                            </padding>
+                            <VBox fx:id="logoContainer" styleClass="logo-container" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" alignment="CENTER">
+                                <padding>
+                                    <Insets top="15" right="15" bottom="15" left="15"/>
+                                </padding>
+                            </VBox>
+                        </HBox>
+
+                        <!-- Section items in the sidebar -->
+                        <VBox fx:id="sectionContainer" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="CENTER">
+                            <padding>
+                                <Insets top="0" right="0" bottom="0" left="0"/>
+                            </padding>
+                            <VBox styleClass="section-item" fx:id="compass" VBox.vgrow="ALWAYS" alignment="CENTER">
+                                <padding>
+                                    <Insets top="20" right="20" bottom="20" left="20"/>
+                                </padding>
+                            </VBox>
+                            <VBox styleClass="section-item" fx:id="book" VBox.vgrow="ALWAYS" alignment="CENTER">
+                                <padding>
+                                    <Insets top="20" right="20" bottom="20" left="20"/>
+                                </padding>
+                            </VBox>
+                            <VBox styleClass="section-item" fx:id="borrow" VBox.vgrow="ALWAYS" alignment="CENTER">
+                                <padding>
+                                    <Insets top="20" right="20" bottom="20" left="20"/>
+                                </padding>
+                            </VBox>
+                            <VBox styleClass="section-item" fx:id="profile" VBox.vgrow="ALWAYS" alignment="CENTER">
+                                <padding>
+                                    <Insets top="20" right="20" bottom="20" left="20"/>
+                                </padding>
+                            </VBox>
+                            <VBox styleClass="section-item" fx:id="setting" VBox.vgrow="ALWAYS" alignment="CENTER">
+                                <padding>
+                                    <Insets top="20" right="20" bottom="20" left="20"/>
+                                </padding>
+                            </VBox>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+
+                <!-- Vertical border for layout separation -->
+                <VBox styleClass="vertical-border" VBox.vgrow="ALWAYS">
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Main content area -->
+        <VBox fx:id="mainPane" styleClass="main-pane" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        </VBox>
+    </GridPane>
+</StackPane>
