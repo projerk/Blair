@@ -1,0 +1,52 @@
+/* .test1 {
+    -fx-background-color: red;
+} */
+
+/* .test2 {
+    -fx-background-color: blue;
+} */
+
+.table-view {
+    -fx-background-color: white;
+    /* -fx-background-radius: 20px; */
+    /* -fx-border-radius: 20px; */
+    -fx-border-color: #d9d9d9;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);
+    -fx-border-width: 1px;
+}
+
+.test6 {
+    -fx-border-color: black black black black; 
+    -fx-border-width: 1px 1px 1px 1px;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent; 
+    -fx-background: transparent;
+    -fx-padding: 0; 
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;  
+    -fx-background: transparent;
+    -fx-background-insets: 0;
+}
+
+.scroll-pane:focused {
+    -fx-focus-color: transparent; 
+    -fx-faint-focus-color: transparent;  
+}
+
+/* .scroll-pane .scroll-bar:vertical, 
+.scroll-pane .scroll-bar:horizontal {
+    -fx-opacity: 0; 
+    -fx-padding: 0;
+    -fx-pref-width: 0; 
+    -fx-pref-height: 0; 
+    -fx-max-width: 0;
+    -fx-max-height: 0;
+    -fx-min-width: 0;
+    -fx-max-height: 0;
+} */
