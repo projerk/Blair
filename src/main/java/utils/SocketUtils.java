@@ -18,7 +18,7 @@ public class SocketUtils {
     /**
      * Create an arraylist of Book.
      * 
-     * @param object the json object get from server
+     * @param books the json object get from server
      * @return arraylist contain information for display.
      */
     public static ArrayList<Book> createDisplayBook(JSONArray books) {
