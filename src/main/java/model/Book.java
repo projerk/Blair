@@ -17,6 +17,15 @@ public class Book {
     private String pdf;
     private boolean borrow;
     private int borrowID;
+    private boolean bookmark;
+
+    public boolean isBookmark() {
+        return this.bookmark;
+    }
+
+    public void setBookmark(boolean bookmark) {
+        this.bookmark = bookmark;
+    }
 
     public int getBorrowID() {
         return this.borrowID;

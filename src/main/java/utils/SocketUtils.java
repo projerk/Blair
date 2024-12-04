@@ -2,6 +2,8 @@ package utils;
 
 import java.util.ArrayList;
 import javafx.util.Pair;
+import model.Borrow;
+import model.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.List;
@@ -121,6 +123,28 @@ public class SocketUtils {
 
 
             res.add(book);
+        }
+
+        return res;
+    }
+
+    public static List<Borrow> parseBorrowTableCell(JSONArray borrows) {
+        List<Borrow> res = new ArrayList<>();
+
+        for (int i = 0; i < borrows.length(); i++) {
+            JSONObject object = borrows.getJSONObject(i);
+            Book book = new Book();
+            User user = new User();
+            book.setId(object.getInt("id"));
+            book.setCover(object.getString("cover"));
+            book.setAuthor(object.getString("author"));
+            book.setTitle(object.getString("title"));
+            book.setGenre(object.getString("genre"));
+            book.setIsbn(object.getString("isbn"));
+            user.setID(object.getInt("user_id"));
+            user.setUsername(object.getString("username"));
+            Borrow borrow = new Borrow(user, book);
+            res.add(borrow);
         }
 
         return res;

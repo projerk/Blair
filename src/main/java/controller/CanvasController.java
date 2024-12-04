@@ -1,64 +1,76 @@
 package controller;
 
-import app.AppState;
+import java.util.List;
+
+import org.json.JSONObject;
+import com.dansoftware.pdfdisplayer.PDFDisplayer;
+import animation.ScaleEffect;
+import components.container.CommentView;
+import components.field.CommentField;
+import components.interfaces.Listener;
 import components.media.WrappedImageView;
 import components.text.BookInformation;
 import io.socket.emitter.Emitter;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.image.Image;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.Book;
-import org.json.JSONObject;
-import socket.SocketService;
+import model.GuestComment;
 import utils.FileHelper;
 import utils.PoolingToolkit;
-import components.interfaces.Listener;
-import animation.ScaleEffect;
-import javafx.scene.image.Image;
-import model.GuestComment;
-import components.container.CommentView;
-import components.field.CommentField;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import app.AppState;
+import socket.SocketService;
 
 public class CanvasController {
-     private Listener listener = AppState.getInstance().getListener();
-
-    private SocketService client = SocketService.getInstance();
+    private Listener listener = AppState.getInstance().getListener();
 
     @FXML
-    private Label description;
-
-    @FXML
-    private VBox bookInformation;
-
-    @FXML
-    private VBox commentBox;
+    private VBox canvas;
 
     @FXML
     private HBox controlBar;
 
     @FXML
-    private VBox bookCover;
+    private VBox bookContainer;
+
+    @FXML
+    private VBox commentContainer;
 
     @FXML
     private VBox commentFieldContainer;
 
     @FXML
-    private ScrollPane scrollpane;
-    
+    private VBox commentBox;
+
     @FXML
-    private VBox commentContainer;
+    private ScrollPane scrollpane;
+
+    @FXML
+    private VBox bookCover;
+
+    @FXML
+    private VBox bookInformation;
+
+    @FXML
+    private Label description;
+
+    private SocketService client = SocketService.getInstance();
 
     private WrappedImageView closeButton;
 
     @FXML
     public void initialize() {
         loadContent();
+        // loadBookContainer();
         loadCommentBox();
-        loadCloseButton();
+        closeButtonPreload();
         loadCommentField();
         scrollpane.setHbarPolicy(ScrollBarPolicy.NEVER);
         commentBox.setSpacing(7);
@@ -69,27 +81,32 @@ public class CanvasController {
                 commentBox.setMinWidth(newWidth.doubleValue() - 10);
             }
         });
+        // commentBox.widthProperty().bind(commentContainer.widthProperty());
+        // commentContainer.widthProperty().addListener((observable, oldWidth, newWidth) -> {
+        //     commentBox.setPrefWidth(newWidth.doubleValue() - 100);
+        // });
     }
 
-    private void loadContent() {
-        client.onMessage("book_detail_response", (Emitter.Listener) args -> {
-            JSONObject response = (JSONObject) args[0];
-            String status = response.getString("status");
+    public void closeButtonPreload() {
 
-            if (status.equals("success")) {
-                Book book = utils.SocketUtils.parseBook(response);
-                // System.out.println(book.toString());
-                Platform.runLater(() -> {
-                    description.setText(book.getDescription());
-                    loadBookContainer(book);
-                });
-            }
+        Image image = FileHelper.getImage("close.png");
+        closeButton = new WrappedImageView();
+        closeButton.setImage(image);
+        closeButton.setOpacity(0.8);
+
+        closeButton.setOnMouseClicked(event -> {
+            listener.closeCanvas();
         });
 
-        JSONObject data = new JSONObject();
-        data.put("book_id", AppState.getInstance().getCurrentViewBookID());
-        data.put("user_id", AppState.getInstance().getUser().getID());
-        client.sendMessage("get_book_detail", data);
+        closeButton.setOnMouseEntered(event -> {
+            ScaleEffect.scaleTo(closeButton, 0.1, 1.2, 1.2);
+        });
+
+        closeButton.setOnMouseExited(event -> {
+            ScaleEffect.scaleTo(closeButton, 0.1, 1.0, 1.0);
+        });
+
+        controlBar.getChildren().add(closeButton);
     }
 
     private void loadBookContainer(Book book) {
@@ -130,29 +147,28 @@ public class CanvasController {
         client.sendMessage("get_all_comment", object);
     }
 
-    private void loadCloseButton() {
-        Image newImage = FileHelper.getImage("close.png");
-        closeButton = new WrappedImageView();
-        closeButton.setImage(newImage);
-        closeButton.setOpacity(0.8);
-        
-        closeButton.setOnMouseClicked(event -> {
-            listener.closeCanvas();
-        });
-
-        closeButton.setOnMouseEntered(event -> {
-            ScaleEffect.scaleTo(closeButton, 0.1, 1.2, 1.2);
-        });
-
-        closeButton.setOnMouseExited(event -> {
-            ScaleEffect.scaleTo(closeButton, 0.1, 1.0, 1.0);
-        });
-
-        controlBar.getChildren().add(closeButton);
-    }
-
     private void loadCommentField() {
         CommentField commentfield = new CommentField();
         commentFieldContainer.getChildren().add(commentfield);
+    }
+
+    private void loadContent() {
+        client.onMessage("book_detail_response", (Emitter.Listener) args -> {
+            JSONObject response = (JSONObject) args[0];
+            String status = response.getString("status");
+
+            if (status.equals("success")) {
+                Book book = utils.SocketUtils.parseBook(response);
+                Platform.runLater(() -> {
+                    description.setText(book.getDescription());
+                    loadBookContainer(book);
+                });
+            }
+        });
+
+        JSONObject data = new JSONObject();
+        data.put("book_id", AppState.getInstance().getCurrentViewBookID());
+        data.put("user_id", AppState.getInstance().getUser().getID());
+        client.sendMessage("get_book_detail", data);
     }
 }
