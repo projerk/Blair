@@ -17,7 +17,7 @@ public class SocketUtils {
 
     /**
      * Create an arraylist of Book.
-     * 
+     *
      * @param object the json object get from server
      * @return arraylist contain information for display.
      */
@@ -45,7 +45,7 @@ public class SocketUtils {
 
     /**
      * Parses a JSON object to create a Book object.
-     * 
+     *
      * @param object the JSON object containing detailed book information
      * @return a Book object populated with data from the JSON object
      */
@@ -73,7 +73,7 @@ public class SocketUtils {
 
     /**
      * Parses a JSON object to create a GuestComment object.
-     * 
+     *
      * @param object the JSON object containing guest comment information
      * @return a GuestComment object populated with data from the JSON object
      */
@@ -96,8 +96,8 @@ public class SocketUtils {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
 
-                String day = obj.getString("day"); 
-                int bookFinish = obj.getInt("bookfinish"); 
+                String day = obj.getString("day");
+                int bookFinish = obj.getInt("bookfinish");
 
                 result.add(new Pair<String, Integer>(day, bookFinish));
             }
@@ -168,3 +168,4 @@ public class SocketUtils {
         return res;
     }
 }
+
