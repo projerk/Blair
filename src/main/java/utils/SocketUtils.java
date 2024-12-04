@@ -91,4 +91,26 @@ public class SocketUtils {
 
         return result;
     }
+
+    public static List<Book> parseBookTableCell(JSONArray books) {
+        List<Book> res = new ArrayList<>();
+
+        for (int i = 0; i < books.length(); i++) {
+            JSONObject object = books.getJSONObject(i);
+            Book book = new Book();
+            book.setId(object.getInt("id"));
+            book.setCover(object.getString("cover"));
+            book.setAuthor(object.getString("author"));
+            book.setTitle(object.getString("title"));
+            book.setGenre(object.getString("genre"));
+            book.setPublishingYear(object.getString("year"));
+            book.setIsbn(object.getString("isbn"));
+            book.setPublisher(object.getString("publisher"));
+
+
+            res.add(book);
+        }
+
+        return res;
+    }
 }
