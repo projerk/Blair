@@ -3,7 +3,13 @@ package api;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+import model.Book;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import javafx.concurrent.Task;
@@ -11,6 +17,8 @@ import javafx.concurrent.Task;
 public class GoogleBooksAPI {
 
     private static final String API_URL = "https://www.googleapis.com/books/v1/volumes";
+    private static final String KEY = "&key=AIzaSyBhMm6LPXdhV-GHY4zzBmd9ZbCCoxQRbsc";
+
 
     /**
      * Tìm kiếm sách qua ISBN và trả về thông tin sách.
@@ -19,26 +27,23 @@ public class GoogleBooksAPI {
      * @return Thông tin sách dưới dạng chuỗi JSON.
      * @throws Exception Nếu có lỗi khi gọi API.
      */
-    public static String searchBookByISBN(String isbn) throws Exception {
-        String query = API_URL + "?q=isbn:" + isbn;
-        HttpURLConnection connection = (HttpURLConnection) new URL(query).openConnection();
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Accept", "application/json");
+    public static Book searchBookByISBN(String isbn) throws Exception {
+        String query = API_URL + "?q=isbn:" + isbn + KEY;
 
-        int responseCode = connection.getResponseCode();
-        if (responseCode != HttpURLConnection.HTTP_OK) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(query))
+                .header("Accept", "application/json")
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        int responseCode = response.statusCode();
+        if (responseCode != 200) {
             throw new Exception("HTTP Error: " + responseCode);
         }
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        StringBuilder response = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            response.append(line);
-        }
-        reader.close();
-
-        return parseBookInfo(response.toString());
+        return parseBookInfo(response.body());
     }
 
     /**
@@ -47,39 +52,55 @@ public class GoogleBooksAPI {
      * @param jsonResponse Chuỗi JSON từ Google Books API.
      * @return Thông tin sách ở định dạng chuỗi JSON.
      */
-    private static String parseBookInfo(String jsonResponse) {
+    private static Book parseBookInfo(String jsonResponse) {
         JSONObject jsonObject = new JSONObject(jsonResponse);
         if (!jsonObject.has("items")) {
-            return "Không tìm thấy sách với ISBN này.";
+            System.out.println("Không tìm thấy sách với ISBN này.");
+            return null; // Nếu không tìm thấy sách, trả về null.
         }
 
         JSONObject volumeInfo = jsonObject.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo");
 
         String title = volumeInfo.optString("title", "No Title");
         JSONArray authorsArray = volumeInfo.optJSONArray("authors");
-        String authors = authorsArray != null ? String.join(", ", authorsArray.toList().toArray(new String[0])) : "No Authors";
+        String authors = authorsArray != null ? convertJSONArrayToString(authorsArray) : "No Authors";
         String publishedDate = volumeInfo.optString("publishedDate", "No Date");
         String publisher = volumeInfo.optString("publisher", "No Publisher");
         int pageCount = volumeInfo.optInt("pageCount", 0);
         JSONArray categoriesArray = volumeInfo.optJSONArray("categories");
-        String categories = categoriesArray != null ? String.join(", ", categoriesArray.toList().toArray(new String[0])) : "No Categories";
+        String categories = categoriesArray != null ? convertJSONArrayToString(categoriesArray) : "No Categories";
         String description = volumeInfo.optString("description", "No Description");
         JSONObject imageLinks = volumeInfo.optJSONObject("imageLinks");
         String thumbnail = imageLinks != null ? imageLinks.optString("thumbnail", "No Thumbnail") : "No Thumbnail";
 
-        // Kết hợp thông tin sách
-        return String.format("""
-                {
-                    "title": "%s",
-                    "authors": "%s",
-                    "publishedDate": "%s",
-                    "publisher": "%s",
-                    "pageCount": %d,
-                    "categories": "%s",
-                    "description": "%s",
-                    "thumbnail": "%s"
-                }
-                """, title, authors, publishedDate, publisher, pageCount, categories, description, thumbnail);
+        Book book = new Book();
+        book.setTitle(title);
+        book.setAuthor(authors);
+        book.setGenre(categories);
+        book.setDescription(description);
+        book.setCover(thumbnail);
+        book.setPublishingYear(publishedDate); // Thay vì "2000"
+        book.setPublisher(publisher);
+
+        // Tạo đối tượng Book và trả về
+        return book;
+    }
+
+    /**
+     * Chuyển đổi JSONArray thành String.
+     *
+     * @param jsonArray Mảng JSON.
+     * @return Chuỗi kết hợp các phần tử trong mảng.
+     */
+    private static String convertJSONArrayToString(JSONArray jsonArray) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            stringBuilder.append(jsonArray.getString(i));
+            if (i < jsonArray.length() - 1) {
+                stringBuilder.append(", ");
+            }
+        }
+        return stringBuilder.toString();
     }
 
     /**
@@ -88,10 +109,10 @@ public class GoogleBooksAPI {
      * @param isbn ISBN của sách.
      * @return Task thực hiện tìm kiếm.
      */
-    public static Task<String> createBookSearchTask(String isbn) {
+    public static Task<Book> createBookSearchTask(String isbn) {
         return new Task<>() {
             @Override
-            protected String call() throws Exception {
+            protected Book call() throws Exception {
                 return searchBookByISBN(isbn);
             }
         };
@@ -103,9 +124,9 @@ public class GoogleBooksAPI {
      * @param args hello.
      */
     public static void main(String[] args) {
-        String isbn = "9780134685991"; 
+        String isbn = "9780134685991";
 
-        Task<String> bookSearchTask = createBookSearchTask(isbn);
+        Task<Book> bookSearchTask = createBookSearchTask(isbn);
 
         bookSearchTask.setOnSucceeded(event -> {
             System.out.println("\nThông tin sách:");
