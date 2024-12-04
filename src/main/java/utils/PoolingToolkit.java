@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/*
+ * 
+ */
 public class PoolingToolkit {
     private static AppState appState = AppState.getInstance();
 
