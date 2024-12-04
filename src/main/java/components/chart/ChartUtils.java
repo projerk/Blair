@@ -14,7 +14,7 @@ public class ChartUtils {
 
     /**
      * Creates a BarChart with the given parameters.
-     *
+     *  String is type of X axis, Number is type of Y axis
      * @param title       Title of the chart
      * @param xAxisLabel  Label for the X axis
      * @param yAxisLabel  Label for the Y axis

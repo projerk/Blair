@@ -18,6 +18,10 @@ public class Avatar extends VBox {
         initializeAvatar();
     }
 
+    /**
+     * 
+     * @param avatar url of image
+     */
     public Avatar(String avatar) {
         this.imageView = new ImageView(PoolingToolkit.getImage(avatar));
         initializeAvatar();
@@ -31,6 +35,13 @@ public class Avatar extends VBox {
     private void initializeAvatar(double width, double height) {
         container = new VBox();
         Image image = imageView.getImage();
+        /**
+        * Nếu chiều rộng của ảnh lớn hơn hoặc bằng chiều cao:
+        * - Điều này có nghĩa ảnh có dạng ngang hoặc vuông.
+        * - Đặt chiều rộng của `imageView` bằng giá trị `width` đã chỉ định.
+        * - Chiều cao của ảnh sẽ được tự động điều chỉnh theo tỷ lệ để không bị méo
+        *   vì thuộc tính `imageView.setPreserveRatio(true)` đã được bật.
+        */
         if (image.widthProperty().doubleValue() >= image.heightProperty().doubleValue()) {
 
             imageView.setFitWidth(width);
@@ -38,7 +49,7 @@ public class Avatar extends VBox {
         else {
             imageView.setFitHeight(height);
         }
-
+            
         imageView.setPreserveRatio(true); 
 
         clipCircle = new Circle();
@@ -52,6 +63,7 @@ public class Avatar extends VBox {
 
         getChildren().add(container);
 
+        // Ràng buộc bán kính hình tròn với kích thước container
         clipCircle.radiusProperty().bind(container.widthProperty().divide(2).subtract(10));
 
         clipCircle.centerXProperty().bind(container.widthProperty().divide(2));
@@ -59,6 +71,9 @@ public class Avatar extends VBox {
         clipCircle.centerYProperty().bind(container.heightProperty().divide(2));
     }
 
+    /**
+     * cũng như trên những w,h mặc định là 75
+     */
     private void initializeAvatar() {
         container = new VBox();
 

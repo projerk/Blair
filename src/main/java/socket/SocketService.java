@@ -32,7 +32,7 @@ public class SocketService {
 
     /**
      * Private constructor to initialize the socket connection with the specified server URL and options.
-     *
+     *  
      * @param serverUrl The URL of the server to connect to.
      * @throws URISyntaxException If the server URL is invalid.
      */

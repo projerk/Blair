@@ -74,7 +74,11 @@ public class SocketUtils {
 
         return guestComment;
     }
-
+    /**
+     * 
+     * @param arr
+     * @return số lượng sách/ngày 
+     */
     public static List<Pair<String, Integer>> parseRecentBookFinish(JSONArray arr) {
         List<Pair<String, Integer>> result = new ArrayList<>();
 
