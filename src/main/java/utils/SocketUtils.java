@@ -41,6 +41,12 @@ public class SocketUtils {
         return list;
     }
 
+    /**
+     * Parses a JSON object to create a Book object.
+     * 
+     * @param object the JSON object containing detailed book information
+     * @return a Book object populated with data from the JSON object
+     */
     public static Book parseBook(JSONObject object) {
         Book book = new Book();
         book.setId(object.getInt("id"));
@@ -63,6 +69,12 @@ public class SocketUtils {
         return book;
     }
 
+    /**
+     * Parses a JSON object to create a GuestComment object.
+     * 
+     * @param object the JSON object containing guest comment information
+     * @return a GuestComment object populated with data from the JSON object
+     */
     public static GuestComment parseComment(JSONObject object) {
         int book_id = object.getInt("book_id");
         int user_id = object.getInt("user_id");

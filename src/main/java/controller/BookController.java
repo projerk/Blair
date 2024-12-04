@@ -18,11 +18,6 @@ import java.util.Locale;
 
 public class BookController implements Listener {
     
-    // @FXML
-    // private Button prevButton;
-
-    // @FXML
-    // private Button nextButton;
 
     @FXML
     private Label monthYearLabel;
@@ -32,6 +27,11 @@ public class BookController implements Listener {
 
     private YearMonth currentYearMonth;
 
+    /**
+     * Initializes the controller after its root element has been processed.
+     * Sets up the calendar grid and refreshes the display to show the current month.
+     * @author: MothMalone(nam)
+     */
     @FXML
     public void initialize() {
         // Initialize current month and year
@@ -41,6 +41,11 @@ public class BookController implements Listener {
         refreshCalendar();
     }
 
+    /**
+     * Sets up constraints for the calendar grid pane.
+     * Configures the columns and rows of the grid to ensure they are evenly distributed.
+     * @author: MothMalone(nam)
+     */
     private void setupGridPane() {
         for (int i = 0; i < 7; i++) { 
             ColumnConstraints colConstraints = new ColumnConstraints();
@@ -58,6 +63,11 @@ public class BookController implements Listener {
         }
     }
 
+    /**
+     * Refreshes the calendar display to show the current month and its days.
+     * Updates the month and year label, clears any existing days, and adds labels for the days of the week.
+     * @author: MothMalone(nam)
+     */
     private void refreshCalendar() {
         // Update month and year label
         monthYearLabel.setText(currentYearMonth.getMonth()

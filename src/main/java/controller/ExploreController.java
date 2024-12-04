@@ -72,6 +72,10 @@ public class ExploreController implements Listener {
 
     private SocketService client = SocketService.getInstance();
 
+    /**
+     * Initializes the controller after its root element has been processed.
+     * This method sets up initial attributes and preloads necessary data.
+     */
     @FXML
     private void initialize() {
         initAttribute();
@@ -82,10 +86,10 @@ public class ExploreController implements Listener {
         user = AppState.getInstance().getUser();
     }
 
-    private void searchHandle() {
-        
-    }
-
+    
+    /**
+     * Preloads various UI elements and data for the explore view.
+     */
     private void preload() {
         searchIconPreload();
         jumbotronPreload();
@@ -95,6 +99,10 @@ public class ExploreController implements Listener {
         loadExploreBook();
     }
 
+    /**
+     * Preloads the search icon into the search logo area.
+     * @author: MothMalone(nam)
+     */
     private void searchIconPreload() {
         Image image = FileHelper.getImage("search.png");
         WrappedImageView imageView = new WrappedImageView();
@@ -102,7 +110,10 @@ public class ExploreController implements Listener {
         imageView.setStyle("-fx-opacity: 60%");
         searchLogo.getChildren().add(imageView);
     }
-
+    /**
+     * Preloads greeting messages into the jumbotron.
+     * @author: MothMalone(nam)
+     */
     private void jumbotronPreload() {
         Label greeting = new Label();
         greeting.setText("Happy Reading " + user.getFirstName());
@@ -119,6 +130,10 @@ public class ExploreController implements Listener {
         FadeEffect.fadeIn(introduction, 3);
     }
 
+    /**
+     * Loads the featured book from the server and updates the display.
+     * @author: MothMalone(nam)
+     */
     private void loadFeatureBook() {
 
         Book book = new Book();
@@ -143,6 +158,13 @@ public class ExploreController implements Listener {
         client.sendMessage("get_feature_book", null);
     }
 
+
+    /**
+     * Preloads the display of a book in the UI.
+     * 
+     * @param book The book to display.
+     * @author: MothMalone(nam)
+     */
     private void bookDisplayPreload(Book book) {
         bookDisplay.setSpacing(20);
         ImageView imageView = new ImageView();
@@ -165,6 +187,13 @@ public class ExploreController implements Listener {
         loadBookContent(book);
     }
 
+
+    /**
+     * Loads the content for a specific book and adds it to the display.
+     * 
+     * @param book The book whose content is to be loaded.
+     * @author: MothMalone(nam) + duon9(duong)
+     */
     private void loadBookContent(Book book) {
         VBox content = new VBox();
         content.setAlignment(Pos.TOP_LEFT);
@@ -182,6 +211,11 @@ public class ExploreController implements Listener {
         bookDisplay.getChildren().add(content);
     }
 
+
+    /**
+     * Loads popular books from the server and updates the display.
+     * @author: MothMalone(nam)
+     */
     private void loadPopularBook() {
         client.onMessage("popular_book_response", (Emitter.Listener) args -> {
             JSONObject response = (JSONObject) args[0];
@@ -209,6 +243,11 @@ public class ExploreController implements Listener {
 
     }
 
+
+    /**
+     * Loads newly arrived books from the server and updates the display.
+     * @author: MothMalone(nam)
+     */
     private void loadNewArrivalBook() {
 
         client.onMessage("new_arrival_book_response", (Emitter.Listener) args -> {
@@ -234,6 +273,12 @@ public class ExploreController implements Listener {
         client.sendMessage("get_new_arrival_book", null);
     }
 
+    /**
+     * Opens the detailed canvas view for a specified book.
+     * 
+     * @param id The ID of the book to display.
+     * @author: MothMalone(nam)
+     */
     @Override
     public void openCanvas(int id) {
         try {
@@ -241,15 +286,16 @@ public class ExploreController implements Listener {
             FXMLLoader loader = FileHelper.getLoader(Constants.CANVAS_VIEW_FILE);
             detailBook = loader.load();
             container.getChildren().add(detailBook);
-            // AppState.getInstance().setCurrentViewBookID(id);
-            // detailBook.setTranslateY(Projerk.getInstance().getScreenHeight());
-            // TranslateEffect.translateTo(detailBook, 0.5, 0, 0);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Closes the current canvas view.
+     * @author: MothMalone(nam)
+     */
     @Override
     public void closeCanvas() {
         container.getChildren().remove(container.getChildren().size() - 1);
