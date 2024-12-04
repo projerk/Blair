@@ -19,8 +19,8 @@ public class SocketUtils {
 
     /**
      * Create an arraylist of Book.
-     * 
-     * @param books the json object get from server
+     *
+     * @param object the json object get from server
      * @return arraylist contain information for display.
      */
     public static ArrayList<Book> createDisplayBook(JSONArray books) {
@@ -123,6 +123,24 @@ public class SocketUtils {
             book.setIsbn(object.getString("isbn"));
             book.setPublisher(object.getString("publisher"));
 
+
+            res.add(book);
+        }
+
+        return res;
+    }
+
+    public static List<Book> parseSearch(JSONArray books) {
+        ArrayList<Book> res = new ArrayList<>();
+
+        for (int i = 0; i < books.length(); i++) {
+            JSONObject object = books.getJSONObject(i);
+            Book book = new Book();
+            book.setId(object.getInt("id"));
+            book.setCover(object.getString("cover"));
+            book.setAuthor(object.getString("author"));
+            book.setTitle(object.getString("title"));
+            book.setGenre(object.getString("genre"));
 
             res.add(book);
         }
