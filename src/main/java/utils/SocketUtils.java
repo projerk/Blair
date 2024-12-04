@@ -17,8 +17,8 @@ public class SocketUtils {
 
     /**
      * Create an arraylist of Book.
-     * 
-     * @param books the json object get from server
+     *
+     * @param object the json object get from server
      * @return arraylist contain information for display.
      */
     public static ArrayList<Book> createDisplayBook(JSONArray books) {
@@ -45,7 +45,7 @@ public class SocketUtils {
 
     /**
      * Parses a JSON object to create a Book object.
-     * 
+     *
      * @param object the JSON object containing detailed book information
      * @return a Book object populated with data from the JSON object
      */
@@ -73,7 +73,7 @@ public class SocketUtils {
 
     /**
      * Parses a JSON object to create a GuestComment object.
-     * 
+     *
      * @param object the JSON object containing guest comment information
      * @return a GuestComment object populated with data from the JSON object
      */
@@ -96,8 +96,8 @@ public class SocketUtils {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
 
-                String day = obj.getString("day"); 
-                int bookFinish = obj.getInt("bookfinish"); 
+                String day = obj.getString("day");
+                int bookFinish = obj.getInt("bookfinish");
 
                 result.add(new Pair<String, Integer>(day, bookFinish));
             }
@@ -121,6 +121,24 @@ public class SocketUtils {
             book.setIsbn(object.getString("isbn"));
             book.setPublisher(object.getString("publisher"));
 
+
+            res.add(book);
+        }
+
+        return res;
+    }
+
+    public static List<Book> parseSearch(JSONArray books) {
+        ArrayList<Book> res = new ArrayList<>();
+
+        for (int i = 0; i < books.length(); i++) {
+            JSONObject object = books.getJSONObject(i);
+            Book book = new Book();
+            book.setId(object.getInt("id"));
+            book.setCover(object.getString("cover"));
+            book.setAuthor(object.getString("author"));
+            book.setTitle(object.getString("title"));
+            book.setGenre(object.getString("genre"));
 
             res.add(book);
         }
