@@ -32,6 +32,8 @@ import utils.SocketUtils;
 import io.socket.emitter.Emitter;
 import socket.SocketService;
 import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import io.socket.emitter.Emitter;
@@ -90,16 +92,60 @@ public class ExploreController implements Listener {
     }
 
     
+    private void searchHandle() {
+        client.onMessage("search_results", (Emitter.Listener) args -> {
+            JSONObject response = (JSONObject) args[0];
+            String message = response.getString("status");
+            if (message.equals("success")) {
+                JSONArray books = response.getJSONArray("results");
+
+                List<Book> res = SocketUtils.parseSearch(books);
+                
+                // for (Book book : res) {
+                //     System.out.println(book.getTitle());
+                // }
+
+                Platform.runLater(() -> {
+                    searchResult.setMaxHeight(res.size() * 90);
+                    searchResult.display(res);
+                });
+            }
+            else {
+                Platform.runLater(() -> {
+                    searchResult.discard();
+                    searchResult.setMaxHeight(0);
+                });
+            }
+        });
+
+        search.textProperty().addListener((observable, oldText, newText) -> {
+            if (!newText.equals(oldText) && !newText.equals("")) {
+                JSONObject object = new JSONObject();
+                object.put("query", newText);
+                client.sendMessage("search", object);
+            }
+            else if (newText.equals("")) {
+                searchResult.discard();
+                searchResult.setMaxHeight(0);
+            }
+        });
+    }
     /**
      * Preloads various UI elements and data for the explore view.
      */
     private void preload() {
+        container.setAlignment(Pos.TOP_CENTER);
         searchIconPreload();
+        searchResultPreload();
         jumbotronPreload();
         loadFeatureBook();
         loadPopularBook();
-        loadNewArrivalBook();
+        loadRecommendBook();
         loadExploreBook();
+        searchHandle();
+        Platform.runLater(() -> {
+            container.requestFocus();
+        });
     }
 
     /**

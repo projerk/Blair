@@ -128,6 +128,24 @@ public class SocketUtils {
         return res;
     }
 
+    public static List<Book> parseSearch(JSONArray books) {
+        ArrayList<Book> res = new ArrayList<>();
+
+        for (int i = 0; i < books.length(); i++) {
+            JSONObject object = books.getJSONObject(i);
+            Book book = new Book();
+            book.setId(object.getInt("id"));
+            book.setCover(object.getString("cover"));
+            book.setAuthor(object.getString("author"));
+            book.setTitle(object.getString("title"));
+            book.setGenre(object.getString("genre"));
+
+            res.add(book);
+        }
+
+        return res;
+    }
+
     public static List<Borrow> parseBorrowTableCell(JSONArray borrows) {
         List<Borrow> res = new ArrayList<>();
 
