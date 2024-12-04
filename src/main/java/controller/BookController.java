@@ -1,5 +1,8 @@
 package controller;
+import components.container.BookFrame;
 import components.interfaces.Listener;
+import io.socket.emitter.Emitter;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -8,24 +11,50 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import model.Book;
+import socket.SocketService;
+import utils.SocketUtils;
+import utils.Constants;
+import utils.FileHelper;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.Locale;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import app.AppState;
+
 public class BookController implements Listener {
-    
+
+    SocketService client = SocketService.getInstance();
+
+
+   @FXML
+    private Label monthYearLabel;
 
     @FXML
-    private Label monthYearLabel;
+    private StackPane container;
 
     @FXML
     private GridPane calendarGrid;
 
     private YearMonth currentYearMonth;
+
+    private VBox detailBook;
+
+    @FXML
+    private VBox bookmark;
+
+    @FXML
+    private VBox borrow;
 
     /**
      * Initializes the controller after its root element has been processed.
@@ -111,6 +140,55 @@ public class BookController implements Listener {
         }
     }
 
+    public void loadBorrowBook() {
+        client.onMessage("borrow_book_list_response", (Emitter.Listener) args -> {
+            JSONObject response = (JSONObject) args[0];
+            String status = response.getString("status");
+
+            if (status.equals("success")) {
+                JSONArray books = response.getJSONArray("books");
+                ArrayList<Book> bookList = SocketUtils.createDisplayBook(books);
+                BookFrame bookFrame = new BookFrame(bookList);
+                bookFrame.setAllRowsVgrow(Priority.NEVER);
+                bookFrame.setAllColumnsHgrow(Priority.NEVER);
+                Platform.runLater(() -> {
+                    borrow.getChildren().add(bookFrame);
+                });
+            }
+            else {
+                System.out.println("Error");
+            }
+        });
+
+        JSONObject object = new JSONObject();
+        object.put("user_id", AppState.getInstance().getUser().getID());
+        client.sendMessage("get_borrow_book_list", object);
+    }
+
+    public void loadBookmarkBook() {
+        client.onMessage("bookmark_list_response", (Emitter.Listener) args -> {
+            JSONObject response = (JSONObject) args[0];
+            String status = response.getString("status");
+
+            if (status.equals("success")) {
+                JSONArray books = response.getJSONArray("books");
+                ArrayList<Book> bookList = SocketUtils.createDisplayBook(books);
+                BookFrame bookFrame = new BookFrame(bookList);
+                bookFrame.setAllRowsVgrow(Priority.NEVER);
+                bookFrame.setAllColumnsHgrow(Priority.NEVER);
+                Platform.runLater(() -> {
+                    bookmark.getChildren().add(bookFrame);
+                });
+            }
+            else {
+                System.out.println("Error");
+            }
+        });
+
+        JSONObject object = new JSONObject();
+        object.put("user_id", AppState.getInstance().getUser().getID());
+        client.sendMessage("get_bookmark_list", object);
+    }
 
     public void openCanvas(int id) {
 
