@@ -104,7 +104,7 @@ To start using the application:
 ## V. Technologies Used
 
 - **Frontend**: JavaFX
-- **Backend**: Flask, SkyGitlearn
+- **Backend**: Flask
 - **Design Patterns**: Observer, Singleton
 
 
