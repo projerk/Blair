@@ -3,6 +3,10 @@ Better than VNU-LIC (or equal to)
 
 # Library Management App
 
+## Inheritance Tree
+
+![Inheritance Tree](src/main/resources/view/images/inheritancetree.png)
+
 ## I. Description
 Transform the way you use your library with our Library Management App. Designed to make it easy for bibiophiles to effortlessly manage book inventories, track borrowed books, and discover new reads. Whether you're a small community library or a larger institution, our app offers a user-friendly interface and robust features to simplify your e-library experience.
 
