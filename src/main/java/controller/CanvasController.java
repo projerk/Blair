@@ -29,6 +29,9 @@ import app.AppState;
 import socket.SocketService;
 
 public class CanvasController {
+    /**
+     * Listener for application state changes.
+     */
     private Listener listener = AppState.getInstance().getListener();
 
     @FXML
@@ -61,17 +64,34 @@ public class CanvasController {
     @FXML
     private Label description;
 
+    /**
+     * Socket service instance for communication.
+     */
     private SocketService client = SocketService.getInstance();
 
+    /**
+     * Close button for the canvas view.
+     */
     private WrappedImageView closeButton;
 
+    /**
+     * Initializes the canvas controller by loading various components.
+     * Invoked automatically by JavaFX after FXML loading.
+     */
     @FXML
     public void initialize() {
         loadContent();
-        // loadBookContainer();
         loadCommentBox();
         closeButtonPreload();
         loadCommentField();
+        setCommentContainerConstraint();
+    }
+
+    /**
+     * Sets constraints for the comment container to manage width and scrolling.
+     * Disables horizontal scrollbar and adjusts comment box width dynamically.
+     */
+    public void setCommentContainerConstraint() {
         scrollpane.setHbarPolicy(ScrollBarPolicy.NEVER);
         commentBox.setSpacing(7);
         commentContainer.widthProperty().addListener((observable, oldWidth, newWidth) -> {
@@ -81,14 +101,13 @@ public class CanvasController {
                 commentBox.setMinWidth(newWidth.doubleValue() - 10);
             }
         });
-        // commentBox.widthProperty().bind(commentContainer.widthProperty());
-        // commentContainer.widthProperty().addListener((observable, oldWidth, newWidth) -> {
-        //     commentBox.setPrefWidth(newWidth.doubleValue() - 100);
-        // });
     }
 
+    /**
+     * Preloads and configures the close button for the canvas.
+     * Sets up image, opacity, click, and hover effects.
+     */
     public void closeButtonPreload() {
-
         Image image = FileHelper.getImage("close.png");
         closeButton = new WrappedImageView();
         closeButton.setImage(image);
@@ -109,6 +128,11 @@ public class CanvasController {
         controlBar.getChildren().add(closeButton);
     }
 
+    /**
+     * Loads book container with book cover and information.
+     *
+     * @param book The book to be displayed in the container
+     */
     private void loadBookContainer(Book book) {
         WrappedImageView imageView = new WrappedImageView(PoolingToolkit.getImage(book.getCover()));
 
@@ -118,6 +142,10 @@ public class CanvasController {
         bookCover.getChildren().add(imageView);
     }
 
+    /**
+     * Loads comments for the current book.
+     * Sets up a socket listener to receive and display comments.
+     */
     private void loadCommentBox() {
         client.onMessage("get_comment_response", (Emitter.Listener) args -> {
             JSONObject response = (JSONObject) args[0];
@@ -147,11 +175,18 @@ public class CanvasController {
         client.sendMessage("get_all_comment", object);
     }
 
+    /**
+     * Loads the comment input field into the comment field container.
+     */
     private void loadCommentField() {
         CommentField commentfield = new CommentField();
         commentFieldContainer.getChildren().add(commentfield);
     }
 
+    /**
+     * Loads content for the current book.
+     * Retrieves book details via socket and updates UI on the JavaFX thread.
+     */
     private void loadContent() {
         client.onMessage("book_detail_response", (Emitter.Listener) args -> {
             JSONObject response = (JSONObject) args[0];

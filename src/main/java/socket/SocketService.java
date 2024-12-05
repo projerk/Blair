@@ -8,49 +8,33 @@ import org.json.JSONObject;
 import java.net.URISyntaxException;
 
 /**
- * The SocketService class provides a singleton wrapper for managing socket connections
- * using the Socket.IO library. It supports connecting to a server, sending messages,
- * and handling events through listeners.
- *
- * <p>This class ensures only one instance of the socket connection is used throughout the application.</p>
- * 
- * <p>Key features include:
- * <ul>
- *   <li>Customizable connection options such as transport, timeout, and reconnection.</li>
- *   <li>Methods for sending messages and registering event listeners.</li>
- *   <li>Singleton pattern to maintain a single connection instance.</li>
- * </ul>
- * </p>
- * 
- * @author [Your Name]
- * @version 1.0
- * @since 2024-11-30
+ * Manages socket communication with a server using socket.io.
+ * Provides singleton access to socket connection and messaging.
  */
 public class SocketService {
     private static SocketService instance;
     private Socket socket;
 
     /**
-     * Private constructor to initialize the socket connection with the specified server URL and options.
+     * Constructs a SocketService with specified server URL and connection options.
      *
-     * @param serverUrl The URL of the server to connect to.
-     * @throws URISyntaxException If the server URL is invalid.
+     * @param serverUrl URL of the socket server
+     * @throws URISyntaxException if the server URL is invalid
      */
     private SocketService(String serverUrl) throws URISyntaxException {
         IO.Options options = new IO.Options();
-        options.transports = new String[]{"websocket"}; // Use WebSocket transport for the connection.
-        options.timeout = 5000; // Set connection timeout in milliseconds.
-        options.reconnection = true; // Enable automatic reconnection.
-
+        options.transports = new String[]{"websocket"};
+        options.timeout = 5000;
+        options.reconnection = true;
         socket = IO.socket(serverUrl, options);
     }
 
     /**
-     * Returns the singleton instance of the SocketService, initializing it if necessary.
+     * Retrieves or creates the singleton SocketService instance.
      *
-     * @param serverUrl The URL of the server to connect to (used for the first initialization only).
-     * @return The singleton instance of SocketService.
-     * @throws URISyntaxException If the server URL is invalid.
+     * @param serverUrl URL of the socket server
+     * @return SocketService instance
+     * @throws URISyntaxException if the server URL is invalid
      */
     public static SocketService getInstance(String serverUrl) throws URISyntaxException {
         if (instance == null) {
@@ -60,53 +44,52 @@ public class SocketService {
     }
 
     /**
-     * Returns the existing instance of the SocketService. 
-     * This method assumes the instance has already been initialized.
+     * Retrieves the existing SocketService instance.
      *
-     * @return The singleton instance of SocketService, or null if not initialized.
+     * @return SocketService instance
      */
     public static SocketService getInstance() {
         return instance;
     }
 
     /**
-     * Connects to the server using the configured socket connection.
+     * Establishes a connection to the socket server.
      */
     public void connect() {
         socket.connect();
     }
 
     /**
-     * Disconnects from the server and closes the socket connection.
+     * Terminates the socket server connection.
      */
     public void disconnect() {
         socket.disconnect();
     }
 
     /**
-     * Checks if the socket is currently connected to the server.
+     * Checks if a connection to the socket server is active.
      *
-     * @return True if the socket is connected, otherwise false.
+     * @return true if connected, false otherwise
      */
     public boolean isConnected() {
         return socket.connected();
     }
 
     /**
-     * Sends a message to the server under the specified event name.
+     * Sends a message to the socket server.
      *
-     * @param event   The name of the event to emit.
-     * @param message The message payload to send, represented as a JSONObject.
+     * @param event Event name
+     * @param message JSON message to send
      */
     public void sendMessage(String event, JSONObject message) {
         socket.emit(event, message);
     }
 
     /**
-     * Registers a listener for the specified event to handle incoming messages.
+     * Registers a listener for a specific socket event.
      *
-     * @param event    The name of the event to listen for.
-     * @param listener The callback function to handle the event.
+     * @param event Event name to listen for
+     * @param listener Callback to handle the event
      */
     public void onMessage(String event, Emitter.Listener listener) {
         socket.on(event, listener);
