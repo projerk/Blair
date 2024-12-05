@@ -128,6 +128,7 @@ public class SocketUtils {
         return res;
     }
 
+<<<<<<< HEAD
     public static List<Book> parseSearch(JSONArray books) {
         ArrayList<Book> res = new ArrayList<>();
 
@@ -146,6 +147,8 @@ public class SocketUtils {
         return res;
     }
 
+=======
+>>>>>>> d7b1511 (update)
     public static List<Borrow> parseBorrowTableCell(JSONArray borrows) {
         List<Borrow> res = new ArrayList<>();
 

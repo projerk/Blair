@@ -1,14 +1,26 @@
 package components.text;
 
+import org.json.JSONObject;
+
+import com.google.zxing.qrcode.encoder.QRCode;
+
+import app.AppState;
+import components.button.BookmarkButton;
 import components.button.BorrowButton;
 import components.button.PreviewButton;
+import components.button.QRCodeButton;
+import components.container.RatingField;
+import io.socket.emitter.Emitter;
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.Book;
+import socket.SocketService;
 
 public class BookInformation extends VBox {
     private Book book;
+    private RatingField ratingField;
 
     public BookInformation(Book book) {
         this.book = book;
@@ -29,6 +41,8 @@ public class BookInformation extends VBox {
         publisher.setStyle("-fx-font-size: 20; -fx-text-fill: black; -fx-font-family: 'Accent Graphic W00 Medium';");
         Label year = new Label("Release: " + book.getPublishingYear());
         year.setStyle("-fx-font-size: 20; -fx-text-fill: black; -fx-font-family: 'Accent Graphic W00 Medium';");
+        Label rating = new Label("Rating: " + String.format("%.3f", book.getRating()));
+        rating.setStyle("-fx-font-size: 20; -fx-text-fill: black; -fx-font-family: 'Accent Graphic W00 Medium';");
         Label available = new Label("Available: " + book.getAvailable());
         available.setStyle("-fx-font-size: 20; -fx-text-fill: black; -fx-font-family: 'Accent Graphic W00 Medium';");
 
@@ -43,6 +57,7 @@ public class BookInformation extends VBox {
         this.getChildren().add(title);
         this.getChildren().add(author);
         this.getChildren().add(genre);
+        this.getChildren().add(rating);
         this.getChildren().add(publisher);
         this.getChildren().add(year);
         this.getChildren().add(available);
@@ -50,9 +65,15 @@ public class BookInformation extends VBox {
     }
 
     public void createButton() {
-        HBox container = new HBox();
 
-        container.setSpacing(10);
+        ratingField = new RatingField(0);
+        getUserRating();
+
+        VBox container = new VBox();
+        container.setSpacing(5);
+        HBox functionButton = new HBox();
+
+        functionButton.setSpacing(10);
 
         boolean active;
         if (book.getAvailable() > 0) {
@@ -64,9 +85,36 @@ public class BookInformation extends VBox {
 
         PreviewButton previewButton = new PreviewButton(true, book.getPdf(), book.getTitle());
         BorrowButton borrowButton = new BorrowButton(active, book.isBorrow());
+        BookmarkButton bookmarkButton = new BookmarkButton(book.isBookmark());
+        QRCodeButton qr = new QRCodeButton();
+        // QRCodeButton test = new QRCodeButton();
 
-        container.getChildren().add(borrowButton);
-        container.getChildren().add(previewButton);
+        functionButton.getChildren().add(borrowButton);
+        functionButton.getChildren().add(previewButton);
+        functionButton.getChildren().add(bookmarkButton);
+        functionButton.getChildren().add(qr);
+        // functionButton.getChildren().add(test);
+
+        container.getChildren().add(ratingField);
+        container.getChildren().add(functionButton);
+
         this.getChildren().add(container);
+    }
+
+    public void getUserRating() {
+        SocketService.getInstance().onMessage("user_rating_response", (Emitter.Listener) args -> {
+            JSONObject response = (JSONObject) args[0];
+            String status = response.getString("status");
+            if (status.equals("success")) {
+                Platform.runLater(() -> {
+                    ratingField.setRating(response.getInt("rating"));
+                });
+            }
+        });
+
+        JSONObject object = new JSONObject();
+        object.put("user_id", AppState.getInstance().getUser().getID());
+        object.put("book_id", AppState.getInstance().getCurrentViewBookID());
+        SocketService.getInstance().sendMessage("get_user_rating", object);
     }
 }
