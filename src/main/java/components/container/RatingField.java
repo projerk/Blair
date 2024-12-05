@@ -78,4 +78,10 @@ public class RatingField extends HBox implements Receiver {
             }
         });
     }
+<<<<<<< HEAD
 }
+=======
+
+
+}
+>>>>>>> 3bdee67 (update rate, star, pdfengine)

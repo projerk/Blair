@@ -16,6 +16,4 @@ public class ImageUtils {
         imageView.setImage(image);
         return imageView;
     }
-
-
 }

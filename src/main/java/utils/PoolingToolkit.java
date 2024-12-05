@@ -5,6 +5,11 @@ import javafx.scene.image.Image;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * A utility class for managing an image cache in the application.
+ * This class provides a method to retrieve images from a cache,
+ * ensuring that images are loaded only once and reused thereafter.
+ */
 public class PoolingToolkit {
     private static AppState appState = AppState.getInstance();
 
