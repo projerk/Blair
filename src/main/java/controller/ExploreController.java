@@ -27,10 +27,13 @@ import model.User;
 import app.AppState;
 import app.Projerk;
 import components.container.BookFrame;
+import components.container.SearchResult;
 import utils.SocketUtils;
 import io.socket.emitter.Emitter;
 import socket.SocketService;
 import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import io.socket.emitter.Emitter;
@@ -70,6 +73,8 @@ public class ExploreController implements Listener {
 
     private VBox detailBook;
 
+    private SearchResult searchResult;
+
     private SocketService client = SocketService.getInstance();
 
     /**
@@ -87,16 +92,60 @@ public class ExploreController implements Listener {
     }
 
     
+    private void searchHandle() {
+        client.onMessage("search_results", (Emitter.Listener) args -> {
+            JSONObject response = (JSONObject) args[0];
+            String message = response.getString("status");
+            if (message.equals("success")) {
+                JSONArray books = response.getJSONArray("results");
+
+                List<Book> res = SocketUtils.parseSearch(books);
+                
+                // for (Book book : res) {
+                //     System.out.println(book.getTitle());
+                // }
+
+                Platform.runLater(() -> {
+                    searchResult.setMaxHeight(res.size() * 90);
+                    searchResult.display(res);
+                });
+            }
+            else {
+                Platform.runLater(() -> {
+                    searchResult.discard();
+                    searchResult.setMaxHeight(0);
+                });
+            }
+        });
+
+        search.textProperty().addListener((observable, oldText, newText) -> {
+            if (!newText.equals(oldText) && !newText.equals("")) {
+                JSONObject object = new JSONObject();
+                object.put("query", newText);
+                client.sendMessage("search", object);
+            }
+            else if (newText.equals("")) {
+                searchResult.discard();
+                searchResult.setMaxHeight(0);
+            }
+        });
+    }
     /**
      * Preloads various UI elements and data for the explore view.
      */
     private void preload() {
+        container.setAlignment(Pos.TOP_CENTER);
         searchIconPreload();
+        searchResultPreload();
         jumbotronPreload();
         loadFeatureBook();
         loadPopularBook();
-        loadNewArrivalBook();
+        loadRecommendBook();
         loadExploreBook();
+        searchHandle();
+        Platform.runLater(() -> {
+            container.requestFocus();
+        });
     }
 
     /**
@@ -239,8 +288,109 @@ public class ExploreController implements Listener {
         client.sendMessage("get_popular_book", null);
     }
 
+    private void loadRecommendBook() {
+        client.onMessage("recommendation_response", (Emitter.Listener) args -> {
+            JSONObject response = (JSONObject) args[0];
+            String status = response.getString("status");
+
+            if (status.equals("success")) {
+                JSONArray books = response.getJSONArray("books");
+                ArrayList<Book> bookList = SocketUtils.createDisplayBook(books);
+                BookFrame bookFrame = new BookFrame(bookList);
+                bookFrame.setAllRowsVgrow(Priority.NEVER);
+                bookFrame.setAllColumnsHgrow(Priority.NEVER);
+                Platform.runLater(() -> {
+                    newArrivalBook.getChildren().add(bookFrame);
+                });
+            }
+            else {
+                System.out.println("Error");
+            }
+        });
+
+        JSONObject data = new JSONObject();
+        data.put("user_id", AppState.getInstance().getUser().getID());
+        client.sendMessage("get_recommend_books", data);
+    }
+
     private void loadExploreBook() {
 
+        client.onMessage("all_books_response", (Emitter.Listener) args -> {
+            JSONObject response = (JSONObject) args[0];
+            String status = response.getString("status");
+
+            if (status.equals("success")) {
+                JSONArray book_list = response.getJSONArray("book_list");
+                
+                for (int i = 0; i < book_list.length(); i++) {
+                    JSONArray books = book_list.getJSONArray(i);
+                    ArrayList<Book> book = SocketUtils.createDisplayBook(books);
+                    BookFrame bookFrame = new BookFrame(book);
+                    Platform.runLater(() -> {
+                        exploreBook.getChildren().add(bookFrame);
+                    });
+                }
+
+                // ArrayList<Book> bookList = SocketUtils.createDisplayBook(books);
+                // BookFrame bookFrame = new BookFrame(bookList);
+                // // bookFrame.setAllRowsVgrow(Priority.NEVER);
+                // // bookFrame.setAllColumnsHgrow(Priority.NEVER);
+                // Platform.runLater(() -> {
+                //     newArrivalBook.getChildren().add(bookFrame);
+                // });
+            }
+            else {
+                System.out.println("Error");
+            }
+        });
+
+        // JSONObject data = new JSONObject();
+        // data.put("user_id", AppState.getInstance().getUser().getID());
+        client.sendMessage("get_all_books", null);
+    }
+
+    private void searchResultPreload() {
+        searchResult = new SearchResult();
+        searchResult.setAlignment(Pos.CENTER);
+        HBox.setHgrow(searchResult, Priority.NEVER);
+        VBox.setVgrow(searchResult, Priority.NEVER);
+
+        HBox.setHgrow(container, Priority.NEVER);
+        VBox.setVgrow(container, Priority.NEVER);
+
+        container.getChildren().add(searchResult);
+
+        search.widthProperty().addListener((observable, oldWidth, newWidth) -> {
+            if (newWidth.doubleValue() > 0) {
+                searchResult.setPrefWidth(Projerk.getInstance().getScreenWidth() * 0.4);
+                searchResult.setMinWidth(Projerk.getInstance().getScreenWidth() * 0.35);
+                searchResult.setMaxWidth(Projerk.getInstance().getScreenWidth() * 0.35);
+                searchResult.setLayoutX(Projerk.getInstance().getScreenWidth() * 0.35);
+                searchResult.setMinHeight(0);
+                searchResult.setMaxHeight(0);
+                searchResult.setTranslateY(Projerk.getInstance().getScreenHeight() * 0.10);
+            }
+        });
+
+        search.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                // if (newValue != oldValue) {
+                //     JSONObject object = new JSONObject();
+                //     object.put("query", search.getText());
+                //     client.sendMessage("search", object);
+                // }
+            }
+            else {
+                searchResult.discard();
+                searchResult.setMaxHeight(0);
+            }
+        });
+
+        // searchResult.discard();   
+        // searchResult.setMaxHeight(0);
+        // Platform.runLater(() -> {
+        //     container.requestFocus();
+        // });
     }
 
 
