@@ -99,6 +99,14 @@ public class SocketUtils {
      * @return A list of {@link Pair} objects, each containing a String (day)
      *         and an Integer (number of books finished).
      */
+    /**
+     * Parses a JSONArray of recent book finishes and returns a list of pairs
+     * containing the finish day and the number of books finished.
+     *
+     * @param arr The JSONArray containing recent book finish data. 
+     * @return A list of {@link Pair} objects, each containing a String (day)
+     *         and an Integer (number of books finished).
+     */
     public static List<Pair<String, Integer>> parseRecentBookFinish(JSONArray arr) {
         List<Pair<String, Integer>> result = new ArrayList<>();
 
@@ -116,6 +124,13 @@ public class SocketUtils {
         return result;
     }
 
+
+    /**
+     * Parses a JSONArray of books and returns a list of Book objects.
+     *
+     * @param books The JSONArray containing book data.
+     * @return A list of {@link Book} objects populated with the parsed data.
+     */
 
     /**
      * Parses a JSONArray of books and returns a list of Book objects.
@@ -145,6 +160,38 @@ public class SocketUtils {
         return res;
     }
 
+
+    /**
+     * Parses a JSONArray of search results and returns a list of Book objects.
+     *
+     * @param books The JSONArray containing search result data.
+     * @return A list of {@link Book} objects populated with the parsed data.
+     */
+    public static List<Book> parseSearch(JSONArray books) {
+        ArrayList<Book> res = new ArrayList<>();
+
+        for (int i = 0; i < books.length(); i++) {
+            JSONObject object = books.getJSONObject(i);
+            Book book = new Book();
+            book.setId(object.getInt("id"));
+            book.setCover(object.getString("cover"));
+            book.setAuthor(object.getString("author"));
+            book.setTitle(object.getString("title"));
+            book.setGenre(object.getString("genre"));
+
+            res.add(book);
+        }
+
+        return res;
+    }
+
+
+    /**
+     * Parses a JSONArray of borrow transactions and returns a list of Borrow objects.
+     *
+     * @param borrows The JSONArray containing borrow data.
+     * @return A list of {@link Borrow} objects populated with user and book information.
+     */
     public static List<Borrow> parseBorrowTableCell(JSONArray borrows) {
         List<Borrow> res = new ArrayList<>();
 
