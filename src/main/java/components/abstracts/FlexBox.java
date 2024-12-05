@@ -8,25 +8,21 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 
 /**
- * This class used to create FlexBox which
- * is used to create responsive UI.
- * 
- * @author
- * @since
- * @version
+ * Abstract class that extends GridPane to provide additional functionality for flexible layouts.
+ * This class implements the IFlexContainer interface and adds methods for managing column and row constraints,
+ * as well as dynamically adding, removing, and retrieving nodes within the grid.
  */
 public abstract class FlexBox extends GridPane implements IFlexContainer {
-    // private GridPane container;
 
+    // Constructor to initialize the FlexBox.
     public FlexBox() {
-        // container = new GridPane();
+        // Initialize the grid if necessary.
     }
 
     /**
-     * Set the column percentage widths for the GridPane.
+     * Sets the percentage width for each column in the GridPane.
      *
-     * @param percentages An array of doubles where each value represents
-     *                    the percentage width for a column.
+     * @param percentages An array of doubles representing the percentage width for each column.
      */
     public void setColumnPercentages(double... percentages) {
         this.getColumnConstraints().clear();
@@ -38,13 +34,13 @@ public abstract class FlexBox extends GridPane implements IFlexContainer {
     }
 
     /**
-     * Create column with similar width.
-     * 
-     * @param columnCount number of column.
+     * Sets equal percentage width for all columns in the GridPane.
+     *
+     * @param columnCount The number of columns in the GridPane.
      */
     public void setBalanceColumnPercentage(int columnCount) {
         double each = (100 * 1.0) / columnCount;
-        this.getColumnConstraints().clear(); // clear old config.
+        this.getColumnConstraints().clear();
         for (int i = 0; i < columnCount; i++) {
             ColumnConstraints column = new ColumnConstraints();
             column.setPercentWidth(each);
@@ -53,9 +49,9 @@ public abstract class FlexBox extends GridPane implements IFlexContainer {
     }
 
     /**
-     * Create row with similar height.
-     * 
-     * @param rowCount
+     * Sets equal percentage height for all rows in the GridPane.
+     *
+     * @param rowCount The number of rows in the GridPane.
      */
     public void setBalanceRowPercentage(int rowCount) {
         double each = (100 * 1.0) / rowCount;
@@ -68,10 +64,9 @@ public abstract class FlexBox extends GridPane implements IFlexContainer {
     }
 
     /**
-     * Set the row percentage heights for the GridPane.
+     * Sets the percentage height for each row in the GridPane.
      *
-     * @param percentages An array of doubles where each value represents
-     *                    the percentage height for a row.
+     * @param percentages An array of doubles representing the percentage height for each row.
      */
     public void setRowPercentages(double... percentages) {
         this.getRowConstraints().clear();
@@ -82,34 +77,40 @@ public abstract class FlexBox extends GridPane implements IFlexContainer {
         }
     }
 
-    // public GridPane getContainer() {
-    //     return container;
-    // }
-
+    /**
+     * Gets the total number of rows in the GridPane based on the row constraints.
+     *
+     * @return The number of rows in the GridPane.
+     */
     public int getRowSize() {
         return this.getRowConstraints().size();
     }
 
+    /**
+     * Gets the total number of columns in the GridPane based on the column constraints.
+     *
+     * @return The number of columns in the GridPane.
+     */
     public int getColumnSize() {
         return this.getColumnConstraints().size();
     }
 
     /**
-     * Adds a Node to the specified cell in the GridPane.
+     * Adds a node to the specified cell in the GridPane.
      *
-     * @param node the Node to be added
-     * @param x    the column index
-     * @param y    the row index
+     * @param node The node to be added to the GridPane.
+     * @param columnIndex The column index where the node should be placed.
+     * @param rowIndex The row index where the node should be placed.
      */
     public void addNode(Node node, int columnIndex, int rowIndex) {
         this.add(node, columnIndex, rowIndex);
     }
 
     /**
-     * Deletes the Node at the specified cell in the GridPane.
+     * Deletes the node at the specified cell in the GridPane.
      *
-     * @param x the column index
-     * @param y the row index
+     * @param columnIndex The column index of the node to be deleted.
+     * @param rowIndex The row index of the node to be deleted.
      */
     public void deleteNode(int columnIndex, int rowIndex) {
         Node node = getNode(columnIndex, rowIndex);
@@ -119,16 +120,16 @@ public abstract class FlexBox extends GridPane implements IFlexContainer {
     }
 
     /**
-     * Retrieves the Node at the specified cell in the GridPane.
+     * Retrieves the node at the specified cell in the GridPane.
      *
-     * @param x the column index
-     * @param y the row index
-     * @return the Node at the specified cell, or null if no Node exists there
+     * @param columnIndex The column index of the cell to check.
+     * @param rowIndex The row index of the cell to check.
+     * @return The node at the specified cell, or null if no node exists.
      */
     public Node getNode(int columnIndex, int rowIndex) {
         for (Node node : this.getChildren()) {
             if (GridPane.getColumnIndex(node) != null && GridPane.getColumnIndex(node) == columnIndex &&
-                GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == rowIndex) {
+                    GridPane.getRowIndex(node) != null && GridPane.getRowIndex(node) == rowIndex) {
                 return node;
             }
         }
@@ -138,8 +139,8 @@ public abstract class FlexBox extends GridPane implements IFlexContainer {
     /**
      * Sets the horizontal growth priority for a specified column.
      *
-     * @param columnIndex the index of the column
-     * @param priority    the growth priority (e.g., Priority.ALWAYS, Priority.SOMETIMES)
+     * @param columnIndex The index of the column.
+     * @param priority The horizontal growth priority (e.g., Priority.ALWAYS, Priority.SOMETIMES).
      */
     public void setColumnHgrow(int columnIndex, Priority priority) {
         if (columnIndex >= 0 && columnIndex < this.getColumnConstraints().size()) {
@@ -150,8 +151,8 @@ public abstract class FlexBox extends GridPane implements IFlexContainer {
     /**
      * Sets the vertical growth priority for a specified row.
      *
-     * @param rowIndex the index of the row
-     * @param priority the growth priority (e.g., Priority.ALWAYS, Priority.SOMETIMES)
+     * @param rowIndex The index of the row.
+     * @param priority The vertical growth priority (e.g., Priority.ALWAYS, Priority.SOMETIMES).
      */
     public void setRowVgrow(int rowIndex, Priority priority) {
         if (rowIndex >= 0 && rowIndex < this.getRowConstraints().size()) {
@@ -162,7 +163,7 @@ public abstract class FlexBox extends GridPane implements IFlexContainer {
     /**
      * Sets the horizontal growth priority for all columns.
      *
-     * @param priority the growth priority (e.g., Priority.ALWAYS, Priority.SOMETIMES)
+     * @param priority The horizontal growth priority (e.g., Priority.ALWAYS, Priority.SOMETIMES).
      */
     public void setAllColumnsHgrow(Priority priority) {
         for (ColumnConstraints column : this.getColumnConstraints()) {
@@ -173,7 +174,7 @@ public abstract class FlexBox extends GridPane implements IFlexContainer {
     /**
      * Sets the vertical growth priority for all rows.
      *
-     * @param priority the growth priority (e.g., Priority.ALWAYS, Priority.SOMETIMES)
+     * @param priority The vertical growth priority (e.g., Priority.ALWAYS, Priority.SOMETIMES).
      */
     public void setAllRowsVgrow(Priority priority) {
         for (RowConstraints row : this.getRowConstraints()) {

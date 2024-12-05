@@ -13,30 +13,67 @@ import javafx.scene.image.ImageView;
 import socket.SocketService;
 import utils.FileHelper;
 
+/**
+ * A custom JavaFX Button representing a star rating mechanism.
+ *
+ * This button allows users to set and visualize ratings for books by
+ * toggling between an inactive (black) and active (colored) star image.
+ */
 public class StarButton extends Button implements Sender {
 
+    /** Image representing an inactive (black) star. */
     private static Image image1 = FileHelper.getImage("blackstar.png");
+
+    /** Image representing an active (colored) star. */
     private static Image image2 = FileHelper.getImage("colorstar.png");
 
+    /** ImageView for the inactive star state. */
     private ImageView imageView1;
+
+    /** ImageView for the active star state. */
     private ImageView imageView2;
 
+    /** The numeric value of the star rating. */
     private int number;
+
+    /** Flag indicating whether the star is in an active (selected) state. */
     private boolean active;
 
+    /**
+     * Retrieves the current numeric rating of the star button.
+     *
+     * @return The numeric rating value
+     */
     public int getNumber() {
         return this.number;
     }
 
+    /**
+     * Sets the numeric rating for the star button.
+     *
+     * @param number The rating value to be set
+     */
     public void setNumber(int number) {
         this.number = number;
     }
 
+    /**
+     * Checks if the star button is currently in an active state.
+     *
+     * @return {@code true} if the star is active, {@code false} otherwise
+     */
     public boolean isActive() {
         return this.active;
     }
 
-
+    /**
+     * Sets the active state of the star button and updates its visual representation.
+     *
+     * Changes the button's graphic between black and colored star images based
+     * on the active state. Sets a transparent background for the button.
+     *
+     * @param active {@code true} to activate the star, {@code false} to deactivate
+     */
     public void setActive(boolean active) {
         this.setStyle("-fx-background-color: transparent;");
         this.active = active;
@@ -48,6 +85,14 @@ public class StarButton extends Button implements Sender {
         }
     }
 
+    /**
+     * Constructs a new StarButton with specified initial active state.
+     *
+     * Initializes star images, sets up mouse interaction effects, and
+     * configures the initial visual state of the button.
+     *
+     * @param active Initial active state of the star button
+     */
     public StarButton(boolean active) {
         imageView1 = new ImageView(image1);
         imageView2 = new ImageView(image2);
@@ -57,7 +102,6 @@ public class StarButton extends Button implements Sender {
 
         imageView1.setFitWidth(27);
         imageView2.setFitWidth(30);
-
 
         setActive(active);
 
@@ -76,7 +120,13 @@ public class StarButton extends Button implements Sender {
         });
     }
 
-
+    /**
+     * Sends a rating message via socket service.
+     *
+     * Constructs a JSON object with the current book ID, user ID,
+     * and rating, then sends it through the socket service.
+     * Runs on the JavaFX Application Thread to ensure thread safety.
+     */
     public void sendMessage() {
         JSONObject data = new JSONObject();
 

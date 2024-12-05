@@ -2,8 +2,8 @@ package components.table;
 
 import animation.ScaleEffect;
 import components.abstracts.TableCell;
-import components.button.AcceptBorrowButton;
-import components.button.DenyBorrowButton;
+import components.button.DeleteUserButton;
+import components.button.EditUserButton;
 import components.container.Divide;
 import components.interfaces.MouseHandler;
 import components.media.WrappedImageView;
@@ -17,38 +17,38 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import model.Book;
-import model.Borrow;
 import model.User;
 import utils.PoolingToolkit;
 
-public class BorrowTableCell extends TableCell implements MouseHandler {
-    private Borrow borrow;
+public class UserTableCell extends TableCell implements MouseHandler {
+    private User user;
 
     /**
-     * Constructs a BorrowTableCell for a specific borrow record.
+     * Constructs a UserTableCell for a specific user.
      *
-     * @param borrow The borrow record to be displayed in this table cell
+     * @param user The user to be displayed in this table cell
      */
-    public BorrowTableCell(Borrow borrow) {
-        super(15, 10, 23, 12, 12, 15, 13);
-        this.borrow = borrow;
+    public UserTableCell(User user) {
+        super(15, 10, 15, 15, 17, 10, 5, 13);
+        this.user = user;
         loadCellData();
         handleMouseEvent();
         this.getRowConstraints().get(0).setMaxHeight(150);
     }
 
     /**
-     * Loads the cell data by adding various borrow record details to the table cell.
+     * Loads the cell data by adding various user details to the table cell.
      */
     @Override
     public void loadCellData() {
-        this.addNode(createLabel(borrow.getBook().getIsbn()), 0, 0); // isbn
-        this.addNode(createImage(PoolingToolkit.getImage(borrow.getBook().getCover())), 1, 0); // cover
-        this.addNode(createLabel(borrow.getBook().getTitle()), 2, 0); // title
-        this.addNode(createLabel(borrow.getBook().getGenre()), 3, 0); // genre
-        this.addNode(createLabel(borrow.getBook().getAuthor().getName()), 4, 0); // author
-        this.addNode(createLabel(borrow.getUser().getUsername()), 5, 0); // publisher
-        this.addNode(createActionButton(), 6, 0); // action
+        this.addNode(createLabel(user.getUsername()), 0, 0); // isbn
+        this.addNode(createImage(PoolingToolkit.getImage(user.getAvatar())), 1, 0); // cover
+        this.addNode(createLabel(user.getFirstName()), 2, 0); // title
+        this.addNode(createLabel(user.getLastName()), 3, 0); // genre
+        this.addNode(createLabel(user.getEmail()), 4, 0); // author
+        this.addNode(createLabel(user.getRole()), 5, 0); // publisher
+        this.addNode(createLabel("Yes"), 6, 0); // release
+        this.addNode(createActionButton(), 7, 0); // action
     }
 
     /**
@@ -127,9 +127,9 @@ public class BorrowTableCell extends TableCell implements MouseHandler {
     }
 
     /**
-     * Creates an HBox with action buttons for the borrow record.
+     * Creates an HBox with action buttons for the user.
      *
-     * @return An HBox containing accept and deny buttons for the borrow request
+     * @return An HBox containing delete and edit buttons for the user
      */
     public HBox createActionButton() {
         VBox vbox1 = new VBox();
@@ -142,8 +142,8 @@ public class BorrowTableCell extends TableCell implements MouseHandler {
         vbox1.setAlignment(Pos.CENTER);
         vbox2.setAlignment(Pos.CENTER);
 
-        AcceptBorrowButton deleteButton = new AcceptBorrowButton(borrow.getBook().getId(), borrow.getUser().getID());
-        DenyBorrowButton editButton = new DenyBorrowButton(borrow.getBook().getId(), borrow.getUser().getID());
+        DeleteUserButton deleteButton = new DeleteUserButton(user.getID());
+        EditUserButton editButton = new EditUserButton(user);
 
         vbox1.getChildren().add(deleteButton);
         vbox2.getChildren().add(editButton);
