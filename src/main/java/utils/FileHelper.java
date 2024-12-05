@@ -15,6 +15,12 @@ public class FileHelper {
         throw new AssertionError("This class cannot be instantiated");
     }
 
+    /**
+     * Loads an image from the specified path 
+     *
+     * @param path The relative path to the image file.
+     * @return An {@link Image} object representing the loaded image.
+     */
     public static Image getImage(String path) {
         String imagePath = getImagePath(path);
         File file = new File(imagePath);
@@ -22,20 +28,38 @@ public class FileHelper {
         return image;
     }
 
+    /**
+     * Constructs the absolute path to the image file.
+     *
+     * @param path The relative path to the image file.
+     * @return The absolute path as a {@link String}.
+     */
     private static String getImagePath(String path) {
         String imagePath = Paths.get("src", "main", "resources","view","images", path)
                 .toAbsolutePath()
                 .toString();
-
         return imagePath;
     }
 
+    /**
+     * Loads an FXML file from the specified path 
+     *
+     * @param path The relative path to the FXML file.
+     * @return An {@link FXMLLoader} instance for the specified FXML file.
+     * @throws IOException If there is an error loading the FXML file.
+     */
     public static FXMLLoader getLoader(String path) throws IOException {
         String fxmlPath = getFXMLPath(path);
         FXMLLoader loader = new FXMLLoader(Paths.get(fxmlPath).toUri().toURL());
         return loader;
     }
 
+    /**
+     * Constructs the absolute path to the FXML file.
+     *
+     * @param path The relative path to the FXML file.
+     * @return The absolute path as a {@link String}.
+     */
     private static String getFXMLPath(String path) {
         Path fxmlPath = Paths.get("src", "main", "resources", "view", path);
         return fxmlPath.toAbsolutePath().toString();
