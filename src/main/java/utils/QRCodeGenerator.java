@@ -23,13 +23,6 @@ import java.util.Hashtable;
 
 public class QRCodeGenerator {
 
-    /**
-     * Generates a QR code image from the specified data.
-     *
-     * @param data The data to encode in the QR code. Must not be null or empty.
-     * @return A {@link BufferedImage} representing the generated QR code image.
-     * @throws Exception If an error occurs during QR code generation.
-     */
     public static BufferedImage generateQRCodeImage(String data) throws Exception {
         Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);

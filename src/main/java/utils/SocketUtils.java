@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import javafx.util.Pair;
 import model.Borrow;
 import model.User;
-import model.Borrow;
-import model.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.List;
@@ -145,38 +143,6 @@ public class SocketUtils {
         return res;
     }
 
-
-    /**
-     * Parses a JSONArray of search results and returns a list of Book objects.
-     *
-     * @param books The JSONArray containing search result data.
-     * @return A list of {@link Book} objects populated with the parsed data.
-     */
-    public static List<Book> parseSearch(JSONArray books) {
-        ArrayList<Book> res = new ArrayList<>();
-
-        for (int i = 0; i < books.length(); i++) {
-            JSONObject object = books.getJSONObject(i);
-            Book book = new Book();
-            book.setId(object.getInt("id"));
-            book.setCover(object.getString("cover"));
-            book.setAuthor(object.getString("author"));
-            book.setTitle(object.getString("title"));
-            book.setGenre(object.getString("genre"));
-
-            res.add(book);
-        }
-
-        return res;
-    }
-
-
-    /**
-     * Parses a JSONArray of borrow transactions and returns a list of Borrow objects.
-     *
-     * @param borrows The JSONArray containing borrow data.
-     * @return A list of {@link Borrow} objects populated with user and book information.
-     */
     public static List<Borrow> parseBorrowTableCell(JSONArray borrows) {
         List<Borrow> res = new ArrayList<>();
 
