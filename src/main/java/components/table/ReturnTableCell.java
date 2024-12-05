@@ -2,8 +2,8 @@ package components.table;
 
 import animation.ScaleEffect;
 import components.abstracts.TableCell;
-import components.button.AcceptBorrowButton;
-import components.button.DenyBorrowButton;
+import components.button.AcceptReturnButton;
+import components.button.DenyReturnButton;
 import components.container.Divide;
 import components.interfaces.MouseHandler;
 import components.media.WrappedImageView;
@@ -21,15 +21,15 @@ import model.Borrow;
 import model.User;
 import utils.PoolingToolkit;
 
-public class BorrowTableCell extends TableCell implements MouseHandler {
+public class ReturnTableCell extends TableCell implements MouseHandler {
     private Borrow borrow;
 
     /**
-     * Constructs a BorrowTableCell for a specific borrow record.
+     * Constructs a ReturnTableCell for a specific borrow record.
      *
      * @param borrow The borrow record to be displayed in this table cell
      */
-    public BorrowTableCell(Borrow borrow) {
+    public ReturnTableCell(Borrow borrow) {
         super(15, 10, 23, 12, 12, 15, 13);
         this.borrow = borrow;
         loadCellData();
@@ -127,9 +127,9 @@ public class BorrowTableCell extends TableCell implements MouseHandler {
     }
 
     /**
-     * Creates an HBox with action buttons for the borrow record.
+     * Creates an HBox with action buttons for the return record.
      *
-     * @return An HBox containing accept and deny buttons for the borrow request
+     * @return An HBox containing accept and deny buttons for the book return
      */
     public HBox createActionButton() {
         VBox vbox1 = new VBox();
@@ -142,8 +142,8 @@ public class BorrowTableCell extends TableCell implements MouseHandler {
         vbox1.setAlignment(Pos.CENTER);
         vbox2.setAlignment(Pos.CENTER);
 
-        AcceptBorrowButton deleteButton = new AcceptBorrowButton(borrow.getBook().getId(), borrow.getUser().getID());
-        DenyBorrowButton editButton = new DenyBorrowButton(borrow.getBook().getId(), borrow.getUser().getID());
+        AcceptReturnButton deleteButton = new AcceptReturnButton(borrow.getBook().getId(), borrow.getUser().getID());
+        DenyReturnButton editButton = new DenyReturnButton(borrow.getBook().getId(), borrow.getUser().getID());
 
         vbox1.getChildren().add(deleteButton);
         vbox2.getChildren().add(editButton);

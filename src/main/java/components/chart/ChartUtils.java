@@ -97,4 +97,3 @@ public class ChartUtils {
         areaChart.getData().add(series);
     }
 }
-

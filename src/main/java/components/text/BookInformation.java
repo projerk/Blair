@@ -1,9 +1,7 @@
 package components.text;
 
 import org.json.JSONObject;
-
 import com.google.zxing.qrcode.encoder.QRCode;
-
 import app.AppState;
 import components.button.BookmarkButton;
 import components.button.BorrowButton;
@@ -18,10 +16,18 @@ import javafx.scene.layout.VBox;
 import model.Book;
 import socket.SocketService;
 
+/**
+ * This class represents a detailed view of a book, including its information, user rating, and control buttons for borrowing, previewing, bookmarking, and viewing the QR code.
+ */
 public class BookInformation extends VBox {
     private Book book;
     private RatingField ratingField;
 
+    /**
+     * Constructs a BookInformation object with the provided book details.
+     *
+     * @param book the book to display information for.
+     */
     public BookInformation(Book book) {
         this.book = book;
         this.setSpacing(3);
@@ -29,6 +35,9 @@ public class BookInformation extends VBox {
         createButton();
     }
 
+    /**
+     * Creates and adds labels to the UI displaying the book's information such as title, author, genre, publisher, release year, rating, and availability.
+     */
     public void createText() {
         Label title = new Label(book.getTitle());
         title.setWrapText(true);
@@ -46,14 +55,6 @@ public class BookInformation extends VBox {
         Label available = new Label("Available: " + book.getAvailable());
         available.setStyle("-fx-font-size: 20; -fx-text-fill: black; -fx-font-family: 'Accent Graphic W00 Medium';");
 
-        // HBox test = new HBox();
-        // Label text1 = new Label("The");
-        // Label text2 = new Label("bes");
-        // test.getChildren().add(text1);
-        // test.getChildren().add(text2);
-        // text2.setStyle("-fx-text-fill: green;");
-
-
         this.getChildren().add(title);
         this.getChildren().add(author);
         this.getChildren().add(genre);
@@ -61,9 +62,11 @@ public class BookInformation extends VBox {
         this.getChildren().add(publisher);
         this.getChildren().add(year);
         this.getChildren().add(available);
-        // this.getChildren().add(test);
     }
 
+    /**
+     * Creates and adds buttons to the UI, including buttons for rating, borrowing, previewing, bookmarking, and generating a QR code.
+     */
     public void createButton() {
 
         ratingField = new RatingField(0);
@@ -87,13 +90,11 @@ public class BookInformation extends VBox {
         BorrowButton borrowButton = new BorrowButton(active, book.isBorrow());
         BookmarkButton bookmarkButton = new BookmarkButton(book.isBookmark());
         QRCodeButton qr = new QRCodeButton();
-        // QRCodeButton test = new QRCodeButton();
 
         functionButton.getChildren().add(borrowButton);
         functionButton.getChildren().add(previewButton);
         functionButton.getChildren().add(bookmarkButton);
         functionButton.getChildren().add(qr);
-        // functionButton.getChildren().add(test);
 
         container.getChildren().add(ratingField);
         container.getChildren().add(functionButton);
@@ -101,6 +102,9 @@ public class BookInformation extends VBox {
         this.getChildren().add(container);
     }
 
+    /**
+     * Fetches the current rating of the book from the server and updates the rating field in the UI.
+     */
     public void getUserRating() {
         SocketService.getInstance().onMessage("user_rating_response", (Emitter.Listener) args -> {
             JSONObject response = (JSONObject) args[0];

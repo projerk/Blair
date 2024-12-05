@@ -1,5 +1,9 @@
 package components.button;
 
+import java.util.Optional;
+
+import org.json.JSONObject;
+
 import animation.ScaleEffect;
 import components.interfaces.MouseHandler;
 import components.interfaces.Sender;
@@ -9,30 +13,45 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.json.JSONObject;
 import socket.SocketService;
 import utils.FileHelper;
 import utils.ImageUtils;
 
-import java.util.Optional;
+/**
+ * Represents a button that handles the acceptance of a book borrowing request.
+ * When clicked, it sends a message to the server and shows a success alert.
+ * Implements the MouseHandler and Sender interfaces.
+ */
+public class AcceptBorrowButton extends Button implements Sender, MouseHandler {
 
-public class AcceptButton extends Button implements Sender, MouseHandler {
     private static SocketService client = SocketService.getInstance();
     private static Image image = FileHelper.getImage("check.png");
     private int bookID;
     private int userID;
 
-    public AcceptButton() {
-
+    /**
+     * Default constructor for the AcceptBorrowButton.
+     */
+    public AcceptBorrowButton() {
     }
 
-    public AcceptButton(int bookID, int userID) {   
+    /**
+     * Constructs an AcceptBorrowButton with the given book ID and user ID.
+     * Sets the button style and handles mouse events.
+     *
+     * @param bookID The ID of the book being borrowed.
+     * @param userID The ID of the user requesting the borrow.
+     */
+    public AcceptBorrowButton(int bookID, int userID) {
         setButtonStyle();
         handleMouseEvent();
         this.bookID = bookID;
         this.userID = userID;
     }
 
+    /**
+     * Sets the style for the button, including the button graphic (image) and background color.
+     */
     private void setButtonStyle() {
         handleMouseEvent();
         setStyle("-fx-background-color: transparent;");
@@ -42,6 +61,12 @@ public class AcceptButton extends Button implements Sender, MouseHandler {
         setGraphic(imageView);
     }
 
+    /**
+     * Handles mouse events for the button, including click, mouse enter, and mouse exit.
+     * - On mouse click: Sends a message to the server and opens an alert box.
+     * - On mouse enter: Scales the button up with an animation.
+     * - On mouse exit: Scales the button back to normal size.
+     */
     public void handleMouseEvent() {
         setOnMouseClicked(event -> {
             sendMessage();
@@ -57,17 +82,21 @@ public class AcceptButton extends Button implements Sender, MouseHandler {
         });
     }
 
-    // public void getMessage() {
-
-    // }
-
+    /**
+     * Sends a message to the server with the book ID and user ID.
+     * The message type is "accept_borrow_book".
+     */
     public void sendMessage() {
         JSONObject data = new JSONObject();
         data.put("book_id", bookID);
         data.put("user_id", userID);
-        client.sendMessage("accept_book", data);
+        client.sendMessage("accept_borrow_book", data);
     }
 
+    /**
+     * Opens an alert box informing the user of the success of their action.
+     * Offers the user the option to confirm or cancel the action.
+     */
     private void openAlertBox() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Success");
@@ -83,7 +112,7 @@ public class AcceptButton extends Button implements Sender, MouseHandler {
         if (result.isPresent() && result.get() == confirmButton) {
             // sendMessage();
         } else {
-
+            // No action on cancel
         }
     }
 }
