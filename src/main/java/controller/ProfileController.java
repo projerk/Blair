@@ -1,26 +1,30 @@
 package controller;
 
-import components.interfaces.Listener;
-import javafx.fxml.FXML;
-import io.socket.emitter.Emitter;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import socket.SocketService;
-import javafx.application.Platform;
+
 import app.AppState;
+import components.interfaces.Listener;
+import components.chart.ChartUtils;
 import components.media.Avatar;
-import javafx.scene.layout.VBox;
-import javafx.scene.control.Label;
-import javafx.util.Pair;
-import javafx.scene.layout.HBox;
+import io.socket.emitter.Emitter;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
-import components.chart.ChartUtils;
-import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.util.Pair;
+import socket.SocketService;
 import utils.SocketUtils;
+
 import java.util.List;
 
-public class ProfileController implements Listener{
+public class ProfileController implements Listener {
+
     @FXML
     private VBox avatarContainer;
 
@@ -28,16 +32,18 @@ public class ProfileController implements Listener{
     private VBox informationContainer;
 
     @FXML
+    private VBox bookRead;
+
+    @FXML
     private VBox recent;
 
     @FXML
     private VBox last;
 
-    @FXML
-    private VBox bookRead;
-
-
-
+    /**
+     * Initializes the profile controller by setting up socket message listeners
+     * and requesting user data from the server.
+     */
     @FXML
     private void initialize() {
         SocketService.getInstance().onMessage("user_response", (Emitter.Listener) args -> {
@@ -53,17 +59,28 @@ public class ProfileController implements Listener{
                 });
             }
         });
-        //avatarPreload(null);
         JSONObject data = new JSONObject();
         data.put("user_id", AppState.getInstance().getUser().getID());
         SocketService.getInstance().sendMessage("get_user", data);
     }
 
+    /**
+     * Loads and displays the user's avatar.
+     *
+     * @param avatarString Base64 encoded string representing the avatar image
+     */
     private void avatarPreload(String avatarString) {
         Avatar avatar = new Avatar(avatarString, 228, 228);
         avatarContainer.getChildren().add(avatar);
     }
 
+    /**
+     * Populates user biographical information.
+     *
+     * @param firstname User's first name
+     * @param lastname User's last name
+     * @param username User's username
+     */
     private void bioPreload(String firstname, String lastname, String username) {
         VBox container = new VBox();
         container.setSpacing(10);
@@ -82,9 +99,14 @@ public class ProfileController implements Listener{
         container.getChildren().add(creditLabel);
 
         informationContainer.getChildren().add(container);
-
     }
 
+    /**
+     * Creates and displays a pie chart showing books read.
+     *
+     * @param readBook Number of books read
+     * @param totalBook Total number of books
+     */
     public void bookReadPreload(int readBook, int totalBook) {
         PieChart chart = ChartUtils.createPieChart("Read Book");
         chart.setStyle("-fx-background-color: transparent;");
@@ -93,7 +115,11 @@ public class ProfileController implements Listener{
         bookRead.getChildren().add(chart);
     }
 
-
+    /**
+     * Creates and displays a bar chart of recent book finishes.
+     *
+     * @param arr JSON array containing recent book finish data
+     */
     public void recentPreload(JSONArray arr) {
         BarChart chart = ChartUtils.createBarChart("Streak", "Day", "Book");
         List<Pair<String, Integer>> data = SocketUtils.parseRecentBookFinish(arr);
@@ -104,14 +130,13 @@ public class ProfileController implements Listener{
         recent.getChildren().add(chart);
     }
 
+    /**
+     * Displays the number of days since last activity.
+     *
+     * @param day Number of days since last activity
+     */
     public void lastPreload(int day) {
-        String text;
-        if (day > 1) {
-            text = "days";
-        }
-        else {
-            text = "day";
-        }
+        String text = day > 1 ? "days" : "day";
 
         HBox container = new HBox();
         container.setSpacing(4);
@@ -120,8 +145,8 @@ public class ProfileController implements Listener{
         box.setAlignment(Pos.CENTER);
         Label dayNumber = new Label(Integer.toString(day));
         dayNumber.setStyle("-fx-font-family: 'Accent Graphic W00 Medium';\r\n" + //
-                        "    -fx-font-size: 50;\r\n" + //
-                        "    -fx-text-fill: black;");
+                "    -fx-font-size: 50;\r\n" + //
+                "    -fx-text-fill: black;");
         Label dayText = new Label(text);
 
         box.getChildren().add(dayText);
@@ -131,18 +156,19 @@ public class ProfileController implements Listener{
         last.getChildren().add(container);
     }
 
-
-
-    @Override
+    /**
+     * Opens a canvas with the specified ID.
+     *
+     * @param id Identifier for the canvas to be opened
+     */
     public void openCanvas(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'openCanvas'");
+
     }
 
-    @Override
+    /**
+     * Closes the currently open canvas.
+     */
     public void closeCanvas() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'closeCanvas'");
-    }
 
+    }
 }

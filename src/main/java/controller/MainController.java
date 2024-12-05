@@ -1,211 +1,174 @@
 package controller;
 
-import app.Projerk;
-import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.fxml.FXMLLoader;
-import utils.Constants;
-import utils.FileHelper;
-import utils.WrappedImageView;
-import java.io.IOException;
-
-import animation.ScaleEffect;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import app.AppState;
+import components.interfaces.Listener;
+import components.chart.ChartUtils;
+import components.media.Avatar;
+import io.socket.emitter.Emitter;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.util.Pair;
+import socket.SocketService;
+import utils.SocketUtils;
 
-public class MainController {
+import java.util.List;
+
+public class ProfileController implements Listener {
+
     @FXML
-    private VBox mainPane;
+    private VBox avatarContainer;
 
     @FXML
-    private VBox compass;
+    private VBox informationContainer;
 
     @FXML
-    private VBox book;
+    private VBox bookRead;
 
     @FXML
-    private VBox profile;
+    private VBox recent;
 
     @FXML
-    private VBox setting;
+    private VBox last;
 
-    @FXML
-    private VBox logoContainer;
-
-    private VBox currentSelectedItem;
-
-    private AppState appState = AppState.getInstance();
-
+    /**
+     * Initializes the profile controller by setting up socket message listeners
+     * and requesting user data from the server.
+     */
     @FXML
     private void initialize() {
-        preload();
+        SocketService.getInstance().onMessage("user_response", (Emitter.Listener) args -> {
+            JSONObject response = (JSONObject) args[0];
+            String status = response.getString("status");
+            if (status.equals("success")) {
+                Platform.runLater(() -> {
+                    avatarPreload(response.getString("avatar"));
+                    bioPreload(response.getString("firstname"), response.getString("lastname"), response.getString("username"));
+                    bookReadPreload(response.getInt("readbook"), response.getInt("totalbook"));
+                    recentPreload(response.getJSONArray("recent"));
+                    lastPreload(response.getInt("last"));
+                });
+            }
+        });
+        JSONObject data = new JSONObject();
+        data.put("user_id", AppState.getInstance().getUser().getID());
+        SocketService.getInstance().sendMessage("get_user", data);
     }
 
-    private void preload() {
-        pagePreload();
-        logoPreload();
-        sectionPreload();
-        ExplorePreload();
+    /**
+     * Loads and displays the user's avatar.
+     *
+     * @param avatarString Base64 encoded string representing the avatar image
+     */
+    private void avatarPreload(String avatarString) {
+        Avatar avatar = new Avatar(avatarString, 228, 228);
+        avatarContainer.getChildren().add(avatar);
     }
 
-    private void pagePreload() {
-        currentSelectedItem = compass;
-        compass.setOpacity(1);
+    /**
+     * Populates user biographical information.
+     *
+     * @param firstname User's first name
+     * @param lastname User's last name
+     * @param username User's username
+     */
+    private void bioPreload(String firstname, String lastname, String username) {
+        VBox container = new VBox();
+        container.setSpacing(10);
+        Label nameLabel = new Label(lastname + " " + firstname);
+        nameLabel.setStyle("-fx-font-size: 30; -fx-text-fill: black;");
+        Label usernameLabel = new Label("@" + username);
+        usernameLabel.setStyle("-fx-font-size: 15; -fx-text-fill: black; -fx-opacity: 0.6;");
+        Label tierLabel = new Label("Blair Novice");
+        tierLabel.setStyle("-fx-font-size: 15; -fx-text-fill: black;");
+        Label creditLabel = new Label("Credit: 100");
+        creditLabel.setStyle("-fx-font-size: 15; -fx-text-fill: black;");
+
+        container.getChildren().add(nameLabel);
+        container.getChildren().add(usernameLabel);
+        container.getChildren().add(tierLabel);
+        container.getChildren().add(creditLabel);
+
+        informationContainer.getChildren().add(container);
     }
 
-    private void logoPreload() {
-        Image logo = FileHelper.getImage("paper.png");
-        WrappedImageView imageView = new WrappedImageView();
-        imageView.setImage(logo);
-        logoContainer.getChildren().add(imageView);
+    /**
+     * Creates and displays a pie chart showing books read.
+     *
+     * @param readBook Number of books read
+     * @param totalBook Total number of books
+     */
+    public void bookReadPreload(int readBook, int totalBook) {
+        PieChart chart = ChartUtils.createPieChart("Read Book");
+        chart.setStyle("-fx-background-color: transparent;");
+        ChartUtils.addPieData(chart, "read" + "(" + readBook + ")", readBook);
+        ChartUtils.addPieData(chart, "total" + "(" + totalBook + ")", totalBook);
+        bookRead.getChildren().add(chart);
     }
 
-    private void sectionPreload() {
-        compass.setOpacity(0.4);
-        book.setOpacity(0.4);
-        profile.setOpacity(0.4);
-        setting.setOpacity(0.4);
+    /**
+     * Creates and displays a bar chart of recent book finishes.
+     *
+     * @param arr JSON array containing recent book finish data
+     */
+    public void recentPreload(JSONArray arr) {
+        BarChart chart = ChartUtils.createBarChart("Streak", "Day", "Book");
+        List<Pair<String, Integer>> data = SocketUtils.parseRecentBookFinish(arr);
 
-        Image homeImage = FileHelper.getImage("rcompass.png");
-        Image bookImage = FileHelper.getImage("rbook.png");
-        Image profileImage = FileHelper.getImage("ruser.png");
-        Image settingImage = FileHelper.getImage("rsetting.png");
-
-        WrappedImageView homeImageView = new WrappedImageView();
-        WrappedImageView bookImageView = new WrappedImageView();
-        WrappedImageView profileImageView = new WrappedImageView();
-        WrappedImageView settingImageView = new WrappedImageView();
-
-        compass.setOnMouseEntered(event -> {
-            compass.setOpacity(1);
-            ScaleEffect.scaleTo(compass, 0.2, 1.2, 1.2);
-        });
-
-        compass.setOnMouseExited(event -> {
-            if (currentSelectedItem == compass) {
-                ScaleEffect.scaleTo(compass, 0.2, 1.1, 1.1);
-            }
-            else {
-                ScaleEffect.scaleTo(compass, 0.2, 1.0, 1.0);
-                compass.setOpacity(0.4);
-            }
-        });
-
-        compass.setOnMouseClicked(event -> {
-
-            if (currentSelectedItem != compass) {
-                loadView("ExploreView.fxml");
-                currentSelectedItem.setOpacity(0.4);
-                compass.setOpacity(1);
-                currentSelectedItem = compass;
-            }
-        });
-
-        book.setOnMouseEntered(event -> {
-            book.setOpacity(1);
-            ScaleEffect.scaleTo(book, 0.2, 1.2, 1.2);
-        });
-
-        book.setOnMouseExited(event -> {
-            if (currentSelectedItem == book) {
-                ScaleEffect.scaleTo(book, 0.2, 1.1, 1.1);
-            }
-            else {
-                ScaleEffect.scaleTo(book, 0.2, 1.0, 1.0);
-                book.setOpacity(0.4);
-            }
-        });
-
-        book.setOnMouseClicked(event -> {
-            if (currentSelectedItem != book) {
-                loadView("BookView.fxml");
-                currentSelectedItem.setOpacity(0.4);
-                book.setOpacity(1);
-                currentSelectedItem = book;
-            }
-        });
-
-        profile.setOnMouseEntered(event -> {
-            profile.setOpacity(1);
-            ScaleEffect.scaleTo(profile, 0.2, 1.2, 1.2);
-        });
-
-        profile.setOnMouseExited(event -> {
-            if (currentSelectedItem == profile) {
-                ScaleEffect.scaleTo(profile, 0.2, 1.1, 1.1);
-            }
-            else {
-                ScaleEffect.scaleTo(profile, 0.2, 1.0, 1.0);
-                profile.setOpacity(0.4);
-            }
-        });
-
-        profile.setOnMouseClicked(event -> {
-            if (currentSelectedItem != profile) {
-                loadView("ProfileView.fxml");
-                currentSelectedItem.setOpacity(0.4);
-                profile.setOpacity(1);
-                currentSelectedItem = profile;
-            }
-        });
-
-        setting.setOnMouseEntered(event -> {
-            setting.setOpacity(1);
-            ScaleEffect.scaleTo(setting, 0.2, 1.2, 1.2);
-        });
-
-        setting.setOnMouseExited(event -> {
-            if (currentSelectedItem == setting) {
-                ScaleEffect.scaleTo(setting, 0.2, 1.1, 1.1);
-            }
-            else {
-                ScaleEffect.scaleTo(setting, 0.2, 1.0, 1.0);
-                setting.setOpacity(0.4);
-            }
-        });
-
-        setting.setOnMouseClicked(event -> {
-            currentSelectedItem.setOpacity(0.4);
-            setting.setOpacity(1);
-            currentSelectedItem = setting;
-
-            Projerk.getInstance().changeRoot("LoginView.fxml");
-        });
-
-        homeImageView.setImage(homeImage);
-        bookImageView.setImage(bookImage);
-        profileImageView.setImage(profileImage);
-        settingImageView.setImage(settingImage);
-
-        compass.getChildren().add(homeImageView);
-        book.getChildren().add(bookImageView);
-        profile.getChildren().add(profileImageView);
-        setting.getChildren().add(settingImageView);
-    }
-
-    private void loadView(String path) {
-        try {
-            FXMLLoader loader = FileHelper.getLoader(path);
-            StackPane content = loader.load();
-            appState.setListener(loader.getController());
-            mainPane.getChildren().setAll(content);
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (Pair<String, Integer> point : data) {
+            ChartUtils.addBarData(chart, null, point.getKey(), point.getValue());
         }
+        recent.getChildren().add(chart);
     }
 
-    private void ExplorePreload() {
-        try {
-            FXMLLoader loader = FileHelper.getLoader(Constants.EXPLORE_VIEW_FILE);
-            StackPane content = loader.load();
-            appState.setListener(loader.getController());
-            mainPane.getChildren().setAll(content);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /**
+     * Displays the number of days since last activity.
+     *
+     * @param day Number of days since last activity
+     */
+    public void lastPreload(int day) {
+        String text = day > 1 ? "days" : "day";
+
+        HBox container = new HBox();
+        container.setSpacing(4);
+        container.setAlignment(Pos.CENTER);
+        HBox box = new HBox();
+        box.setAlignment(Pos.CENTER);
+        Label dayNumber = new Label(Integer.toString(day));
+        dayNumber.setStyle("-fx-font-family: 'Accent Graphic W00 Medium';\r\n" + //
+                "    -fx-font-size: 50;\r\n" + //
+                "    -fx-text-fill: black;");
+        Label dayText = new Label(text);
+
+        box.getChildren().add(dayText);
+        container.getChildren().add(dayNumber);
+        container.getChildren().add(box);
+
+        last.getChildren().add(container);
+    }
+
+    /**
+     * Opens a canvas with the specified ID.
+     *
+     * @param id Identifier for the canvas to be opened
+     */
+    public void openCanvas(int id) {
+
+    }
+
+    /**
+     * Closes the currently open canvas.
+     */
+    public void closeCanvas() {
+
     }
 }

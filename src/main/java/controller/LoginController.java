@@ -62,8 +62,14 @@ public class LoginController {
 
     private Projerk app = Projerk.getInstance();
 
+    /**
+     * Initializes the login controller and sets up the UI components.
+     * Configures event listeners and layout properties for the login/signup interface.
+     */
     @FXML
     public void initialize() {
+        handleLoginAuthentication();
+        handleRegisterAuthentication();
         fronttrace = new VBox();
         midtrace = new VBox();
         Insets insets = new Insets(50,50, 50, 50);
@@ -104,54 +110,13 @@ public class LoginController {
         });
     }
 
-    private VBox createRightContent() {
-        VBox container = new VBox();
-        container.setSpacing(50);
-        VBox contentContainer = new VBox();
-        contentContainer.setAlignment(Pos.CENTER);
-        contentContainer.setSpacing(30);
-        VBox buttonContainer = new VBox();
-        buttonContainer.setAlignment(Pos.CENTER);
-        VBox.setVgrow(buttonContainer, Priority.ALWAYS);
-        VBox.setVgrow(contentContainer, Priority.ALWAYS);
-
-        Label text = new Label("Enjoy our collection of magazines and novels");
-        text.setStyle("-fx-text-fill: white; -fx-font-size: 30px; -fx-font-family: 'Accent Graphic W00 Medium';");
-
-        Image image = FileHelper.getImage("a2.jpg");
-        ImageView imageView = new ImageView(image);
-        imageView.setPreserveRatio(true);
-        imageView.setFitWidth(width / 2 - width / 15);
-
-        Button button = new Button("Sign In");
-        button.setStyle("-fx-background-color: transparent; -fx-border-width: 1; -fx-border-color: white; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
-
-        button.setOnMouseClicked(event -> {
-            if (trace) {
-                TranslateEffect.translateTo(fronttrace, 1, width / 4, 0);
-                TranslateEffect.translateTo(midtrace, 1, midtrace.getLayoutX() - width / 2, 0);
-                FadeEffect.fadeOutInAndChangeContent(form, 1, createSigninPage());
-                FadeEffect.fadeOutInAndChangeContent(content, 1, createLeftContent());
-                trace = false;
-            } else {
-                TranslateEffect.translateTo(fronttrace, 1, fronttrace.getLayoutX() - width / 2, 0);
-                TranslateEffect.translateTo(midtrace, 1, width / 4, 0);
-                FadeEffect.fadeOutInAndChangeContent(content, 1, createRightContent());
-                FadeEffect.fadeOutInAndChangeContent(form, 1, createSignupPage());
-                trace = true;
-            }
-        });
-
-        Insets insets = new Insets(20, 0, 20, 0);
-        contentContainer.setPadding(insets);
-        buttonContainer.getChildren().add(button);
-        contentContainer.getChildren().addAll(text, imageView);
-        container.getChildren().addAll(contentContainer, buttonContainer);
-
-        return container;
-    }
-
+    /**
+     * Creates the left-side content for the login/signup interface.
+     *
+     * @return A VBox containing the left-side content with an image, text, and sign-up button
+     */
     private VBox createLeftContent() {
+        System.out.println("Fuck");
         VBox container = new VBox();
         container.setSpacing(50);
         VBox contentContainer = new VBox();
@@ -172,12 +137,14 @@ public class LoginController {
         Button button = new Button("Sign up");
         button.setStyle("-fx-background-color: transparent; -fx-border-width: 1; -fx-border-color: white; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
 
+        button.setOnMouseEntered(event -> ScaleEffect.scaleTo(button, 0.2, 1.2, 1.2));
+        button.setOnMouseExited(event -> ScaleEffect.scaleTo(button, 0.2, 1.0, 1.0));
         button.setOnMouseClicked(event -> {
             if (trace) {
                 TranslateEffect.translateTo(fronttrace, 1, width / 4, 0);
                 TranslateEffect.translateTo(midtrace, 1, midtrace.getLayoutX() - width / 2, 0);
-                FadeEffect.fadeOutInAndChangeContent(form, 1, createSigninPage());
                 FadeEffect.fadeOutInAndChangeContent(content, 1, createLeftContent());
+                FadeEffect.fadeOutInAndChangeContent(form, 1, createSigninPage());
                 trace = false;
             } else {
                 TranslateEffect.translateTo(fronttrace, 1, fronttrace.getLayoutX() - width / 2, 0);
@@ -198,13 +165,72 @@ public class LoginController {
         return container;
     }
 
+    /**
+     * Creates the right-side content for the login/signup interface.
+     *
+     * @return A VBox containing the right-side content with an image, text, and sign-in button
+     */
+    private VBox createRightContent() {
+        System.out.println("Fuck Bitch");
+        VBox container = new VBox();
+        container.setSpacing(50);
+        VBox contentContainer = new VBox();
+        contentContainer.setSpacing(30);
+        contentContainer.setAlignment(Pos.CENTER);
+        VBox buttonContainer = new VBox();
+        buttonContainer.setAlignment(Pos.CENTER);
+        VBox.setVgrow(buttonContainer, Priority.ALWAYS);
+        VBox.setVgrow(contentContainer, Priority.ALWAYS);
+        Label text = new Label("Enjoy our collection of magazines and novels");
+        text.setStyle("-fx-text-fill: white; -fx-font-size: 30px; -fx-font-family: 'Accent Graphic W00 Medium';");
+
+        Image image = FileHelper.getImage("a2.jpg");
+        ImageView imageView = new ImageView(image);
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(width / 2 - width / 15);
+
+        Button button = new Button("Sign In");
+        button.setStyle("-fx-background-color: transparent; -fx-border-width: 1; -fx-border-color: white; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
+
+        button.setOnMouseEntered(event -> ScaleEffect.scaleTo(button, 0.2, 1.2, 1.2));
+        button.setOnMouseExited(event -> ScaleEffect.scaleTo(button, 0.2, 1.0, 1.0));
+        button.setOnMouseClicked(event -> {
+            if (trace) {
+                TranslateEffect.translateTo(fronttrace, 1, width / 4, 0);
+                TranslateEffect.translateTo(midtrace, 1, midtrace.getLayoutX() - width / 2, 0);
+                FadeEffect.fadeOutInAndChangeContent(content, 1, createLeftContent());
+                FadeEffect.fadeOutInAndChangeContent(form, 1, createSigninPage());
+                trace = false;
+            } else {
+                TranslateEffect.translateTo(fronttrace, 1, fronttrace.getLayoutX() - width / 2, 0);
+                TranslateEffect.translateTo(midtrace, 1, width / 4, 0);
+                FadeEffect.fadeOutInAndChangeContent(content, 1, createRightContent());
+                FadeEffect.fadeOutInAndChangeContent(form, 1, createSignupPage());
+                trace = true;
+            }
+        });
+        Insets insets = new Insets(20, 0, 20, 0);
+        contentContainer.setPadding(insets);
+        buttonContainer.getChildren().add(button);
+        contentContainer.getChildren().add(text);
+        contentContainer.getChildren().add(imageView);
+        container.getChildren().add(contentContainer);
+        container.getChildren().add(buttonContainer);
+        return container;
+    }
+
+    /**
+     * Creates the signup page form with input fields for user registration.
+     *
+     * @return A VBox containing the signup form with firstname, lastname, username, password fields
+     */
     private VBox createSignupPage() {
+        System.out.println("Fuck Man");
         VBox form = new VBox();
         signinNotification = new Label();
         signinNotification.setStyle("-fx-text-fill: black; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
         form.setSpacing(width / 20);
         VBox.setVgrow(form, Priority.ALWAYS);
-
         VBox dataContainer = new VBox();
         VBox buttonContainer = new VBox();
         buttonContainer.setAlignment(Pos.CENTER);
@@ -215,7 +241,7 @@ public class LoginController {
         signupNotification.setStyle("-fx-text-fill: black; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
 
         form.setStyle("-fx-background-color: white; -fx-background-radius: 20px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 1);");
-        Insets insets = new Insets(20, 20, 20, 20);
+        Insets insets = new Insets(20,20, 20, 20);
         form.setPadding(insets);
 
         VBox titleContainer = new VBox();
@@ -232,12 +258,12 @@ public class LoginController {
         HBox.setHgrow(nameForm, Priority.ALWAYS);
         nameForm.setAlignment(Pos.CENTER);
         nameForm.setSpacing(30);
-
         TextField firstname = new TextField();
         TextField lastname = new TextField();
         TextField username = new TextField();
         PasswordField password = new PasswordField();
         PasswordField confirmPassword = new PasswordField();
+
 
         firstname.setMaxWidth(Double.MAX_VALUE);
         lastname.setMaxWidth(Double.MAX_VALUE);
@@ -249,32 +275,19 @@ public class LoginController {
         confirmPassword.setPromptText("Confirm Password");
 
         firstname.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
-        lastname.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
-        username.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
-        password.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
-        confirmPassword.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        lastname.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);  -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        username.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);  -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        password.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);  -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        confirmPassword.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);  -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
 
         firstname.setPrefWidth(width / 4);
         lastname.setPrefWidth(width / 4);
 
-        Button signupButton = new Button();
+        signupButton = new Button();
         signupButton.setText("Sign Up");
         signupButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium'; -fx-background-radius: 20px;");
-
-        nameForm.getChildren().add(firstname);
-        nameForm.getChildren().add(lastname);
-        dataForm.getChildren().add(username);
-        dataForm.getChildren().add(password);
-        dataForm.getChildren().add(confirmPassword);
-        dataForm.getChildren().add(signupNotification);
-        buttonContainer.getChildren().add(signupButton);
-
-        dataContainer.getChildren().add(nameForm);
-        dataContainer.getChildren().add(dataForm);
-
-        form.getChildren().add(titleContainer);
-        form.getChildren().add(dataContainer);
-        form.getChildren().add(buttonContainer);
+        signupButton.setOnMouseEntered(event -> ScaleEffect.scaleTo(signupButton, 0.2, 1.2, 1.2));
+        signupButton.setOnMouseExited(event -> ScaleEffect.scaleTo(signupButton, 0.2, 1.0, 1.0));
 
         signupButton.setOnMouseClicked(event -> {
             signupButton.setText("Requesting...");
@@ -285,17 +298,38 @@ public class LoginController {
             String fn = firstname.getText();
             String ln = lastname.getText();
 
-            handleRegisterAuthentication(fn, ln, un, pw, cpw);
+            sendRegister(fn, ln, un, pw, cpw);
         });
 
+        nameForm.getChildren().add(firstname);
+        nameForm.getChildren().add(lastname);
+        dataForm.getChildren().add(username);
+        dataForm.getChildren().add(password);
+        dataForm.getChildren().add(confirmPassword);
+        dataForm.getChildren().add(signupNotification);
+        buttonContainer.getChildren().add(signupButton);
+        // TextField firstname = new TextField();
+        // TextField lastname = new TextField();s
+
+        dataContainer.getChildren().add(nameForm);
+        dataContainer.getChildren().add(dataForm);
+        form.getChildren().add(titleContainer);
+        form.getChildren().add(dataContainer);
+        form.getChildren().add(buttonContainer);
+        // form.getChildren().add(dataForm);
         return form;
     }
 
+    /**
+     * Creates the signin page form with input fields for user login.
+     *
+     * @return A VBox containing the signin form with username and password fields
+     */
     private VBox createSigninPage() {
+        // System.out.println("Fuck Man");
         VBox form = new VBox();
         form.setSpacing(width / 20);
         VBox.setVgrow(form, Priority.ALWAYS);
-
         VBox dataContainer = new VBox();
         VBox buttonContainer = new VBox();
         buttonContainer.setAlignment(Pos.CENTER);
@@ -306,7 +340,7 @@ public class LoginController {
         signinNotification.setStyle("-fx-text-fill: black; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium';");
 
         form.setStyle("-fx-background-color: white; -fx-background-radius: 20px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 1);");
-        Insets insets = new Insets(20, 20, 20, 20);
+        Insets insets = new Insets(20,20, 20, 20);
         form.setPadding(insets);
 
         VBox titleContainer = new VBox();
@@ -315,31 +349,44 @@ public class LoginController {
         title.setStyle("-fx-text-fill: black; -fx-font-size: 30px; -fx-font-family: 'Accent Graphic W00 Medium';");
         titleContainer.getChildren().add(title);
 
+        HBox nameForm = new HBox();
         VBox dataForm = new VBox();
         dataForm.setAlignment(Pos.CENTER);
         dataForm.setSpacing(width / 50);
 
+        HBox.setHgrow(nameForm, Priority.ALWAYS);
+        nameForm.setAlignment(Pos.CENTER);
+        nameForm.setSpacing(30);
+        TextField firstname = new TextField();
+        TextField lastname = new TextField();
         TextField username = new TextField();
         PasswordField password = new PasswordField();
+        PasswordField confirmPassword = new PasswordField();
 
+
+        firstname.setMaxWidth(Double.MAX_VALUE);
+        lastname.setMaxWidth(Double.MAX_VALUE);
+
+        firstname.setPromptText("First Name");
+        lastname.setPromptText("Last name");
         username.setPromptText("Username");
         password.setPromptText("Password");
+        confirmPassword.setPromptText("Confirm Password");
 
-        username.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
-        password.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        firstname.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1); -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        lastname.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);  -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        username.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);  -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        password.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);  -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
+        confirmPassword.setStyle("-fx-background-color: white; -fx-border-width: 1; -fx-border-color: #d9d9d9; -fx-font-familly: 'Accent Graphic W00 Medium'; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 1);  -fx-min-height: 60px; -fx-background-radius: 30px; -fx-border-radius: 30px;");
 
-        signinButton = new Button("Sign In");
+        firstname.setPrefWidth(width / 4);
+        lastname.setPrefWidth(width / 4);
+
+        signinButton = new Button();
+        signinButton.setText("Sign In");
         signinButton.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-family: 'Accent Graphic W00 Medium'; -fx-background-radius: 20px;");
-
-        dataForm.getChildren().add(username);
-        dataForm.getChildren().add(password);
-        buttonContainer.getChildren().add(signinButton);
-        dataContainer.getChildren().add(dataForm);
-        dataContainer.getChildren().add(signinNotification);
-
-        form.getChildren().add(titleContainer);
-        form.getChildren().add(dataContainer);
-        form.getChildren().add(buttonContainer);
+        signinButton.setOnMouseEntered(event -> ScaleEffect.scaleTo(signinButton, 0.2, 1.2, 1.2));
+        signinButton.setOnMouseExited(event -> ScaleEffect.scaleTo(signinButton, 0.2, 1.0, 1.0));
 
         signinButton.setOnMouseClicked(event -> {
             signinButton.setText("Requesting...");
@@ -347,16 +394,32 @@ public class LoginController {
             String un = username.getText();
             String pw = password.getText();
 
-            handleLoginAuthentication(un, pw);
+            sendLogin(un, pw);
         });
 
+        nameForm.getChildren().add(firstname);
+        nameForm.getChildren().add(lastname);
+        dataForm.getChildren().add(username);
+        dataForm.getChildren().add(password);
+        // dataForm.getChildren().add(confirmPassword);
+        buttonContainer.getChildren().add(signinButton);
+        // dataContainer.getChildren().add(nameForm);
+        dataContainer.getChildren().add(dataForm);
+        dataContainer.getChildren().add(signinNotification);
+        form.getChildren().add(titleContainer);
+        form.getChildren().add(dataContainer);
+        form.getChildren().add(buttonContainer);
         return form;
     }
 
-    private void handleRegisterAuthentication(String fn, String ln, String un, String pw, String cpw) {
-        if (!pw.equals(cpw)) {
-            return;
-        }
+    /**
+     * Sets up the event listener for handling user registration responses from the server.
+     * Updates the UI with success or error messages based on the server's response.
+     */
+    private void handleRegisterAuthentication() {
+        // if (!pw.equals(cpw)) {
+        //     return;
+        // }
 
         client.onMessage("register_response", (Emitter.Listener) args -> {
             JSONObject response = (JSONObject) args[0];
@@ -381,7 +444,18 @@ public class LoginController {
                 });
             }
         });
+    }
 
+    /**
+     * Sends a registration request to the server with user details.
+     *
+     * @param fn  First name of the user
+     * @param ln  Last name of the user
+     * @param un  Username chosen by the user
+     * @param pw  Password for the user account
+     * @param cpw Confirmation of the password
+     */
+    public void sendRegister(String fn, String ln, String un, String pw, String cpw) {
         JSONObject registerData = new JSONObject();
         registerData.put("username", un);
         registerData.put("password", pw);
@@ -390,22 +464,27 @@ public class LoginController {
         client.sendMessage("register", registerData);
     }
 
-    private void handleLoginAuthentication(String username, String password) {
+    /**
+     * Sets up the event listener for handling user login responses from the server.
+     * Navigates to the appropriate view (admin or main) based on the server's response.
+     */
+    private void handleLoginAuthentication() {
         client.onMessage("login_response", (Emitter.Listener) args -> {
             JSONObject response = (JSONObject) args[0];
             String message = response.getString("status");
             if (message.equals("success")) {
-                initialAppState(response.getInt("id"), response.getString("username"), response.getString("firstname"), response.getString("lastname"));
-                Platform.runLater(() -> {
-                    if (response.getString("role").equals("admin")) {
+                if (response.getString("role").equals("admin")) {
+                    Platform.runLater(() -> {
                         app.changeRoot("AdminView.fxml");
-                    }
-                    else {
+
+                    });
+                }
+                else {
+                    initialAppState(response.getInt("id"), response.getString("username"), response.getString("firstname"), response.getString("lastname"));
+                    Platform.runLater(() -> {
                         app.changeRoot("MainView.fxml");
-                    }
-                    // app.changeRoot("MainView.fxml");
-                });
-                // app.changeRoot("MainView.fxml");
+                    });
+                }
             }
             else {
                 Platform.runLater(() -> {
@@ -416,13 +495,29 @@ public class LoginController {
                 });
             }
         });
+    }
 
+    /**
+     * Sends a login request to the server with user credentials.
+     *
+     * @param username Username of the user attempting to log in
+     * @param password Password for the user account
+     */
+    public void sendLogin(String username, String password) {
         JSONObject loginData = new JSONObject();
         loginData.put("username", username);
         loginData.put("password", password);
         client.sendMessage("login", loginData);
     }
 
+    /**
+     * Initializes the application state with the logged-in user's information.
+     *
+     * @param id        User's unique identifier
+     * @param username  User's username
+     * @param firstname User's first name
+     * @param lastname  User's last name
+     */
     private void initialAppState(int id, String username, String firstname, String lastname) {
         AppState appState = AppState.getInstance();
         User user = new User();

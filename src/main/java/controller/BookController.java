@@ -4,6 +4,7 @@ import components.interfaces.Listener;
 import io.socket.emitter.Emitter;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,9 +18,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import model.Book;
 import socket.SocketService;
-import utils.SocketUtils;
 import utils.Constants;
 import utils.FileHelper;
+import utils.SocketUtils;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -36,8 +37,7 @@ public class BookController implements Listener {
 
     SocketService client = SocketService.getInstance();
 
-
-   @FXML
+    @FXML
     private Label monthYearLabel;
 
     @FXML
@@ -57,55 +57,49 @@ public class BookController implements Listener {
     private VBox borrow;
 
     /**
-     * Initializes the controller after its root element has been processed.
-     * Sets up the calendar grid and refreshes the display to show the current month.
-     * @author: MothMalone(nam)
+     * Initializes the controller by setting up calendar, loading borrowed and bookmarked books.
      */
     @FXML
     public void initialize() {
-        // Initialize current month and year
+        loadBorrowBook();
+        loadBookmarkBook();
+
         calendarGrid.setPadding(new Insets(10,10 ,10,10));
         setupGridPane();
         currentYearMonth = YearMonth.now();
+
         refreshCalendar();
     }
 
     /**
-     * Sets up constraints for the calendar grid pane.
-     * Configures the columns and rows of the grid to ensure they are evenly distributed.
-     * @author: MothMalone(nam)
+     * Configures column and row constraints for the calendar grid.
      */
     private void setupGridPane() {
-        for (int i = 0; i < 7; i++) { 
+        for (int i = 0; i < 7; i++) {
             ColumnConstraints colConstraints = new ColumnConstraints();
-            colConstraints.setPercentWidth(100.0 / 7); 
+            colConstraints.setPercentWidth(100.0 / 7);
             colConstraints.setFillWidth(true);
             colConstraints.setHalignment(HPos.CENTER);
             calendarGrid.getColumnConstraints().add(colConstraints);
         }
 
-        for (int i = 0; i < 7; i++) { //  Maximum of 6 rows for days and 1 header row
+        for (int i = 0; i < 7; i++) {
             RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setPercentHeight(100.0 / 7); 
-            rowConstraints.setFillHeight(true); 
+            rowConstraints.setPercentHeight(100.0 / 7);
+            rowConstraints.setFillHeight(true);
             calendarGrid.getRowConstraints().add(rowConstraints);
         }
     }
 
     /**
-     * Refreshes the calendar display to show the current month and its days.
-     * Updates the month and year label, clears any existing days, and adds labels for the days of the week.
-     * @author: MothMalone(nam)
+     * Refreshes the calendar display with current month and days.
      */
     private void refreshCalendar() {
-        // Update month and year label
         monthYearLabel.setText(currentYearMonth.getMonth()
                 .getDisplayName(TextStyle.FULL, Locale.getDefault()) + " " + currentYearMonth.getYear());
 
-        // Clear existing calendar content
         calendarGrid.getChildren().clear();
 
-        // Add day headers
         String[] daysOfWeek = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
         for (int i = 0; i < daysOfWeek.length; i++) {
             Label dayLabel = new Label(daysOfWeek[i]);
@@ -113,7 +107,6 @@ public class BookController implements Listener {
             calendarGrid.add(dayLabel, i, 0);
         }
 
-        // Populate calendar days
         LocalDate firstOfMonth = currentYearMonth.atDay(1);
         int totalDays = currentYearMonth.lengthOfMonth();
         int startDayOfWeek = firstOfMonth.getDayOfWeek().getValue() % 7;
@@ -140,6 +133,10 @@ public class BookController implements Listener {
         }
     }
 
+    /**
+     * Loads and displays the user's borrowed books.
+     * Retrieves book list from server and populates borrow VBox.
+     */
     public void loadBorrowBook() {
         client.onMessage("borrow_book_list_response", (Emitter.Listener) args -> {
             JSONObject response = (JSONObject) args[0];
@@ -165,6 +162,10 @@ public class BookController implements Listener {
         client.sendMessage("get_borrow_book_list", object);
     }
 
+    /**
+     * Loads and displays the user's bookmarked books.
+     * Retrieves book list from server and populates bookmark VBox.
+     */
     public void loadBookmarkBook() {
         client.onMessage("bookmark_list_response", (Emitter.Listener) args -> {
             JSONObject response = (JSONObject) args[0];
@@ -190,11 +191,27 @@ public class BookController implements Listener {
         client.sendMessage("get_bookmark_list", object);
     }
 
+    /**
+     * Opens a canvas view for a specific book.
+     *
+     * @param id The ID of the book to view
+     */
     public void openCanvas(int id) {
-
+        try {
+            AppState.getInstance().setCurrentViewBookID(id);
+            FXMLLoader loader = FileHelper.getLoader(Constants.CANVAS_VIEW_FILE);
+            detailBook = loader.load();
+            container.getChildren().add(detailBook);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * Closes the current canvas view.
+     */
     public void closeCanvas() {
-
+        container.getChildren().remove(container.getChildren().size() - 1);
     }
 }

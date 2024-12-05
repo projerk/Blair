@@ -21,8 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import utils.Constants;
 import utils.FileHelper;
-import utils.WrappedImageView;
-import javafx.scene.control.TextField;
+import components.media.WrappedImageView;
 import model.User;
 import app.AppState;
 import app.Projerk;
@@ -36,14 +35,15 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import io.socket.emitter.Emitter;
 import animation.FadeEffect;
 import animation.ScaleEffect;
-import animation.TranslateEffect;
 import model.Book;
 import components.interfaces.Listener;
 
-
+/**
+ * Controller for the Explore view in the application.
+ * Manages book displays, search functionality, and user interactions.
+ */
 public class ExploreController implements Listener {
     @FXML
     private HBox searchLogo;
@@ -69,29 +69,51 @@ public class ExploreController implements Listener {
     @FXML
     private TextField search;
 
+    /**
+     * Current logged-in user.
+     */
     private User user;
 
+    /**
+     * Container for detailed book view.
+     */
     private VBox detailBook;
 
+    /**
+     * Container for search results.
+     */
     private SearchResult searchResult;
 
+    /**
+     * Socket service for server communication.
+     */
     private SocketService client = SocketService.getInstance();
 
     /**
-     * Initializes the controller after its root element has been processed.
-     * This method sets up initial attributes and preloads necessary data.
+     * Initializes the explore controller.
+     * Called automatically by JavaFX after FXML loading.
      */
     @FXML
     private void initialize() {
         initAttribute();
         preload();
+        Platform.runLater(() -> {
+            searchResult.discard();
+            searchResult.setMaxHeight(0);
+        });
     }
 
+    /**
+     * Initializes user attributes from application state.
+     */
     private void initAttribute() {
         user = AppState.getInstance().getUser();
     }
 
-    
+    /**
+     * Handles search functionality.
+     * Sets up listeners for search input and socket responses.
+     */
     private void searchHandle() {
         client.onMessage("search_results", (Emitter.Listener) args -> {
             JSONObject response = (JSONObject) args[0];
@@ -100,10 +122,6 @@ public class ExploreController implements Listener {
                 JSONArray books = response.getJSONArray("results");
 
                 List<Book> res = SocketUtils.parseSearch(books);
-                
-                // for (Book book : res) {
-                //     System.out.println(book.getTitle());
-                // }
 
                 Platform.runLater(() -> {
                     searchResult.setMaxHeight(res.size() * 90);
@@ -130,8 +148,9 @@ public class ExploreController implements Listener {
             }
         });
     }
+
     /**
-     * Preloads various UI elements and data for the explore view.
+     * Preloads various UI components and sets up initial view.
      */
     private void preload() {
         container.setAlignment(Pos.TOP_CENTER);
@@ -149,8 +168,7 @@ public class ExploreController implements Listener {
     }
 
     /**
-     * Preloads the search icon into the search logo area.
-     * @author: MothMalone(nam)
+     * Preloads search icon for the search input.
      */
     private void searchIconPreload() {
         Image image = FileHelper.getImage("search.png");
@@ -159,9 +177,9 @@ public class ExploreController implements Listener {
         imageView.setStyle("-fx-opacity: 60%");
         searchLogo.getChildren().add(imageView);
     }
+
     /**
-     * Preloads greeting messages into the jumbotron.
-     * @author: MothMalone(nam)
+     * Preloads jumbotron with user greeting and welcome message.
      */
     private void jumbotronPreload() {
         Label greeting = new Label();
@@ -180,11 +198,9 @@ public class ExploreController implements Listener {
     }
 
     /**
-     * Loads the featured book from the server and updates the display.
-     * @author: MothMalone(nam)
+     * Loads featured book from server.
      */
     private void loadFeatureBook() {
-
         Book book = new Book();
 
         client.onMessage("feature_book_response", (Emitter.Listener) args -> {
@@ -207,12 +223,10 @@ public class ExploreController implements Listener {
         client.sendMessage("get_feature_book", null);
     }
 
-
     /**
-     * Preloads the display of a book in the UI.
-     * 
-     * @param book The book to display.
-     * @author: MothMalone(nam)
+     * Preloads book display with book image and interactions.
+     *
+     * @param book Book to be displayed
      */
     private void bookDisplayPreload(Book book) {
         bookDisplay.setSpacing(20);
@@ -236,12 +250,10 @@ public class ExploreController implements Listener {
         loadBookContent(book);
     }
 
-
     /**
-     * Loads the content for a specific book and adds it to the display.
-     * 
-     * @param book The book whose content is to be loaded.
-     * @author: MothMalone(nam) + duon9(duong)
+     * Loads book content details into the display.
+     *
+     * @param book Book whose content is to be displayed
      */
     private void loadBookContent(Book book) {
         VBox content = new VBox();
@@ -260,10 +272,8 @@ public class ExploreController implements Listener {
         bookDisplay.getChildren().add(content);
     }
 
-
     /**
-     * Loads popular books from the server and updates the display.
-     * @author: MothMalone(nam)
+     * Loads popular books from server.
      */
     private void loadPopularBook() {
         client.onMessage("popular_book_response", (Emitter.Listener) args -> {
@@ -275,7 +285,6 @@ public class ExploreController implements Listener {
                 ArrayList<Book> bookList = SocketUtils.createDisplayBook(books);
                 BookFrame bookFrame = new BookFrame(bookList);
                 bookFrame.setAllRowsVgrow(Priority.NEVER);
-                // bookFrame.setListener(listener);
                 Platform.runLater(() -> {
                     popularBook.getChildren().add(bookFrame);
                 });
@@ -288,6 +297,9 @@ public class ExploreController implements Listener {
         client.sendMessage("get_popular_book", null);
     }
 
+    /**
+     * Loads recommended books for the current user.
+     */
     private void loadRecommendBook() {
         client.onMessage("recommendation_response", (Emitter.Listener) args -> {
             JSONObject response = (JSONObject) args[0];
@@ -313,15 +325,17 @@ public class ExploreController implements Listener {
         client.sendMessage("get_recommend_books", data);
     }
 
+    /**
+     * Loads all books for exploration.
+     */
     private void loadExploreBook() {
-
         client.onMessage("all_books_response", (Emitter.Listener) args -> {
             JSONObject response = (JSONObject) args[0];
             String status = response.getString("status");
 
             if (status.equals("success")) {
                 JSONArray book_list = response.getJSONArray("book_list");
-                
+
                 for (int i = 0; i < book_list.length(); i++) {
                     JSONArray books = book_list.getJSONArray(i);
                     ArrayList<Book> book = SocketUtils.createDisplayBook(books);
@@ -330,25 +344,17 @@ public class ExploreController implements Listener {
                         exploreBook.getChildren().add(bookFrame);
                     });
                 }
-
-                // ArrayList<Book> bookList = SocketUtils.createDisplayBook(books);
-                // BookFrame bookFrame = new BookFrame(bookList);
-                // // bookFrame.setAllRowsVgrow(Priority.NEVER);
-                // // bookFrame.setAllColumnsHgrow(Priority.NEVER);
-                // Platform.runLater(() -> {
-                //     newArrivalBook.getChildren().add(bookFrame);
-                // });
             }
             else {
                 System.out.println("Error");
             }
         });
-
-        // JSONObject data = new JSONObject();
-        // data.put("user_id", AppState.getInstance().getUser().getID());
         client.sendMessage("get_all_books", null);
     }
 
+    /**
+     * Preloads search result container and configures its properties.
+     */
     private void searchResultPreload() {
         searchResult = new SearchResult();
         searchResult.setAlignment(Pos.CENTER);
@@ -373,61 +379,17 @@ public class ExploreController implements Listener {
         });
 
         search.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                // if (newValue != oldValue) {
-                //     JSONObject object = new JSONObject();
-                //     object.put("query", search.getText());
-                //     client.sendMessage("search", object);
-                // }
-            }
-            else {
+            if (!newValue) {
                 searchResult.discard();
                 searchResult.setMaxHeight(0);
             }
         });
-
-        // searchResult.discard();   
-        // searchResult.setMaxHeight(0);
-        // Platform.runLater(() -> {
-        //     container.requestFocus();
-        // });
-    }
-
-
-    /**
-     * Loads newly arrived books from the server and updates the display.
-     * @author: MothMalone(nam)
-     */
-    private void loadNewArrivalBook() {
-
-        client.onMessage("new_arrival_book_response", (Emitter.Listener) args -> {
-            JSONObject response = (JSONObject) args[0];
-            String status = response.getString("status");
-
-            if (status.equals("success")) {
-                JSONArray books = response.getJSONArray("books");
-                ArrayList<Book> bookList = SocketUtils.createDisplayBook(books);
-                BookFrame bookFrame = new BookFrame(bookList);
-                bookFrame.setAllRowsVgrow(Priority.NEVER);
-                bookFrame.setAllColumnsHgrow(Priority.NEVER);
-                // if (this != null ) {bookFrame.setListener(listener);}
-                Platform.runLater(() -> {
-                    newArrivalBook.getChildren().add(bookFrame);
-                });
-            }
-            else {
-                System.out.println("Error");
-            }
-        });
-
-        client.sendMessage("get_new_arrival_book", null);
     }
 
     /**
-     * Opens the detailed canvas view for a specified book.
-     * 
-     * @param id The ID of the book to display.
-     * @author: MothMalone(nam)
+     * Opens canvas view for a specific book.
+     *
+     * @param id The ID of the book to be opened
      */
     @Override
     public void openCanvas(int id) {
@@ -444,11 +406,9 @@ public class ExploreController implements Listener {
 
     /**
      * Closes the current canvas view.
-     * @author: MothMalone(nam)
      */
     @Override
     public void closeCanvas() {
         container.getChildren().remove(container.getChildren().size() - 1);
     }
-
 }
