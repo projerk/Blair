@@ -52,6 +52,6 @@ public class RatingField extends HBox implements Receiver {
             }
         });
     }
-    
-    
+
+
 }
