@@ -58,6 +58,17 @@ Before you begin, ensure you have the following installed on your machine:
      ```bash
      mvn -v
      ```
+3. **Python dependencies**:
+   - Ensure you have Python installed. You can verify your Python installation by running:
+     ```bash
+     python --version
+     ```
+
+     After that, install python library:
+     - go to server, run this command
+     ```bash
+     pip install -r requirements.txt 
+     ```
 
 ### B. Steps
 1. **Clone the Repository**:
@@ -83,6 +94,15 @@ Before you begin, ensure you have the following installed on your machine:
      ```bash
      mvn exec:java
      ```
+
+5. **Run the server**:
+   - After run successfully, you will have to run the server:
+   - go to server file:
+     ```bash
+     py (or python ) app.py
+     ```
+
+   - if the terminal have client connected, it mean you have connected to the server.
 
 ## IV. Usage
 To start using the application:
